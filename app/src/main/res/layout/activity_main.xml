@@ -32,7 +32,7 @@
             android:gravity="center"/>
 
         <TextView
-            android:id="@+id/produit"
+            android:id="@+id/produitMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -41,14 +41,14 @@
             />
 
         <TextView
-            android:id="@+id/recette"
+            android:id="@+id/recetteMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Recette" />
 
         <TextView
-            android:id="@+id/liste"
+            android:id="@+id/listeMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

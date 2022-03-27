@@ -3,6 +3,8 @@ package com.example.listecourse.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -11,6 +13,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -22,7 +25,7 @@ import com.j256.ormlite.dao.Dao;
 import java.sql.SQLException;
 import java.util.List;
 
-public class view_produit extends AppCompatActivity {
+public class View_produit extends AppCompatActivity {
     private TableLayout containerProduits;
     private DrawerLayout drawerLayout;
     @Override
@@ -30,15 +33,42 @@ public class view_produit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_produit);
         drawerLayout = findViewById(R.id.drawerLayout);
+        containerProduits = findViewById(R.id.container_produit);
         Button buttonAjoutProduits = findViewById(R.id.button_ajout_produit);
         buttonAjoutProduits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentProduits = new Intent(view_produit.this, View_ajout_produit.class);
+                Intent intentProduits = new Intent(View_produit.this, View_ajout_produit.class);
                 startActivity(intentProduits);
             }
         });
         createProduit();
+        TextView produit =findViewById(R.id.produitMenu);
+        produit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentProduits = new Intent(View_produit.this, View_produit.class);
+                startActivity(intentProduits);
+            }
+        });
+        TextView recette = findViewById(R.id.recetteMenu);
+        TextView liste = findViewById(R.id.listeMenu);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem _item) {
+        switch(_item.getItemId()){
+            case R.id.menu:
+                drawerLayout.openDrawer(Gravity.RIGHT);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(_item);
+        }
     }
     public void createProduit() {
         containerProduits.removeAllViews();
@@ -96,7 +126,7 @@ public class view_produit extends AppCompatActivity {
                 modifClient.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent monIntent = new Intent(view_produit.this, View_ajout_produit.class);
+                        Intent monIntent = new Intent(View_produit.this, View_ajout_produit.class);
                         monIntent.putExtra("idProduit", produit.getIdProduit());
                         startActivity(monIntent);
                     }

@@ -39,6 +39,16 @@ public class MainActivity extends AppCompatActivity {
         this.deleteDatabase("bdd.db");
         //Produits
         drawerLayout = findViewById(R.id.drawerLayout);
+        TextView produit =findViewById(R.id.produitMenu);
+        produit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentProduits = new Intent(MainActivity.this, View_produit.class);
+                startActivity(intentProduits);
+            }
+        });
+        TextView recette = findViewById(R.id.recetteMenu);
+        TextView liste = findViewById(R.id.listeMenu);
         containerProduits = findViewById(R.id.container_produit);
         Button buttonAjoutProduits = findViewById(R.id.button_ajout_produit);
         buttonAjoutProduits.setOnClickListener(new View.OnClickListener() {

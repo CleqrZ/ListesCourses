@@ -41,8 +41,7 @@ public class View_ajout_produit extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 modifInfos();
-                Intent main = new Intent( View_ajout_produit.this, MainActivity.class);
-                startActivity(main);
+
             }
         });
         try {
@@ -86,6 +85,8 @@ public class View_ajout_produit extends AppCompatActivity {
                 }else {
                     produit = new Produit(label,quantiter,Double.parseDouble(prix));
                     daoProduit.create(produit);
+                    Intent main = new Intent( View_ajout_produit.this, MainActivity.class);
+                    startActivity(main);
                 }
             }
         } catch (SQLException throwables) {
