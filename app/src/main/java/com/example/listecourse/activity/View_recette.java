@@ -1,9 +1,5 @@
 package com.example.listecourse.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -17,71 +13,48 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.example.listecourse.R;
 import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.Recette;
 import com.example.listecourse.tools.DatabaseLinker;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.query.In;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class View_recette extends AppCompatActivity {
+
     private TableLayout containerProduits;
-    private TableLayout containerRecette;
-    private Button buttonAjoutRecette;
-    private TableLayout containerListecourse;
-    private Button buttonAjoutListecourse;
     private DrawerLayout drawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        this.deleteDatabase("bdd.db");
-        //Produits
+        setContentView(R.layout.activity_view_produit);
         drawerLayout = findViewById(R.id.drawerLayout);
-        TextView produit =findViewById(R.id.produitMenu);
-        produit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentProduits = new Intent(MainActivity.this, View_produit.class);
-                startActivity(intentProduits);
-            }
-        });
-        TextView recette = findViewById(R.id.recetteMenu);
-        recette.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentRecette = new Intent(MainActivity.this, View_recette.class);
-                startActivity(intentRecette);
-            }
-        });
-        TextView liste = findViewById(R.id.listeMenu);
         containerProduits = findViewById(R.id.container_produit);
         Button buttonAjoutProduits = findViewById(R.id.button_ajout_produit);
         buttonAjoutProduits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentProduits = new Intent(MainActivity.this, View_ajout_produit.class);
+                Intent intentProduits = new Intent(View_recette.this, View_ajout_recette.class);
                 startActivity(intentProduits);
             }
         });
-
-        createRecette();
-        //Recette
-        containerRecette = findViewById(R.id.container_Recette);
-        buttonAjoutRecette =findViewById(R.id.button_ajout_Recette);
-        buttonAjoutRecette.setOnClickListener(new View.OnClickListener() {
+        createProduit();
+        TextView produit =findViewById(R.id.produitMenu);
+        produit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentRecette = new Intent(MainActivity.this, View_ajout_recette.class);
+                Intent intentRecette = new Intent(View_recette.this, View_produit.class);
                 startActivity(intentRecette);
             }
         });
-        //Liste
-        containerListecourse = findViewById(R.id.container_listecourse);
-        buttonAjoutListecourse =findViewById(R.id.button_ajout_listecourse);
+        TextView recette = findViewById(R.id.recetteMenu);
+        TextView liste = findViewById(R.id.listeMenu);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -99,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(_item);
         }
     }
-    public void createRecette() {
+    public void createProduit() {
         containerProduits.removeAllViews();
         DatabaseLinker linker = new DatabaseLinker(this);
         try {
@@ -155,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 modifClient.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent monIntent = new Intent(MainActivity.this, View_ajout_produit.class);
+                        Intent monIntent = new Intent(View_recette.this, View_ajout_recette.class);
                         monIntent.putExtra("idProduit", recette.getIdRecette());
                         startActivity(monIntent);
                     }

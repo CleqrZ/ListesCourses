@@ -13,34 +13,42 @@ public class Recette {
     private String ListeProduit;
     @DatabaseField
     private double PrixListeProduit;
-    public Recette(){
-    }
     public Recette(String libelle,String listeP, double Prix) {
         this.LibelleRecette = libelle;
         this.ListeProduit=listeP;
         this.PrixListeProduit=Prix;
     }
+
+    public Recette(String label, double parseDouble) {
+    }
+
     public int getIdRecette() {
+
         return idRecette;
     }
 
     public String getListeProduit() {
+
         return ListeProduit;
     }
 
     public void setListeProduit(String listeProduit) {
+
         ListeProduit = listeProduit;
     }
 
     public String getLibelleRecette() {
+
         return LibelleRecette;
     }
 
     public void setLibelleRecette(String libelleRecette) {
+
         LibelleRecette = libelleRecette;
     }
 
     public double getPrixListeProduit() {
+
         return PrixListeProduit;
     }
 
