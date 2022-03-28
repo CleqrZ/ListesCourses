@@ -13,13 +13,14 @@ public class Recette {
     private String ListeProduit;
     @DatabaseField
     private double PrixListeProduit;
-    public Recette(String libelle,String listeP, double Prix) {
+
+
+    public Recette(String libelle, double Prix) {
         this.LibelleRecette = libelle;
-        this.ListeProduit=listeP;
         this.PrixListeProduit=Prix;
     }
 
-    public Recette(String label, double parseDouble) {
+    public Recette() {
     }
 
     public int getIdRecette() {

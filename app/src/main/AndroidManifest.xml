@@ -16,6 +16,12 @@
             android:name=".activity.View_ajout_produit"
             android:exported="false" />
         <activity
+            android:name=".activity.View_recette"
+            android:exported="false" />
+        <activity
+            android:name=".activity.View_ajout_recette"
+            android:exported="false" />
+        <activity
             android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>

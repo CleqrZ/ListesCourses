@@ -82,10 +82,7 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             daoProduits.create( Yogurt);
             //Creation Recettes
 
-            Recette Bolognaise = new Recette("Bolognaise", "{'libelleProduit':'1kg Tomate','quantiter':'1kg',prixProduit':5.0,'idProduit':1}, " +
-                            "{'libelleProduit':'Steak de Boeuf','quantiter':'500g','prixProduit':9.9,'idProduit':2} ," +
-                            "{'libelleProduit':'Oignon','quantiter':'1kg','prixProduit':5.0,'idProduit':3}," +
-                            "{'libelleProduit':'Pates','quantiter':'1kg','prixProduit':2.0,'idProduit':4}", 21.99);
+            Recette Bolognaise = new Recette("Bolognaise", 21.99);
             daoRecette.create(Bolognaise);
 
             List<String> listCrepe = new ArrayList<>();
@@ -94,7 +91,7 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             listCrepe.add(new Gson().toJson(Oeuf));
             listCrepe.add(new Gson().toJson(Beurre));
             listCrepe.add(new Gson().toJson(Nutella));
-            Recette Crepes = new Recette("Crepes", listCrepe.toString(), 13);
+            Recette Crepes = new Recette("Crepes", 13);
             daoRecette.create(Crepes);
 
             List<String> listeSandwich = new ArrayList<>();
@@ -102,7 +99,7 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             listeSandwich.add(new Gson().toJson(Pain));
             listeSandwich.add(new Gson().toJson(Beurre));
             listeSandwich.add(new Gson().toJson(Emental));
-            Recette Sandwich = new Recette("Sandwich", listeSandwich.toString(),9);
+            Recette Sandwich = new Recette("Sandwich", 9);
             daoRecette.create(Sandwich);
             //Creation Liste de Course
             List<String> listP1 = new ArrayList<>();
