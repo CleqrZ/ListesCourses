@@ -6,13 +6,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -20,11 +23,23 @@ import android.widget.TextView;
 import com.example.listecourse.R;
 import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.Recette;
+import com.example.listecourse.tools.CustomAdapter;
 import com.example.listecourse.tools.DatabaseLinker;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.firebase.database.util.JsonMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.query.In;
 
+import java.lang.reflect.Type;
+import java.sql.Array;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -232,7 +247,46 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(monIntent);
                     }
                 });
+                //Spinner
+                TableRow rowS = new TableRow(this);
+                rowS.setGravity(Gravity.CENTER_VERTICAL);
+                rowS.setWeightSum(8);
+                TableRow.LayoutParams paramS = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        4f
+                );
+                String listeS = recette.getListeProduit();
+                Log.e("Liste Produit", listeS +"ok ");
+                ObjectMapper mapper = new ObjectMapper();
+                List<String> listS = new ArrayList<>();
+                Spinner snpProduit;
+                snpProduit = new Spinner(this);
+                snpProduit.setLayoutParams(paramS);
+                try {
+                    List<Produit>participantJsonList = Arrays.asList(mapper.readValue(listeS, Produit[].class));
+                    for (Produit produit : participantJsonList){
+                        listS.add(produit.getLibelleProduit().toString());
+
+                    }
+                    CustomAdapter adapter = new CustomAdapter(MainActivity.this,
+                            R.layout.spinner_layout_ressource,
+                            R.id.textView_item_name,
+                            R.id.quantiter,
+                            R.id.prix,
+                            participantJsonList);
+                    snpProduit.setAdapter(adapter);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
+                ArrayAdapter<String> asnpProduits = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, listS);
+                asnpProduits.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                rowS.addView(snpProduit);
+
                 containerRecette.addView(row);
+                containerRecette.addView(rowS);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

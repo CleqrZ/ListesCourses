@@ -3,8 +3,10 @@ package com.example.listecourse.bdd;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 @DatabaseTable(tableName="Produit")
-public class Produit {
+public class Produit implements Serializable {
     @DatabaseField( columnName = "id", generatedId = true )
     private int idProduit;
     @DatabaseField
