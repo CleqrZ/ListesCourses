@@ -28,32 +28,25 @@ import java.util.List;
 
 public class View_recette extends AppCompatActivity {
 
-    private TableLayout containerProduits;
+    private TableLayout containerRecette;
     private DrawerLayout drawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_produit);
+        setContentView(R.layout.activity_view_recette);
         drawerLayout = findViewById(R.id.drawerLayout);
-        containerProduits = findViewById(R.id.container_produit);
-        Button buttonAjoutProduits = findViewById(R.id.button_ajout_produit);
-        buttonAjoutProduits.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentProduits = new Intent(View_recette.this, View_ajout_recette.class);
-                startActivity(intentProduits);
-            }
-        });
-        createProduit();
+        containerRecette = findViewById(R.id.container_Recette);
+        Button buttonAjoutRecette = findViewById(R.id.button_ajout_Recette);
         TextView produit =findViewById(R.id.produitMenu);
-        produit.setOnClickListener(new View.OnClickListener() {
+        TextView recette = findViewById(R.id.recetteMenu);
+        recette.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentRecette = new Intent(View_recette.this, View_produit.class);
+                Intent intentRecette = new Intent(View_recette.this, View_recette.class);
                 startActivity(intentRecette);
             }
         });
-        TextView recette = findViewById(R.id.recetteMenu);
+        createRecette();
         TextView liste = findViewById(R.id.listeMenu);
     }
     @Override
@@ -72,8 +65,8 @@ public class View_recette extends AppCompatActivity {
                 return super.onOptionsItemSelected(_item);
         }
     }
-    public void createProduit() {
-        containerProduits.removeAllViews();
+    public void createRecette() {
+        containerRecette.removeAllViews();
         DatabaseLinker linker = new DatabaseLinker(this);
         try {
             Dao<Recette, Integer> daoRecette = linker.getDao(Recette.class);
@@ -129,11 +122,11 @@ public class View_recette extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent monIntent = new Intent(View_recette.this, View_ajout_recette.class);
-                        monIntent.putExtra("idProduit", recette.getIdRecette());
+                        monIntent.putExtra("idRecette", recette.getIdRecette());
                         startActivity(monIntent);
                     }
                 });
-                containerProduits.addView(row);
+                containerRecette.addView(row);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

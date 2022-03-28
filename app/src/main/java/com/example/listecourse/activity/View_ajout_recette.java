@@ -29,7 +29,7 @@ public class View_ajout_recette extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_ajout_produit);
+        setContentView(R.layout.activity_view_ajout_recette);
         validateButton = findViewById(R.id.button_validate);
         Intent intent = this.getIntent();
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);

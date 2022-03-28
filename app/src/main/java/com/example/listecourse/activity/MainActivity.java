@@ -30,6 +30,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private TableLayout containerProduits;
     private TableLayout containerRecette;
+    private Button buttonAjoutProduits;
     private Button buttonAjoutRecette;
     private TableLayout containerListecourse;
     private Button buttonAjoutListecourse;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         });
         TextView liste = findViewById(R.id.listeMenu);
         containerProduits = findViewById(R.id.container_produit);
-        Button buttonAjoutProduits = findViewById(R.id.button_ajout_produit);
+        buttonAjoutProduits = findViewById(R.id.button_ajout_produit);
         buttonAjoutProduits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        createRecette();
+        createProduits();
         //Recette
         containerRecette = findViewById(R.id.container_Recette);
         buttonAjoutRecette =findViewById(R.id.button_ajout_Recette);
@@ -79,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intentRecette);
             }
         });
+
+        createRecette();
         //Liste
         containerListecourse = findViewById(R.id.container_listecourse);
         buttonAjoutListecourse =findViewById(R.id.button_ajout_listecourse);
@@ -99,8 +102,77 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(_item);
         }
     }
-    public void createRecette() {
+
+    public void createProduits(){
         containerProduits.removeAllViews();
+        DatabaseLinker linker = new DatabaseLinker(this);
+        try {
+            Dao<Produit, Integer> daoProduits = linker.getDao(Produit.class);
+            List<Produit> produitList = daoProduits.queryForAll();
+            for (Produit produit : produitList) {
+                TableRow row = new TableRow(this);
+                row.setGravity(Gravity.CENTER_VERTICAL);
+                row.setWeightSum(8);
+
+                TableRow.LayoutParams param = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        4f
+                );
+
+                TextView labelNom = new TextView(this);
+                labelNom.setLayoutParams(param);
+                labelNom.setText(produit.getLibelleProduit());
+                row.addView(labelNom);
+
+                TextView labelPrenom = new TextView(this);
+                labelPrenom.setLayoutParams(param);
+                labelPrenom.setText(String.format("%d€", (int) produit.getPrixProduit()));
+                row.addView(labelPrenom);
+
+                TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        1f
+                );
+                ImageButton deleteClient = new ImageButton(this);
+                deleteClient.setLayoutParams(paramButton);
+                deleteClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_delete);
+                deleteClient.setBackground(null);
+                row.addView(deleteClient);
+                deleteClient.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            daoProduits.delete(produit);
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                        ((ViewGroup) row.getParent()).removeView(row);
+                    }
+                });
+                ImageButton modifClient = new ImageButton(this);
+                modifClient.setLayoutParams(paramButton);
+                modifClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_edit);
+                modifClient.setBackground(null);
+                row.addView(modifClient);
+                modifClient.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent monIntent = new Intent(MainActivity.this, View_ajout_produit.class);
+                        monIntent.putExtra("idProduit", produit.getIdProduit());
+                        startActivity(monIntent);
+                    }
+                });
+                containerProduits.addView(row);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void createRecette() {
+        containerRecette.removeAllViews();
         DatabaseLinker linker = new DatabaseLinker(this);
         try {
             Dao<Recette, Integer> daoRecette = linker.getDao(Recette.class);
@@ -160,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(monIntent);
                     }
                 });
-                containerProduits.addView(row);
+                containerRecette.addView(row);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
