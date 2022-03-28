@@ -227,8 +227,8 @@ public class MainActivity extends AppCompatActivity {
                 modifClient.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent monIntent = new Intent(MainActivity.this, View_ajout_produit.class);
-                        monIntent.putExtra("idProduit", recette.getIdRecette());
+                        Intent monIntent = new Intent(MainActivity.this, View_ajout_recette.class);
+                        monIntent.putExtra("idRecette", recette.getIdRecette());
                         startActivity(monIntent);
                     }
                 });
