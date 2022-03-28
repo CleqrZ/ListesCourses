@@ -1,9 +1,5 @@
 package com.example.listecourse.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,23 +16,19 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.example.listecourse.R;
 import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.Recette;
 import com.example.listecourse.tools.CustomAdapter;
 import com.example.listecourse.tools.DatabaseLinker;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.firebase.database.util.JsonMapper;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.query.In;
 
-import java.lang.reflect.Type;
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -196,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
                 TableRow row = new TableRow(this);
                 row.setGravity(Gravity.CENTER_VERTICAL);
                 row.setWeightSum(8);
-
                 TableRow.LayoutParams param = new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.WRAP_CONTENT,
@@ -207,9 +198,13 @@ public class MainActivity extends AppCompatActivity {
                 labelNom.setLayoutParams(param);
                 labelNom.setText(recette.getLibelleRecette());
                 row.addView(labelNom);
-
+                TableRow.LayoutParams paramp = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        0f
+                );
                 TextView labelPrenom = new TextView(this);
-                labelPrenom.setLayoutParams(param);
+                labelPrenom.setLayoutParams(paramp);
                 labelPrenom.setText(String.format("%d€", (int) recette.getPrixListeProduit()));
                 row.addView(labelPrenom);
 
@@ -247,22 +242,24 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(monIntent);
                     }
                 });
-                //Spinner
+
+              //Spinner
                 TableRow rowS = new TableRow(this);
                 rowS.setGravity(Gravity.CENTER_VERTICAL);
                 rowS.setWeightSum(8);
-                TableRow.LayoutParams paramS = new TableRow.LayoutParams(
+                TableRow.LayoutParams paramSpinner = new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.WRAP_CONTENT,
-                        4f
+                        8f
                 );
                 String listeS = recette.getListeProduit();
                 Log.e("Liste Produit", listeS +"ok ");
                 ObjectMapper mapper = new ObjectMapper();
                 List<String> listS = new ArrayList<>();
                 Spinner snpProduit;
+
                 snpProduit = new Spinner(this);
-                snpProduit.setLayoutParams(paramS);
+                snpProduit.setLayoutParams(paramSpinner);
                 try {
                     List<Produit>participantJsonList = Arrays.asList(mapper.readValue(listeS, Produit[].class));
                     for (Produit produit : participantJsonList){
@@ -282,7 +279,6 @@ public class MainActivity extends AppCompatActivity {
 
                 ArrayAdapter<String> asnpProduits = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, listS);
                 asnpProduits.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
                 rowS.addView(snpProduit);
 
                 containerRecette.addView(row);
