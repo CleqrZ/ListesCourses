@@ -8,22 +8,22 @@ public class ListeCourse {
     @DatabaseField( columnName = "id", generatedId = true )
     private int idListeCourse;
     @DatabaseField
-    private String Libelle;
+    private String libelle;
     @DatabaseField
-    private String ListeProduit;
+    private String listeProduit;
     @DatabaseField
-    private String ListeRecette;
+    private String listeRecette;
     @DatabaseField
-    private double PrixCourse;
+    private double prixCourse;
     public ListeCourse(String nomListe, String listeProduit, String listeRecette, double PrixCourse) {
-        this.Libelle = nomListe;
-        this.PrixCourse =PrixCourse;
-        this.ListeProduit = listeProduit;
-        this.ListeRecette = listeRecette;
+        this.libelle = nomListe;
+        this.prixCourse =PrixCourse;
+        this.listeProduit = listeProduit;
+        this.listeRecette = listeRecette;
     }
     public ListeCourse(String nomListe, double PrixCourse) {
-        this.Libelle = nomListe;
-        this.PrixCourse =PrixCourse;
+        this.libelle = nomListe;
+        this.prixCourse =PrixCourse;
 
     }
     public ListeCourse() {
@@ -35,34 +35,34 @@ public class ListeCourse {
     }
 
     public String getNomListe() {
-        return Libelle;
+        return libelle;
     }
 
     public void setNomListe(String nomListe) {
-        this.Libelle = nomListe;
+        this.libelle = nomListe;
     }
 
     public String getListeProduit() {
-        return ListeProduit;
+        return listeProduit;
     }
 
     public void setListeProduit(String listeProduit) {
-        ListeProduit = listeProduit;
+        this.listeProduit = listeProduit;
     }
 
     public String getListeRecette() {
-        return ListeRecette;
+        return listeRecette;
     }
 
     public void setListeRecette(String listeRecette) {
-        ListeRecette = listeRecette;
+        this.listeRecette = listeRecette;
     }
 
     public double getPrixProduit() {
-        return PrixCourse;
+        return prixCourse;
     }
 
     public void setPrixProduit(double prixProduit) {
-        this.PrixCourse = prixProduit;
+        this.prixCourse = prixProduit;
     }
 }

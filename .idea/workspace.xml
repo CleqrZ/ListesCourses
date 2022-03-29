@@ -23,8 +23,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/bdd/ListeCourse.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/bdd/ListeCourse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/tools/DatabaseLinker.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/tools/DatabaseLinker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/bdd/Recette.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/bdd/Recette.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

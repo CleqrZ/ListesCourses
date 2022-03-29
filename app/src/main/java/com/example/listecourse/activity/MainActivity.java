@@ -27,6 +27,7 @@ import com.example.listecourse.bdd.Recette;
 import com.example.listecourse.tools.CustomAdapter;
 import com.example.listecourse.tools.DatabaseLinker;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j256.ormlite.dao.Dao;
 
@@ -38,7 +39,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private TableLayout containerProduits;
     private TableLayout containerRecette;
-    private Button buttonAjoutProduits;
     private Button buttonAjoutRecette;
     private TableLayout containerListecourse;
     private Button buttonAjoutListecourse;
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         });
         TextView liste = findViewById(R.id.listeMenu);
         containerProduits = findViewById(R.id.container_produit);
-        buttonAjoutProduits = findViewById(R.id.button_ajout_produit);
+        Button buttonAjoutProduits = findViewById(R.id.button_ajout_produit);
         buttonAjoutProduits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
         switch(_item.getItemId()){
             case R.id.menu:
                 drawerLayout.openDrawer(Gravity.RIGHT);
-
                 return true;
             default:
                 return super.onOptionsItemSelected(_item);
@@ -273,7 +272,6 @@ public class MainActivity extends AppCompatActivity {
                     List<Produit>participantJsonList = Arrays.asList(mapper.readValue(listeS, Produit[].class));
                     for (Produit produit : participantJsonList){
                         listS.add(produit.getLibelleProduit().toString());
-
                     }
                     CustomAdapter adapter = new CustomAdapter(MainActivity.this,
                             R.layout.spinner_layout_ressource,
@@ -323,10 +321,10 @@ public class MainActivity extends AppCompatActivity {
                         TableRow.LayoutParams.WRAP_CONTENT,
                         0f
                 );
-                TextView labelPrenom = new TextView(this);
-                labelPrenom.setLayoutParams(paramp);
-                labelPrenom.setText(String.format("%d€", (int) listeCourse.getPrixProduit()));
-                row.addView(labelPrenom);
+                TextView prixListe = new TextView(this);
+                prixListe.setLayoutParams(paramp);
+                prixListe.setText(String.format("%d€", (int) listeCourse.getPrixProduit()));
+                row.addView(prixListe);
 
                 TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
@@ -362,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(monIntent);
                     }
                 });
-
+                containerListecourse.addView(row);
                 //Spinner
                 TableRow rowS = new TableRow(this);
                 rowS.setGravity(Gravity.CENTER_VERTICAL);
@@ -373,15 +371,14 @@ public class MainActivity extends AppCompatActivity {
                         8f
                 );
                 String listeS = listeCourse.getListeProduit();
-                Log.e("Liste Produit l", listeS +"ok ");
+
+                Log.e("Produit Pliste course", listeS +"ok ");
+
                 ObjectMapper mapper = new ObjectMapper();
-
                 Spinner snpProduit;
-
                 snpProduit = new Spinner(this);
                 snpProduit.setLayoutParams(paramSpinner);
-                try {
-                    List<Produit> participantJsonList = Arrays.asList(mapper.readValue(listeS, Produit[].class));
+                List<Produit> participantJsonList = Arrays.asList(mapper.readValue(listeS, Produit[].class));
                     CustomAdapter adapter = new CustomAdapter(MainActivity.this,
                             R.layout.spinner_layout_ressource,
                             R.id.textView_item_name,
@@ -389,16 +386,59 @@ public class MainActivity extends AppCompatActivity {
                             R.id.prix,
                             participantJsonList);
                     snpProduit.setAdapter(adapter);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
-                rowS.addView(snpProduit);
-
-                containerListecourse.addView(row);
                 containerListecourse.addView(rowS);
+                rowS.addView(snpProduit);
+                //Affichage recette
+                String listeRecetteS =listeCourse.getListeRecette();
+                Log.e("Recette liste course", listeRecetteS +"ok ");
+                ObjectMapper mapperR = new ObjectMapper();
+                List<Recette> recetteJsonList =Arrays.asList(mapperR.readValue(listeRecetteS, Recette[].class));
+                for (Recette recette : recetteJsonList) {
+                    TableRow rowRecette = new TableRow(this);
+                    TableRow.LayoutParams paramTexte = new TableRow.LayoutParams(
+                            TableRow.LayoutParams.MATCH_PARENT,
+                            TableRow.LayoutParams.WRAP_CONTENT,
+                            8f
+                    );
+                    TextView rectteNom = new TextView(this);
+                    rectteNom.setLayoutParams(paramTexte);
+                    rectteNom.setText(recette.getLibelleRecette());
+                    rowRecette.addView(rectteNom);
+                    //affichage produit des recette
+                    Dao<Recette, Integer> daoRecette = linker.getDao(Recette.class);
+                    TableRow.LayoutParams paramSpinnerSi = new TableRow.LayoutParams(
+                            TableRow.LayoutParams.MATCH_PARENT,
+                            TableRow.LayoutParams.WRAP_CONTENT,
+                            8f
+                    );
+                    int idrecette = recette.getIdRecette();
+                    String listeSi = daoRecette.queryForId(idrecette).getListeProduit();
+                    Log.e("Liste Produit", listeSi +"ok ");
+                    Spinner snpProduitSi;
+                    snpProduitSi = new Spinner(this);
+                    snpProduitSi.setLayoutParams(paramSpinnerSi);
+                    if(listeSi != null){
+                        List<Produit>participantJsonListSi = Arrays.asList(mapper.readValue(listeSi, Produit[].class));
+                        CustomAdapter adapterSi = new CustomAdapter(MainActivity.this,
+                                R.layout.spinner_layout_ressource,
+                                R.id.textView_item_name,
+                                R.id.quantiter,
+                                R.id.prix,
+                                participantJsonListSi);
+                        snpProduitSi.setAdapter(adapterSi);
+                        rowRecette.addView(snpProduitSi);
+                    }
+
+                    Log.e("Recette non : ",recette +"ok" );
+                    containerListecourse.addView(rowRecette);
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
     }
 

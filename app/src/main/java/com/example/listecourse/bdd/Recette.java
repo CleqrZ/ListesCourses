@@ -3,28 +3,30 @@ package com.example.listecourse.bdd;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 @DatabaseTable(tableName="Recette")
-public class Recette {
+public class Recette implements Serializable {
     @DatabaseField( columnName = "id", generatedId = true )
     private int idRecette;
     @DatabaseField
-    private String LibelleRecette;
+    private String libelleRecette;
     @DatabaseField
-    private String ListeProduit;
+    private String listeProduit;
     @DatabaseField
-    private double PrixListeProduit;
+    private double prixListeProduit;
 
     public Recette() {
     }
     public Recette(String libelle,double Prix) {
-        this.LibelleRecette = libelle;
-        this.PrixListeProduit=Prix;
+        this.libelleRecette = libelle;
+        this.prixListeProduit =Prix;
     }
 
     public Recette(String libelle,String liste,double Prix) {
-        this.LibelleRecette = libelle;
-        this.ListeProduit = liste;
-        this.PrixListeProduit=Prix;
+        this.libelleRecette = libelle;
+        this.listeProduit = liste;
+        this.prixListeProduit =Prix;
     }
 
 
@@ -35,30 +37,30 @@ public class Recette {
 
     public String getListeProduit() {
 
-        return ListeProduit;
+        return listeProduit;
     }
 
     public void setListeProduit(String listeProduit) {
 
-        ListeProduit = listeProduit;
+        listeProduit = listeProduit;
     }
 
     public String getLibelleRecette() {
 
-        return LibelleRecette;
+        return libelleRecette;
     }
 
     public void setLibelleRecette(String libelleRecette) {
 
-        LibelleRecette = libelleRecette;
+        this.libelleRecette = libelleRecette;
     }
 
     public double getPrixListeProduit() {
 
-        return PrixListeProduit;
+        return prixListeProduit;
     }
 
     public void setPrixListeProduit(double prixListeProduit) {
-        PrixListeProduit = prixListeProduit;
+        this.prixListeProduit = prixListeProduit;
     }
 }
