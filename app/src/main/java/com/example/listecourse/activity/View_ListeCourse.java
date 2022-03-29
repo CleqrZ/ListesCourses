@@ -19,41 +19,42 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.listecourse.R;
-import com.example.listecourse.bdd.Produit;
+import com.example.listecourse.bdd.ListeCourse;
 import com.example.listecourse.tools.DatabaseLinker;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class View_produit extends AppCompatActivity {
-    private TableLayout containerProduits;
+public class View_ListeCourse extends AppCompatActivity {
+    private TableLayout containerListeCourse;
     private DrawerLayout drawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_produit);
+        setContentView(R.layout.activity_view_listecourse);
         drawerLayout = findViewById(R.id.drawerLayout);
-        containerProduits = findViewById(R.id.container_produit);
-        Button buttonAjoutProduits = findViewById(R.id.button_ajout_produit);
-        buttonAjoutProduits.setOnClickListener(new View.OnClickListener() {
+        containerListeCourse = findViewById(R.id.container_listecourse);
+        Button buttonAjoutsListeCourse = findViewById(R.id.button_ajout_listecourse);
+        buttonAjoutsListeCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentProduits = new Intent(View_produit.this, View_ajout_produit.class);
-                startActivity(intentProduits);
+                Intent intentListeCourse = new Intent(View_ListeCourse.this, View_ajout_ListeCourse.class);
+                startActivity(intentListeCourse);
             }
         });
-        createProduit();
+
         TextView produit =findViewById(R.id.produitMenu);
-        produit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentProduits = new Intent(View_produit.this, View_produit.class);
-                startActivity(intentProduits);
-            }
-        });
         TextView recette = findViewById(R.id.recetteMenu);
         TextView liste = findViewById(R.id.listeMenu);
+        liste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentListeCourse = new Intent(View_ListeCourse.this, View_ListeCourse.class);
+                startActivity(intentListeCourse);
+            }
+        });
+        createListeCourse();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -71,13 +72,13 @@ public class View_produit extends AppCompatActivity {
                 return super.onOptionsItemSelected(_item);
         }
     }
-    public void createProduit() {
-        containerProduits.removeAllViews();
+    public void createListeCourse() {
+        containerListeCourse.removeAllViews();
         DatabaseLinker linker = new DatabaseLinker(this);
         try {
-            Dao<Produit, Integer> daoProduits = linker.getDao(Produit.class);
-            List<Produit> produitList = daoProduits.queryForAll();
-            for (Produit produit : produitList) {
+            Dao<ListeCourse, Integer> daoListeCourse = linker.getDao(ListeCourse.class);
+            List<ListeCourse> CourseListe = daoListeCourse.queryForAll();
+            for (ListeCourse listeCourse : CourseListe) {
                 TableRow row = new TableRow(this);
                 row.setGravity(Gravity.CENTER_VERTICAL);
                 row.setWeightSum(8);
@@ -90,12 +91,12 @@ public class View_produit extends AppCompatActivity {
 
                 TextView labelNom = new TextView(this);
                 labelNom.setLayoutParams(param);
-                labelNom.setText(produit.getLibelleProduit());
+                labelNom.setText(listeCourse.getNomListe());
                 row.addView(labelNom);
 
                 TextView labelPrenom = new TextView(this);
                 labelPrenom.setLayoutParams(param);
-                labelPrenom.setText(String.format("%d€", (int) produit.getPrixProduit()));
+                labelPrenom.setText(String.format("%d€", (int) listeCourse.getPrixProduit()));
                 row.addView(labelPrenom);
 
                 TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
@@ -112,7 +113,7 @@ public class View_produit extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         try {
-                            daoProduits.delete(produit);
+                            daoListeCourse.delete(listeCourse);
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
                         }
@@ -128,12 +129,12 @@ public class View_produit extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Log.i("aaaaaaaaaaaaaaaa", "test");
-                        Intent monIntent = new Intent(View_produit.this, View_ajout_produit.class);
-                        monIntent.putExtra("idProduit", produit.getIdProduit());
+                        Intent monIntent = new Intent(View_ListeCourse.this, View_ajout_ListeCourse.class);
+                        monIntent.putExtra("idListeCourse", listeCourse.getIdListeCourse());
                         startActivity(monIntent);
                     }
                 });
-                containerProduits.addView(row);
+                containerListeCourse.addView(row);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

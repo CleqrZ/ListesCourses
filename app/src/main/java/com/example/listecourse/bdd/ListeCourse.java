@@ -16,15 +16,15 @@ public class ListeCourse {
     @DatabaseField
     private double PrixCourse;
 
-    public ListeCourse() {
-    }
-    public ListeCourse(String nomListe, String listeProduit, String listeRecette, double PrixCourse) {
+    public ListeCourse(String nomListe, double PrixCourse) {
         this.Libelle = nomListe;
-        this.ListeProduit = listeProduit;
-        this.ListeRecette = listeRecette;
         this.PrixCourse =PrixCourse;
 
     }
+    public ListeCourse() {
+    }
+
+
     public int getIdListeCourse() {
         return idListeCourse;
     }

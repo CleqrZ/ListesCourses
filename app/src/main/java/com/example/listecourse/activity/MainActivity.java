@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.listecourse.R;
+import com.example.listecourse.bdd.ListeCourse;
 import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.Recette;
 import com.example.listecourse.tools.CustomAdapter;
@@ -92,6 +93,14 @@ public class MainActivity extends AppCompatActivity {
         //Liste
         containerListecourse = findViewById(R.id.container_listecourse);
         buttonAjoutListecourse =findViewById(R.id.button_ajout_listecourse);
+        buttonAjoutListecourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentListeCourse = new Intent(MainActivity.this, View_ajout_ListeCourse.class);
+                startActivity(intentListeCourse);
+            }
+        });
+        createListeCourse();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -283,6 +292,117 @@ public class MainActivity extends AppCompatActivity {
 
                 containerRecette.addView(row);
                 containerRecette.addView(rowS);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public  void createListeCourse(){
+        containerListecourse.removeAllViews();
+        DatabaseLinker linker = new DatabaseLinker(this);
+        try {
+            Dao<ListeCourse, Integer> daoListeCourse = linker.getDao(ListeCourse.class);
+            List<ListeCourse> listeCourses = daoListeCourse.queryForAll();
+            for (ListeCourse listeCourse : listeCourses) {
+                TableRow row = new TableRow(this);
+                row.setGravity(Gravity.CENTER_VERTICAL);
+                row.setWeightSum(8);
+                TableRow.LayoutParams param = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        4f
+                );
+
+                TextView labelNom = new TextView(this);
+                labelNom.setLayoutParams(param);
+                labelNom.setText(listeCourse.getNomListe());
+                row.addView(labelNom);
+                TableRow.LayoutParams paramp = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        0f
+                );
+                TextView labelPrenom = new TextView(this);
+                labelPrenom.setLayoutParams(paramp);
+                labelPrenom.setText(String.format("%d€", (int) listeCourse.getPrixProduit()));
+                row.addView(labelPrenom);
+
+                TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        1f
+                );
+                ImageButton deleteClient = new ImageButton(this);
+                deleteClient.setLayoutParams(paramButton);
+                deleteClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_delete);
+                deleteClient.setBackground(null);
+                row.addView(deleteClient);
+                deleteClient.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            daoListeCourse.delete(listeCourse);
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                        ((ViewGroup) row.getParent()).removeView(row);
+                    }
+                });
+                ImageButton modifClient = new ImageButton(this);
+                modifClient.setLayoutParams(paramButton);
+                modifClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_edit);
+                modifClient.setBackground(null);
+                row.addView(modifClient);
+                modifClient.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent monIntent = new Intent(MainActivity.this, View_ajout_recette.class);
+                        monIntent.putExtra("idRecette", listeCourse.getNomListe());
+                        startActivity(monIntent);
+                    }
+                });
+
+                //Spinner
+                TableRow rowS = new TableRow(this);
+                rowS.setGravity(Gravity.CENTER_VERTICAL);
+                rowS.setWeightSum(8);
+                TableRow.LayoutParams paramSpinner = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        8f
+                );
+                String listeS = listeCourse.getListeProduit();
+                Log.e("Liste Produit", listeS +"ok ");
+                ObjectMapper mapper = new ObjectMapper();
+                List<String> listS = new ArrayList<>();
+                Spinner snpProduit;
+
+                snpProduit = new Spinner(this);
+                snpProduit.setLayoutParams(paramSpinner);
+                try {
+                    List<ListeCourse> participantJsonList = Arrays.asList(mapper.readValue(listeS, ListeCourse[].class));
+                    for (ListeCourse listeCourse2 : participantJsonList){
+                        listS.add(listeCourse2.getNomListe().toString());
+
+                    }
+                    CustomAdapter adapter = new CustomAdapter(MainActivity.this,
+                            R.layout.spinner_layout_ressource,
+                            R.id.textView_item_name,
+                            R.id.quantiter,
+                            R.id.prix,
+                            participantJsonList);
+                    snpProduit.setAdapter(adapter);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
+                ArrayAdapter<String> asnpProduits = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, listS);
+                asnpProduits.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                rowS.addView(snpProduit);
+
+                containerListecourse.addView(row);
+                containerListecourse.addView(rowS);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
