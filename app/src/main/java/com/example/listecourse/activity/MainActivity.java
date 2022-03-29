@@ -373,19 +373,15 @@ public class MainActivity extends AppCompatActivity {
                         8f
                 );
                 String listeS = listeCourse.getListeProduit();
-                Log.e("Liste Produit", listeS +"ok ");
+                Log.e("Liste Produit l", listeS +"ok ");
                 ObjectMapper mapper = new ObjectMapper();
-                List<String> listS = new ArrayList<>();
+
                 Spinner snpProduit;
 
                 snpProduit = new Spinner(this);
                 snpProduit.setLayoutParams(paramSpinner);
                 try {
-                    List<ListeCourse> participantJsonList = Arrays.asList(mapper.readValue(listeS, ListeCourse[].class));
-                    for (ListeCourse listeCourse2 : participantJsonList){
-                        listS.add(listeCourse2.getNomListe().toString());
-
-                    }
+                    List<Produit> participantJsonList = Arrays.asList(mapper.readValue(listeS, Produit[].class));
                     CustomAdapter adapter = new CustomAdapter(MainActivity.this,
                             R.layout.spinner_layout_ressource,
                             R.id.textView_item_name,
@@ -396,9 +392,6 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
-
-                ArrayAdapter<String> asnpProduits = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, listS);
-                asnpProduits.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 rowS.addView(snpProduit);
 
                 containerListecourse.addView(row);

@@ -15,7 +15,12 @@ public class ListeCourse {
     private String ListeRecette;
     @DatabaseField
     private double PrixCourse;
-
+    public ListeCourse(String nomListe, String listeProduit, String listeRecette, double PrixCourse) {
+        this.Libelle = nomListe;
+        this.PrixCourse =PrixCourse;
+        this.ListeProduit = listeProduit;
+        this.ListeRecette = listeRecette;
+    }
     public ListeCourse(String nomListe, double PrixCourse) {
         this.Libelle = nomListe;
         this.PrixCourse =PrixCourse;

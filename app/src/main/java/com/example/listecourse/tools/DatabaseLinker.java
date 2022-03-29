@@ -108,7 +108,7 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             List<String> listR1 = new ArrayList<>();
             listR1.add(new Gson().toJson(Crepes));
             listR1.add(new Gson().toJson(Sandwich));
-            ListeCourse Semain1 = new ListeCourse("Semain1", 30 );
+            ListeCourse Semain1 = new ListeCourse("Semain1",listP1.toString(),listR1.toString(), 30 );
             daoListeCourse.create(Semain1);
 
             List<String> listP2 = new ArrayList<>();
@@ -118,7 +118,7 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             List<String> listR2 = new ArrayList<>();
             listR2.add(new Gson().toJson(Crepes));
 
-            ListeCourse Semain2 = new ListeCourse("Semain2", 30 );
+            ListeCourse Semain2 = new ListeCourse("Semain2",listP2.toString(),listR2.toString(), 30 );
             daoListeCourse.create(Semain2);
 
         } catch (SQLException throwables) {
