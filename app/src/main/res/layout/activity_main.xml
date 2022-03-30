@@ -31,7 +31,7 @@
             android:background="#F21212"
             android:gravity="center"/>
 
-        <TextView
+        <Button
             android:id="@+id/produitMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,14 +40,14 @@
             android:text="Produit"
             />
 
-        <TextView
+        <Button
             android:id="@+id/recetteMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Recette" />
 
-        <TextView
+        <Button
             android:id="@+id/listeMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

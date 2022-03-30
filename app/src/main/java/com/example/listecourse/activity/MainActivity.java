@@ -24,6 +24,9 @@ import com.example.listecourse.R;
 import com.example.listecourse.bdd.ListeCourse;
 import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.Recette;
+import com.example.listecourse.model.ListeCourseModel;
+import com.example.listecourse.model.ProduitModel;
+import com.example.listecourse.model.RecetteModel;
 import com.example.listecourse.tools.CustomAdapter;
 import com.example.listecourse.tools.DatabaseLinker;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -48,9 +51,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //this.deleteDatabase("bdd.db");
+
+
+
         //Produits
         drawerLayout = findViewById(R.id.drawerLayout);
-        TextView produit =findViewById(R.id.produitMenu);
+        Button produit =findViewById(R.id.produitMenu);
         produit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intentProduits);
             }
         });
-        TextView recette = findViewById(R.id.recetteMenu);
+        Button recette = findViewById(R.id.recetteMenu);
         recette.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +72,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intentRecette);
             }
         });
-        TextView liste = findViewById(R.id.listeMenu);
+        Button liste = findViewById(R.id.listeMenu);
+        liste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentRecette = new Intent(MainActivity.this, View_recette.class);
+                startActivity(intentRecette);
+            }
+        });
+
+
         containerProduits = findViewById(R.id.container_produit);
         Button buttonAjoutProduits = findViewById(R.id.button_ajout_produit);
         buttonAjoutProduits.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +92,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        createProduits();
+
+
+        DatabaseLinker linker = new DatabaseLinker(this);
+
+        //appelle de la fonction create via ProduitModel
+        ProduitModel.createProduit(linker, containerProduits, this);
+
+
         //Recette
         containerRecette = findViewById(R.id.container_Recette);
         buttonAjoutRecette =findViewById(R.id.button_ajout_Recette);
@@ -89,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        createRecette();
+        RecetteModel.createRecette(linker, containerRecette, this);
         //Liste
         containerListecourse = findViewById(R.id.container_listecourse);
         buttonAjoutListecourse =findViewById(R.id.button_ajout_listecourse);
@@ -100,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intentListeCourse);
             }
         });
-        createListeCourse();
+        ListeCourseModel.createListeCourse(linker, containerListecourse, this);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,328 +140,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void createProduits(){
-        containerProduits.removeAllViews();
-        DatabaseLinker linker = new DatabaseLinker(this);
-        try {
-            Dao<Produit, Integer> daoProduits = linker.getDao(Produit.class);
-            List<Produit> produitList = daoProduits.queryForAll();
-            for (Produit produit : produitList) {
-                TableRow row = new TableRow(this);
-                row.setGravity(Gravity.CENTER_VERTICAL);
-                row.setWeightSum(8);
-
-                TableRow.LayoutParams param = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        4f
-                );
-
-                TextView labelNom = new TextView(this);
-                labelNom.setLayoutParams(param);
-                labelNom.setText(produit.getLibelleProduit());
-                row.addView(labelNom);
-
-                TextView labelPrenom = new TextView(this);
-                labelPrenom.setLayoutParams(param);
-                labelPrenom.setText(String.format("%d€", (int) produit.getPrixProduit()));
-                row.addView(labelPrenom);
-
-                TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        1f
-                );
-                ImageButton deleteClient = new ImageButton(this);
-                deleteClient.setLayoutParams(paramButton);
-                deleteClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_delete);
-                deleteClient.setBackground(null);
-                row.addView(deleteClient);
-                deleteClient.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            daoProduits.delete(produit);
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
-                        ((ViewGroup) row.getParent()).removeView(row);
-                    }
-                });
-                ImageButton modifClient = new ImageButton(this);
-                modifClient.setLayoutParams(paramButton);
-                modifClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_edit);
-                modifClient.setBackground(null);
-                row.addView(modifClient);
-                modifClient.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent monIntent = new Intent(MainActivity.this, View_ajout_produit.class);
-                        monIntent.putExtra("idProduit", produit.getIdProduit());
-                        startActivity(monIntent);
-                    }
-                });
-                containerProduits.addView(row);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    public void createRecette() {
-        containerRecette.removeAllViews();
-        DatabaseLinker linker = new DatabaseLinker(this);
-        try {
-            Dao<Recette, Integer> daoRecette = linker.getDao(Recette.class);
-            List<Recette> recetteList = daoRecette.queryForAll();
-            for (Recette recette : recetteList) {
-                TableRow row = new TableRow(this);
-                row.setGravity(Gravity.CENTER_VERTICAL);
-                row.setWeightSum(8);
-                TableRow.LayoutParams param = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        4f
-                );
-
-                TextView labelNom = new TextView(this);
-                labelNom.setLayoutParams(param);
-                labelNom.setText(recette.getLibelleRecette());
-                row.addView(labelNom);
-                TableRow.LayoutParams paramp = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        0f
-                );
-                TextView labelPrenom = new TextView(this);
-                labelPrenom.setLayoutParams(paramp);
-                labelPrenom.setText(String.format("%d€", (int) recette.getPrixListeProduit()));
-                row.addView(labelPrenom);
-
-                TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        1f
-                );
-                ImageButton deleteClient = new ImageButton(this);
-                deleteClient.setLayoutParams(paramButton);
-                deleteClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_delete);
-                deleteClient.setBackground(null);
-                row.addView(deleteClient);
-                deleteClient.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            daoRecette.delete(recette);
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
-                        ((ViewGroup) row.getParent()).removeView(row);
-                    }
-                });
-                ImageButton modifClient = new ImageButton(this);
-                modifClient.setLayoutParams(paramButton);
-                modifClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_edit);
-                modifClient.setBackground(null);
-                row.addView(modifClient);
-                modifClient.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent monIntent = new Intent(MainActivity.this, View_ajout_recette.class);
-                        monIntent.putExtra("idRecette", recette.getIdRecette());
-                        startActivity(monIntent);
-                    }
-                });
-
-              //Spinner
-                TableRow rowS = new TableRow(this);
-                rowS.setGravity(Gravity.CENTER_VERTICAL);
-                rowS.setWeightSum(8);
-                TableRow.LayoutParams paramSpinner = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        8f
-                );
-                String listeS = recette.getListeProduit();
-                Log.e("Liste Produit", listeS +"ok ");
-                ObjectMapper mapper = new ObjectMapper();
-                List<String> listS = new ArrayList<>();
-                Spinner snpProduit;
-
-                snpProduit = new Spinner(this);
-                snpProduit.setLayoutParams(paramSpinner);
-                try {
-                    List<Produit>participantJsonList = Arrays.asList(mapper.readValue(listeS, Produit[].class));
-                    for (Produit produit : participantJsonList){
-                        listS.add(produit.getLibelleProduit().toString());
-                    }
-                    CustomAdapter adapter = new CustomAdapter(MainActivity.this,
-                            R.layout.spinner_layout_ressource,
-                            R.id.textView_item_name,
-                            R.id.quantiter,
-                            R.id.prix,
-                            participantJsonList);
-                    snpProduit.setAdapter(adapter);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
-
-                ArrayAdapter<String> asnpProduits = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, listS);
-                asnpProduits.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                rowS.addView(snpProduit);
-
-                containerRecette.addView(row);
-                containerRecette.addView(rowS);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    public  void createListeCourse(){
-        containerListecourse.removeAllViews();
-        DatabaseLinker linker = new DatabaseLinker(this);
-        try {
-            Dao<ListeCourse, Integer> daoListeCourse = linker.getDao(ListeCourse.class);
-            List<ListeCourse> listeCourses = daoListeCourse.queryForAll();
-            for (ListeCourse listeCourse : listeCourses) {
-                TableRow row = new TableRow(this);
-                row.setGravity(Gravity.CENTER_VERTICAL);
-                row.setWeightSum(8);
-                TableRow.LayoutParams param = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        4f
-                );
-
-                TextView labelNom = new TextView(this);
-                labelNom.setLayoutParams(param);
-                labelNom.setText(listeCourse.getNomListe());
-                row.addView(labelNom);
-                TableRow.LayoutParams paramp = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        0f
-                );
-                TextView prixListe = new TextView(this);
-                prixListe.setLayoutParams(paramp);
-                prixListe.setText(String.format("%d€", (int) listeCourse.getPrixProduit()));
-                row.addView(prixListe);
-
-                TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        1f
-                );
-                ImageButton deleteClient = new ImageButton(this);
-                deleteClient.setLayoutParams(paramButton);
-                deleteClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_delete);
-                deleteClient.setBackground(null);
-                row.addView(deleteClient);
-                deleteClient.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            daoListeCourse.delete(listeCourse);
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
-                        ((ViewGroup) row.getParent()).removeView(row);
-                    }
-                });
-                ImageButton modifClient = new ImageButton(this);
-                modifClient.setLayoutParams(paramButton);
-                modifClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_edit);
-                modifClient.setBackground(null);
-                row.addView(modifClient);
-                modifClient.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent monIntent = new Intent(MainActivity.this, View_ajout_recette.class);
-                        monIntent.putExtra("idRecette", listeCourse.getNomListe());
-                        startActivity(monIntent);
-                    }
-                });
-                containerListecourse.addView(row);
-                //Spinner
-                TableRow rowS = new TableRow(this);
-                rowS.setGravity(Gravity.CENTER_VERTICAL);
-                rowS.setWeightSum(8);
-                TableRow.LayoutParams paramSpinner = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        8f
-                );
-                String listeS = listeCourse.getListeProduit();
-
-                Log.e("Produit Pliste course", listeS +"ok ");
-
-                ObjectMapper mapper = new ObjectMapper();
-                Spinner snpProduit;
-                snpProduit = new Spinner(this);
-                snpProduit.setLayoutParams(paramSpinner);
-                List<Produit> participantJsonList = Arrays.asList(mapper.readValue(listeS, Produit[].class));
-                    CustomAdapter adapter = new CustomAdapter(MainActivity.this,
-                            R.layout.spinner_layout_ressource,
-                            R.id.textView_item_name,
-                            R.id.quantiter,
-                            R.id.prix,
-                            participantJsonList);
-                    snpProduit.setAdapter(adapter);
-                containerListecourse.addView(rowS);
-                rowS.addView(snpProduit);
-                //Affichage recette
-                String listeRecetteS =listeCourse.getListeRecette();
-                Log.e("Recette liste course", listeRecetteS +"ok ");
-                ObjectMapper mapperR = new ObjectMapper();
-                List<Recette> recetteJsonList =Arrays.asList(mapperR.readValue(listeRecetteS, Recette[].class));
-                for (Recette recette : recetteJsonList) {
-                    TableRow rowRecette = new TableRow(this);
-                    TableRow.LayoutParams paramTexte = new TableRow.LayoutParams(
-                            TableRow.LayoutParams.MATCH_PARENT,
-                            TableRow.LayoutParams.WRAP_CONTENT,
-                            8f
-                    );
-                    TextView rectteNom = new TextView(this);
-                    rectteNom.setLayoutParams(paramTexte);
-                    rectteNom.setText(recette.getLibelleRecette());
-                    rowRecette.addView(rectteNom);
-                    //affichage produit des recette
-                    Dao<Recette, Integer> daoRecette = linker.getDao(Recette.class);
-                    TableRow.LayoutParams paramSpinnerSi = new TableRow.LayoutParams(
-                            TableRow.LayoutParams.MATCH_PARENT,
-                            TableRow.LayoutParams.WRAP_CONTENT,
-                            8f
-                    );
-                    int idrecette = recette.getIdRecette();
-                    String listeSi = daoRecette.queryForId(idrecette).getListeProduit();
-                    Log.e("Liste Produit", listeSi +"ok ");
-                    Spinner snpProduitSi;
-                    snpProduitSi = new Spinner(this);
-                    snpProduitSi.setLayoutParams(paramSpinnerSi);
-                    if(listeSi != null){
-                        List<Produit>participantJsonListSi = Arrays.asList(mapper.readValue(listeSi, Produit[].class));
-                        CustomAdapter adapterSi = new CustomAdapter(MainActivity.this,
-                                R.layout.spinner_layout_ressource,
-                                R.id.textView_item_name,
-                                R.id.quantiter,
-                                R.id.prix,
-                                participantJsonListSi);
-                        snpProduitSi.setAdapter(adapterSi);
-                        rowRecette.addView(snpProduitSi);
-                    }
-
-                    Log.e("Recette non : ",recette +"ok" );
-                    containerListecourse.addView(rowRecette);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-    }
+    
 
 }
