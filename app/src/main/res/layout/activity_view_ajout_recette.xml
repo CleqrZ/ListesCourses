@@ -35,9 +35,9 @@
             android:text="Produits de la recette : "
             >
         </TextView>
-       <Button
+       < Button
         android:id="@+id/button_ajout_produit"
-        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/container_infos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
