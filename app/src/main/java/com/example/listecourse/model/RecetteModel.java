@@ -106,34 +106,18 @@ public class RecetteModel {
                         TableRow.LayoutParams.WRAP_CONTENT,
                         8f
                 );
-                String listeS = recette.getListeProduit();
-                Log.e("Liste Produit", listeS +"ok ");
-                ObjectMapper mapper = new ObjectMapper();
-                List<String> listS = new ArrayList<>();
                 Spinner snpProduit;
-
                 snpProduit = new Spinner(context);
                 snpProduit.setLayoutParams(paramSpinner);
-                try {
-                    if(listeS !=null){
-                        List<Produit>participantJsonList = Arrays.asList(mapper.readValue(listeS, Produit[].class));
-                        CustomAdapter adapter = new CustomAdapter((Activity) context,
-                                R.layout.spinner_layout_ressource,
-                                R.id.textView_item_name,
-                                R.id.quantiter,
-                                R.id.prix,
-                                participantJsonList);
-                        snpProduit.setAdapter(adapter);
-                    }
-
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
-
-                ArrayAdapter<String> asnpProduits = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, listS);
-                asnpProduits.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                List<Produit>participantJsonList = recette.getListeProduit();
+                CustomAdapter adapter = new CustomAdapter((Activity) context,
+                        R.layout.spinner_layout_ressource,
+                        R.id.textView_item_name,
+                        R.id.quantiter,
+                        R.id.prix,
+                        participantJsonList);
+                snpProduit.setAdapter(adapter);
                 rowS.addView(snpProduit);
-
                 containerRecette.addView(row);
                 containerRecette.addView(rowS);
             }

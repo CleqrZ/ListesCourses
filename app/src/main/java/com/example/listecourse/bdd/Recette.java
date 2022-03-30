@@ -1,9 +1,15 @@
 package com.example.listecourse.bdd;
 
+import android.widget.Spinner;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 @DatabaseTable(tableName="Recette")
 public class Recette implements Serializable {
@@ -35,9 +41,15 @@ public class Recette implements Serializable {
         return idRecette;
     }
 
-    public String getListeProduit() {
-
-        return listeProduit;
+    public List<Produit> getListeProduit() {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Produit> participantJsonList = null;
+        try {
+            participantJsonList = Arrays.asList(mapper.readValue(listeProduit, Produit[].class));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return participantJsonList;
     }
 
     public void setListeProduit(String listeProduit) {

@@ -104,8 +104,6 @@ public class ListeCourseModel {
                         TableRow.LayoutParams.WRAP_CONTENT,
                         8f
                 );
-                String listeS = listeCourse.getListeProduit();
-
                 Spinner snpProduit;
                 snpProduit = new Spinner(context);
                 snpProduit.setLayoutParams(paramSpinner);
