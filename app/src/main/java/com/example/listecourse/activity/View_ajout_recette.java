@@ -47,7 +47,13 @@ public class View_ajout_recette extends AppCompatActivity {
         idRecette = intent.getIntExtra("idRecette",0);
         Recette recette = null;
         DatabaseLinker linker = new DatabaseLinker(this);
-        Button button_ajout_produit =
+        Button button_ajout_produit = findViewById(R.id.button_ajout_produit);
+        button_ajout_produit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setSpinnerProduit();
+            }
+        });
         validateButton = findViewById(R.id.button_validate);
         validateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,13 +131,14 @@ public class View_ajout_recette extends AppCompatActivity {
                 R.id.prix,
                 participantJsonList);
         snpProduit.setAdapter(adapter);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            rowS.addView(snpProduit);
+            containerSpinner.addView(rowS);
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
-    public double setPrixRecette(List<Produit> listep){
+  /*  public double setPrixRecette(List<Produit> listep){*/
 
-    }
+
 }
