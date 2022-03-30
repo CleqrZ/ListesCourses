@@ -9,11 +9,11 @@ import java.io.Serializable;
 public class Recette implements Serializable {
     @DatabaseField( columnName = "id", generatedId = true )
     private int idRecette;
-    @DatabaseField
+    @DatabaseField (columnName = "libelleRecette")
     private String libelleRecette;
-    @DatabaseField
+    @DatabaseField(columnName = "listeProduit")
     private String listeProduit;
-    @DatabaseField
+    @DatabaseField(columnName = "prixListeProduit")
     private double prixListeProduit;
 
     public Recette() {

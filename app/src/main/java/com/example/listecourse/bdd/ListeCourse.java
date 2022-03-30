@@ -7,13 +7,13 @@ import com.j256.ormlite.table.DatabaseTable;
 public class ListeCourse {
     @DatabaseField( columnName = "id", generatedId = true )
     private int idListeCourse;
-    @DatabaseField
+    @DatabaseField(columnName = "libelle")
     private String libelle;
-    @DatabaseField
+    @DatabaseField(columnName = "listeProduit")
     private String listeProduit;
-    @DatabaseField
+    @DatabaseField(columnName = "listeRecette")
     private String listeRecette;
-    @DatabaseField
+    @DatabaseField(columnName = "prixCourse")
     private double prixCourse;
     public ListeCourse(String nomListe, String listeProduit, String listeRecette, double PrixCourse) {
         this.libelle = nomListe;

@@ -92,13 +92,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         DatabaseLinker linker = new DatabaseLinker(this);
 
         //appelle de la fonction create via ProduitModel
         ProduitModel.createProduit(linker, containerProduits, this);
-
 
         //Recette
         containerRecette = findViewById(R.id.container_Recette);

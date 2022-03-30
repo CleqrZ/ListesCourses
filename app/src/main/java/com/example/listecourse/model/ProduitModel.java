@@ -36,7 +36,6 @@ public class ProduitModel{
                         TableRow.LayoutParams.WRAP_CONTENT,
                         4f
                 );
-
                 TextView labelNom = new TextView(context);
                 labelNom.setLayoutParams(param);
                 labelNom.setText(produit.getLibelleProduit());
@@ -44,7 +43,7 @@ public class ProduitModel{
 
                 TextView labelPrenom = new TextView(context);
                 labelPrenom.setLayoutParams(param);
-                labelPrenom.setText(String.format("%d€", (int) produit.getPrixProduit()));
+                labelPrenom.setText(String.valueOf(produit.getPrixProduit())+"€");
                 row.addView(labelPrenom);
 
                 TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
