@@ -96,7 +96,7 @@ public class View_ListeCourse extends AppCompatActivity {
 
                 TextView labelPrenom = new TextView(this);
                 labelPrenom.setLayoutParams(param);
-                labelPrenom.setText(String.format("%d€", (int) listeCourse.getPrixProduit()));
+                labelPrenom.setText(String.valueOf(listeCourse.getPrixProduit())+"€");
                 row.addView(labelPrenom);
 
                 TableRow.LayoutParams paramButton = new TableRow.LayoutParams(

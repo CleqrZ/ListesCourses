@@ -11,6 +11,16 @@
     android:textAlignment="center"
     tools:context=".activity.MainActivity">
 
+    <FrameLayout
+        android:id="@+id/container_fragment2"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="1dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        >
+    </FrameLayout>
+
     <LinearLayout
         android:layout_gravity ="end"
         android:background="#ffffff"

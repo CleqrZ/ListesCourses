@@ -89,7 +89,7 @@ public class View_recette extends AppCompatActivity {
 
                 TextView labelPrenom = new TextView(this);
                 labelPrenom.setLayoutParams(param);
-                labelPrenom.setText(String.format("%d€", (int) recette.getPrixListeProduit()));
+                labelPrenom.setText(String.valueOf(recette.getPrixListeProduit())+"€");
                 row.addView(labelPrenom);
 
                 TableRow.LayoutParams paramButton = new TableRow.LayoutParams(

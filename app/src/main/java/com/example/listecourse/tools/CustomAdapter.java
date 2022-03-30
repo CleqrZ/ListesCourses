@@ -77,7 +77,7 @@ public class CustomAdapter extends BaseAdapter {
         TextView textViewItemPercent = (TextView) rowView.findViewById(textViewItemPercentId);
         textViewItemPercent.setText(produit.getQuantiter());
         TextView textViewItemPrix= (TextView) rowView.findViewById(textViewItemPePrix);
-        textViewItemPrix.setText(String.format("%d€", (int) produit.getPrixProduit()));
+        textViewItemPrix.setText(String.valueOf(produit.getPrixProduit())+"€");
         return rowView;
     }
 }

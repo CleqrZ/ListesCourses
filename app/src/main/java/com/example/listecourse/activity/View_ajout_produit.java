@@ -58,7 +58,7 @@ public class View_ajout_produit extends AppCompatActivity {
         if(produit != null){
             editLabel.setText(produit.getLibelleProduit());
             editQuantiter.setText(produit.getQuantiter());
-            editPrix.setText(String.valueOf((int) produit.getPrixProduit()));
+            editPrix.setText(String.valueOf(produit.getPrixProduit())+"€");
 
             Log.e("bouton", "Produit value : "+ produit.getLibelleProduit()+" "+produit.getQuantiter()+" "+produit.getPrixProduit());
         }

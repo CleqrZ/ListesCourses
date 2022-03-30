@@ -73,7 +73,7 @@ public class View_ajout_recette extends AppCompatActivity {
         if(recette != null){
             editLabel.setText(recette.getLibelleRecette());
             //editQuantiter.setText(recette.getQuantiter());
-            editPrix.setText(String.valueOf((int) recette.getPrixListeProduit()));
+            editPrix.setText(String.valueOf(recette.getPrixListeProduit())+"€");
 
             Log.e("bouton", "Produit value : "+ recette.getIdRecette()+" "+/* recette.getQuantiter()+*/" "+recette.getPrixListeProduit());
         }

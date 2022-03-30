@@ -56,7 +56,7 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
         editPrix = findViewById(R.id.edit_prix);
         if(listeCourse != null){
             editLabel.setText(listeCourse.getNomListe());
-            editPrix.setText(String.valueOf((int) listeCourse.getPrixProduit()));
+            editPrix.setText(String.valueOf(listeCourse.getPrixProduit())+"€");
 
             Log.e("bouton", "Liste value : "+ listeCourse.getNomListe()+" "+listeCourse.getPrixProduit());
         }

@@ -59,7 +59,7 @@ public class RecetteModel {
                 );
                 TextView labelPrenom = new TextView(context);
                 labelPrenom.setLayoutParams(paramp);
-                labelPrenom.setText(String.format("%d€", (int) recette.getPrixListeProduit()));
+                labelPrenom.setText(String.valueOf(recette.getPrixListeProduit())+"€");
                 row.addView(labelPrenom);
 
                 TableRow.LayoutParams paramButton = new TableRow.LayoutParams(

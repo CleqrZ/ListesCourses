@@ -57,7 +57,7 @@ public class ListeCourseModel {
                 );
                 TextView prixListe = new TextView(context);
                 prixListe.setLayoutParams(paramp);
-                prixListe.setText(String.format("%d€", (int) listeCourse.getPrixProduit()));
+                prixListe.setText(String.valueOf(listeCourse.getPrixProduit())+"€");
                 row.addView(prixListe);
 
                 TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
