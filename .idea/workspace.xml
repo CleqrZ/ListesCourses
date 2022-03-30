@@ -21,16 +21,10 @@
       <change beforePath="$PROJECT_DIR$/.gradle/7.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/View_ListeCourse.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/View_ListeCourse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/View_ajout_ListeCourse.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/View_ajout_ListeCourse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/View_ajout_produit.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/View_ajout_produit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/View_ajout_recette.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/View_ajout_recette.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/View_produit.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/View_produit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/View_recette.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/View_recette.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/model/ListeCourseModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/model/ListeCourseModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/activity/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/model/RecetteModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/model/RecetteModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/tools/CustomAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/listecourse/tools/CustomAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/main_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/main_menu.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

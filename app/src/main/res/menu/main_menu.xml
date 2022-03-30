@@ -5,5 +5,7 @@
         android:orderInCategory="100"
         android:title=""
         android:icon="@drawable/hamburger_menu"
-        app:showAsAction="always"/>
+        app:showAsAction="always"
+        android:clickable="true"/>
+
 </menu>

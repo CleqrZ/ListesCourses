@@ -109,17 +109,21 @@ public class RecetteModel {
                 Spinner snpProduit;
                 snpProduit = new Spinner(context);
                 snpProduit.setLayoutParams(paramSpinner);
-                List<Produit>participantJsonList = recette.getListeProduit();
-                CustomAdapter adapter = new CustomAdapter((Activity) context,
-                        R.layout.spinner_layout_ressource,
-                        R.id.textView_item_name,
-                        R.id.quantiter,
-                        R.id.prix,
-                        participantJsonList);
-                snpProduit.setAdapter(adapter);
-                rowS.addView(snpProduit);
+                if (recette.getListeProduit() !=null){
+                    List<Produit>participantJsonList = recette.getListeProduit();
+                    CustomAdapter adapter = new CustomAdapter((Activity) context,
+                            R.layout.spinner_layout_ressource,
+                            R.id.textView_item_name,
+                            R.id.quantiter,
+                            R.id.prix,
+                            participantJsonList);
+                    snpProduit.setAdapter(adapter);
+                    rowS.addView(snpProduit);
+                    containerRecette.addView(rowS);
+                }
+
                 containerRecette.addView(row);
-                containerRecette.addView(rowS);
+
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

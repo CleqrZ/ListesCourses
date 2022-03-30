@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //this.deleteDatabase("bdd.db");
+        this.deleteDatabase("bdd.db");
 
 
 
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intentProduits = new Intent(MainActivity.this, View_produit.class);
                 startActivity(intentProduits);
+                Log.e("-----------", "---------------------------------------");
             }
         });
         Button recette = findViewById(R.id.recetteMenu);
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intentRecette = new Intent(MainActivity.this, View_recette.class);
                 startActivity(intentRecette);
+                Log.e("-----------", "---------------------------------------");
             }
         });
         Button liste = findViewById(R.id.listeMenu);
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intentRecette = new Intent(MainActivity.this, View_recette.class);
                 startActivity(intentRecette);
+                Log.e("-----------", "---------------------------------------");
             }
         });
 

@@ -9,24 +9,19 @@
     android:layout_alignParentLeft="true"
     android:layout_alignParentTop="true"
     android:textAlignment="center"
-    tools:context=".activity.MainActivity">
+    tools:context=".activity.MainActivity"
+    android:clickable="true"
+    >
 
-    <FrameLayout
-        android:id="@+id/container_fragment2"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="1dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        >
-    </FrameLayout>
+
 
     <LinearLayout
         android:layout_gravity ="end"
         android:background="#ffffff"
         android:layout_width="240dp"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:clickable="true">
 
         <TextView
             android:id="@+id/menu"
@@ -48,6 +43,7 @@
             android:layout_margin="10dp"
             android:background="#FFFFFF"
             android:text="Produit"
+            android:clickable="true"
             />
 
         <Button
@@ -55,15 +51,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Recette" />
+            android:text="Recette"
+            android:clickable="true"/>
 
         <Button
             android:id="@+id/listeMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Liste de course" />
+            android:text="Liste de course"
+            android:clickable="true"/>
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/container_fragment2"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="1dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        >
+    </FrameLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
