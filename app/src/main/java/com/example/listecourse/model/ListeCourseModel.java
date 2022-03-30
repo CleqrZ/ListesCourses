@@ -106,13 +106,10 @@ public class ListeCourseModel {
                 );
                 String listeS = listeCourse.getListeProduit();
 
-                Log.e("Produit Pliste course", listeS +"ok ");
-
-                ObjectMapper mapper = new ObjectMapper();
                 Spinner snpProduit;
                 snpProduit = new Spinner(context);
                 snpProduit.setLayoutParams(paramSpinner);
-                List<Produit> participantJsonList = Arrays.asList(mapper.readValue(listeS, Produit[].class));
+                List<Produit> participantJsonList = listeCourse.getListeProduit();
                 CustomAdapter adapter = new CustomAdapter((Activity) context,
                         R.layout.spinner_layout_ressource,
                         R.id.textView_item_name,
@@ -123,10 +120,8 @@ public class ListeCourseModel {
                 containerListecourse.addView(rowS);
                 rowS.addView(snpProduit);
                 //Affichage recette
-                String listeRecetteS =listeCourse.getListeRecette();
-                Log.e("Recette liste course", listeRecetteS +"ok ");
+                List<Recette> recetteJsonList  = listeCourse.getListeRecette();
                 ObjectMapper mapperR = new ObjectMapper();
-                List<Recette> recetteJsonList =Arrays.asList(mapperR.readValue(listeRecetteS, Recette[].class));
                 for (Recette recette : recetteJsonList) {
                     TableRow rowRecette = new TableRow(context);
                     TableRow.LayoutParams paramTexte = new TableRow.LayoutParams(
@@ -146,13 +141,11 @@ public class ListeCourseModel {
                             8f
                     );
                     int idrecette = recette.getIdRecette();
-                    String listeSi = daoRecette.queryForId(idrecette).getListeProduit();
-                    Log.e("Liste Produit", listeSi +"ok ");
+                    List<Produit>participantJsonListSi = daoRecette.queryForId(idrecette).getListeProduit();
                     Spinner snpProduitSi;
                     snpProduitSi = new Spinner(context);
                     snpProduitSi.setLayoutParams(paramSpinnerSi);
-                    if(listeSi != null){
-                        List<Produit>participantJsonListSi = Arrays.asList(mapper.readValue(listeSi, Produit[].class));
+                    if(participantJsonListSi != null){
                         CustomAdapter adapterSi = new CustomAdapter((Activity) context,
                                 R.layout.spinner_layout_ressource,
                                 R.id.textView_item_name,
@@ -162,17 +155,12 @@ public class ListeCourseModel {
                         snpProduitSi.setAdapter(adapterSi);
                         rowRecette.addView(snpProduitSi);
                     }
-
                     Log.e("Recette non : ",recette +"ok" );
                     containerListecourse.addView(rowRecette);
                 }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
         }
     }
 }
