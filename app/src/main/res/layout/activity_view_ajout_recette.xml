@@ -32,18 +32,33 @@
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Produits de la recette : "
+            >
+        </TextView>
+       < Button
+        android:id="@+id/button_ajout_produit"
+        app:layout_constraintTop_toBottomOf="@+id/container_infos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="OK"
+        >
+    </Button>
+        <TableLayout
+            app:layout_constraintTop_toBottomOf="parent"
+            android:layout_margin="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/container_produit_ajout_r">
+        </TableLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="Prix recette:"
             >
         </TextView>
-        <EditText
-            android:id="@+id/edit_prix"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border"
-            android:padding="7dp"
-            android:inputType="numberDecimal"
-            >
-        </EditText>
     </LinearLayout>
 
     <Button

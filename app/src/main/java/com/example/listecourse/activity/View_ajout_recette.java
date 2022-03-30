@@ -3,26 +3,37 @@ package com.example.listecourse.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.listecourse.R;
+import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.Recette;
+import com.example.listecourse.tools.CustomAdapter;
 import com.example.listecourse.tools.DatabaseLinker;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class View_ajout_recette extends AppCompatActivity {
     private int idRecette = 0;
     private EditText editLabel;
-    private EditText editQuantiter;
     private EditText editPrix;
+    private TableLayout containerSpinner;
 
     private Button validateButton;
 
@@ -30,13 +41,14 @@ public class View_ajout_recette extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_ajout_recette);
-        validateButton = findViewById(R.id.button_validate);
         Intent intent = this.getIntent();
+        containerSpinner = findViewById(R.id.container_produit_ajout_r);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         idRecette = intent.getIntExtra("idRecette",0);
-        Recette recette=null;
+        Recette recette = null;
         DatabaseLinker linker = new DatabaseLinker(this);
-
+        Button button_ajout_produit =
+        validateButton = findViewById(R.id.button_validate);
         validateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,7 +63,6 @@ public class View_ajout_recette extends AppCompatActivity {
         }
         linker.close();
         editLabel = findViewById(R.id.edit_label);
-        editQuantiter = findViewById(R.id.edit_quantiter);
         editPrix = findViewById(R.id.edit_prix);
         if(recette != null){
             editLabel.setText(recette.getLibelleRecette());
@@ -64,8 +75,6 @@ public class View_ajout_recette extends AppCompatActivity {
 
     public void modifInfos(){
         String label = editLabel.getText().toString();
-        Log.i("", label);
-        //String quantiter = editQuantiter.getText().toString();
         String prix = editPrix.getText().toString();
         DatabaseLinker linker = new DatabaseLinker(this);
         Recette recette;
@@ -74,7 +83,6 @@ public class View_ajout_recette extends AppCompatActivity {
             if (idRecette != 0){
                 recette = daoRecette.queryForId(idRecette);
                 recette.setLibelleRecette(label);
-                //produit.setQuantiter(quantiter);
                 recette.setPrixListeProduit(Double.parseDouble(prix));
                 daoRecette.update(recette);
             }else{
@@ -94,5 +102,36 @@ public class View_ajout_recette extends AppCompatActivity {
             throwables.printStackTrace();
         }
     }
+    public void setSpinnerProduit(){
+        DatabaseLinker linker = new DatabaseLinker(this);
+        try {
+            TableRow rowS = new TableRow(this);
+            rowS.setGravity(Gravity.CENTER_VERTICAL);
+            rowS.setWeightSum(8);
+            TableRow.LayoutParams paramSpinner = new TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT,
+                8f
+        );
+        Spinner snpProduit;
+        snpProduit = new Spinner(this);
+        snpProduit.setLayoutParams(paramSpinner);
+        Dao<Produit, Integer> daoProduit= linker.getDao(Produit.class);
+        List<Produit>participantJsonList = daoProduit.queryForAll();
+        CustomAdapter adapter = new CustomAdapter(this,
+                R.layout.spinner_layout_ressource,
+                R.id.textView_item_name,
+                R.id.quantiter,
+                R.id.prix,
+                participantJsonList);
+        snpProduit.setAdapter(adapter);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public double setPrixRecette(List<Produit> listep){
 
+    }
 }
