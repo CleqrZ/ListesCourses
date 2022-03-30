@@ -100,6 +100,10 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             listeSandwich.add(new Gson().toJson(Emental));
             Recette Sandwich = new Recette("Sandwich",listeSandwich.toString(), 9);
             daoRecette.create(Sandwich);
+
+
+
+
             //Creation Liste de Course
             List<String> listP1 = new ArrayList<>();
             listP1.add(new Gson().toJson(Nutella));

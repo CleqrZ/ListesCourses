@@ -41,7 +41,8 @@ public class View_ajout_produit extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 modifInfos();
-
+                Intent intentProduits = new Intent(View_ajout_produit.this, MainActivity.class);
+                startActivity(intentProduits);
             }
         });
         try {
@@ -67,7 +68,7 @@ public class View_ajout_produit extends AppCompatActivity {
         String quantiter = editQuantiter.getText().toString();
         String prix = editPrix.getText().toString();
         DatabaseLinker linker = new DatabaseLinker(this);
-        Produit produit;
+        Produit produit= new Produit();
         try {
             Dao<Produit, Integer> daoProduit= linker.getDao(Produit.class);
             if (idProduit != 0){
@@ -76,14 +77,20 @@ public class View_ajout_produit extends AppCompatActivity {
                 produit.setQuantiter(quantiter);
                 produit.setPrixProduit(Double.parseDouble(prix));
                 daoProduit.update(produit);
-            }else{
+                Log.i("tesssssssssssssssssst", "ça marche");
+            }
+            else{
                 if (label.matches("") || quantiter.matches("") || prix.matches("")  ) {
                     Log.e("création : ", "erreur");
                     Toast leToast = Toast.makeText(View_ajout_produit.this,
                             "Remplir touts les champs", Toast.LENGTH_LONG);
                     leToast.show();
                 }else {
-                    produit = new Produit(label,quantiter,Double.parseDouble(prix));
+                    produit = new Produit();
+                    produit.setLibelleProduit(label);
+                    produit.setQuantiter(quantiter);
+                    produit.setPrixProduit(Double.parseDouble(prix));
+                    Log.i("-----------------", "----------------------------------------------------------------------------");
                     daoProduit.create(produit);
                     Intent main = new Intent( View_ajout_produit.this, MainActivity.class);
                     startActivity(main);
