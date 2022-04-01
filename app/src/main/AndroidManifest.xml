@@ -11,19 +11,29 @@
         android:theme="@style/Theme.ListeCourse">
         <activity
             android:name=".activity.View_produit"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.View_ajout_produit"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.View_recette"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.View_ajout_recette"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
