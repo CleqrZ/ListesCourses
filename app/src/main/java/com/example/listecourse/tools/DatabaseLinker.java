@@ -7,6 +7,7 @@ import android.util.Log;
 import com.example.listecourse.bdd.ListeCourse;
 import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.Recette;
+import com.example.listecourse.bdd.RecetteProduit;
 import com.google.gson.Gson;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
@@ -31,6 +32,8 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable( connectionSource, ListeCourse.class );
             TableUtils.createTable( connectionSource, Recette.class );
             TableUtils.createTable( connectionSource, Produit.class );
+            TableUtils.createTable( connectionSource, RecetteProduit.class );
+
             Log.i( "DATABASE", "onCreate invoked" );
         } catch( Exception exception ) {
             Log.e("DATABASE", "Can't create Database", exception);
@@ -39,6 +42,7 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             ///appel des DAO
             Dao<Recette, Integer> daoRecette = this.getDao(Recette.class);
             Dao<Produit, Integer> daoProduits = this.getDao(Produit.class);
+            Dao<RecetteProduit, Integer> daoRecetteProduit = this.getDao(RecetteProduit.class);
             Dao<ListeCourse, Integer> daoListeCourse = this.getDao(ListeCourse.class);
             //Creation Produits
 
@@ -82,25 +86,31 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             daoProduits.create( Yogurt);
             //Creation Recettes
 
-
-
-            List<String> listCrepe = new ArrayList<>();
-            listCrepe.add(new Gson().toJson(Farine));
-            listCrepe.add(new Gson().toJson(Lait));
-            listCrepe.add(new Gson().toJson(Oeuf));
-            listCrepe.add(new Gson().toJson(Beurre));
-            listCrepe.add(new Gson().toJson(Nutella));
-            Recette Crepes = new Recette("Crepes",listCrepe.toString(), 13);
+            Recette Crepes = new Recette("Crepes", 13);
             daoRecette.create(Crepes);
+            RecetteProduit recetteProduit = new RecetteProduit(Farine,Crepes,1);
+            daoRecetteProduit.create(recetteProduit);
+            RecetteProduit recetteProduit1 = new RecetteProduit(Lait,Crepes,1);
+            daoRecetteProduit.create(recetteProduit1);
+            RecetteProduit recetteProduit2 = new RecetteProduit(Oeuf,Crepes,1);
+            daoRecetteProduit.create(recetteProduit2);
+            RecetteProduit recetteProduit3 = new RecetteProduit(Beurre,Crepes,1);
+            daoRecetteProduit.create(recetteProduit3);
+            RecetteProduit recetteProduit4 = new RecetteProduit(Nutella,Crepes,1);
+            daoRecetteProduit.create(recetteProduit4);
 
-            List<String> listeSandwich = new ArrayList<>();
-            listeSandwich.add(new Gson().toJson(Jambon));
-            listeSandwich.add(new Gson().toJson(Pain));
-            listeSandwich.add(new Gson().toJson(Beurre));
-            listeSandwich.add(new Gson().toJson(Emental));
-            Recette Sandwich = new Recette("Sandwich",listeSandwich.toString(), 9);
+            Recette Sandwich = new Recette("Sandwich", 9);
             daoRecette.create(Sandwich);
-
+            RecetteProduit recetteProduit5 = new RecetteProduit(Jambon,Sandwich,2);
+            daoRecetteProduit.create(recetteProduit5);
+            RecetteProduit recetteProduit6 = new RecetteProduit(Pain,Sandwich,2);
+            daoRecetteProduit.create(recetteProduit6);
+            RecetteProduit recetteProduit7 = new RecetteProduit(Beurre,Sandwich,1);
+            daoRecetteProduit.create(recetteProduit7);
+            RecetteProduit recetteProduit8 = new RecetteProduit(Emental,Sandwich,1);
+            daoRecetteProduit.create(recetteProduit8);
+            RecetteProduit recetteProduit9 = new RecetteProduit(Nutella,Sandwich,1);
+            daoRecetteProduit.create(recetteProduit9);
 
 
 

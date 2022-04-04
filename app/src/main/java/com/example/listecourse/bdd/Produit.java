@@ -4,10 +4,11 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.util.List;
 
 @DatabaseTable(tableName="Produit")
 public class Produit implements Serializable {
-    @DatabaseField( columnName = "id", generatedId = true )
+    @DatabaseField( columnName = "p_id", generatedId = true )
     private int idProduit;
     @DatabaseField
     private String libelleProduit;
@@ -16,7 +17,7 @@ public class Produit implements Serializable {
     @DatabaseField
     private double prixProduit;
 
-
+    private List<Recette> listeR = null;
 
     public Produit() {
     }

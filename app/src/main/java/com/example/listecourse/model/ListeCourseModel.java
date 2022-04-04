@@ -117,7 +117,7 @@ public class ListeCourseModel {
                 snpProduit.setAdapter(adapter);
                 containerListecourse.addView(rowS);
                 rowS.addView(snpProduit);
-                //Affichage recette
+               /* //Affichage recette
                 List<Recette> recetteJsonList  = listeCourse.getListeRecette();
                 ObjectMapper mapperR = new ObjectMapper();
                 for (Recette recette : recetteJsonList) {
@@ -155,7 +155,7 @@ public class ListeCourseModel {
                     }
                     Log.e("Recette non : ",recette +"ok" );
                     containerListecourse.addView(rowRecette);
-                }
+                }*/
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

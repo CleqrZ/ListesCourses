@@ -20,6 +20,7 @@ public class ListeCourse {
     private String listeRecette;
     @DatabaseField(columnName = "prixCourse")
     private double prixCourse;
+
     public ListeCourse(String nomListe, String listeProduit, String listeRecette, double PrixCourse) {
         this.libelle = nomListe;
         this.prixCourse =PrixCourse;

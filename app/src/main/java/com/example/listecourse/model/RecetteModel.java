@@ -20,6 +20,7 @@ import com.example.listecourse.activity.MainActivity;
 import com.example.listecourse.activity.View_ajout_recette;
 import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.Recette;
+import com.example.listecourse.bdd.RecetteProduit;
 import com.example.listecourse.tools.CustomAdapter;
 import com.example.listecourse.tools.DatabaseLinker;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -38,7 +39,9 @@ public class RecetteModel {
         try {
             Dao<Recette, Integer> daoRecette = linker.getDao(Recette.class);
             List<Recette> recetteList = daoRecette.queryForAll();
+
             for (Recette recette : recetteList) {
+                Log.e("teste recette", recette.getListeProduit(context).toString());
                 TableRow row = new TableRow(context);
                 row.setGravity(Gravity.CENTER_VERTICAL);
                 row.setWeightSum(8);
@@ -106,11 +109,16 @@ public class RecetteModel {
                         TableRow.LayoutParams.WRAP_CONTENT,
                         8f
                 );
+                
                 Spinner snpProduit;
                 snpProduit = new Spinner(context);
                 snpProduit.setLayoutParams(paramSpinner);
-                if (recette.getListeProduit() !=null){
-                    List<Produit>participantJsonList = recette.getListeProduit();
+                if (recette.getListeProduit(context) != null){
+                    List<RecetteProduit>recetteProduitList = recette.getListeProduit(context);
+                    List<Produit> participantJsonList = new ArrayList<>();
+                    for (RecetteProduit recetteProduit : recetteProduitList){
+                        participantJsonList.add(recetteProduit.getIdProduitR());
+                    }
                     CustomAdapter adapter = new CustomAdapter((Activity) context,
                             R.layout.spinner_layout_ressource,
                             R.id.textView_item_name,

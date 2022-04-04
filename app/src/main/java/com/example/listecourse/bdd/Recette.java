@@ -1,26 +1,32 @@
 package com.example.listecourse.bdd;
 
+import android.content.Context;
+import android.util.Log;
 import android.widget.Spinner;
 
+import com.example.listecourse.tools.DatabaseLinker;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @DatabaseTable(tableName="Recette")
-public class Recette implements Serializable {
-    @DatabaseField( columnName = "id", generatedId = true )
+public class Recette {
+    @DatabaseField( columnName = "r_id", generatedId = true )
     private int idRecette;
     @DatabaseField (columnName = "libelleRecette")
     private String libelleRecette;
-    @DatabaseField(columnName = "listeProduit")
-    private String listeProduit;
     @DatabaseField(columnName = "prixListeProduit")
     private double prixListeProduit;
+
+    private List<RecetteProduit> liste = null;
 
     public Recette() {
     }
@@ -29,32 +35,9 @@ public class Recette implements Serializable {
         this.prixListeProduit =Prix;
     }
 
-    public Recette(String libelle,String liste,double Prix) {
-        this.libelleRecette = libelle;
-        this.listeProduit = liste;
-        this.prixListeProduit =Prix;
-    }
-
-
     public int getIdRecette() {
 
         return idRecette;
-    }
-
-    public List<Produit> getListeProduit() {
-        ObjectMapper mapper = new ObjectMapper();
-        List<Produit> participantJsonList = null;
-        try {
-            participantJsonList = Arrays.asList(mapper.readValue(listeProduit, Produit[].class));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return participantJsonList;
-    }
-
-    public void setListeProduit(String listeProduit) {
-
-        listeProduit = listeProduit;
     }
 
     public String getLibelleRecette() {
@@ -74,5 +57,24 @@ public class Recette implements Serializable {
 
     public void setPrixListeProduit(double prixListeProduit) {
         this.prixListeProduit = prixListeProduit;
+    }
+
+    public List<RecetteProduit> getListeProduit(Context context) throws SQLException {
+        DatabaseLinker linker = new DatabaseLinker(context);
+        Dao<RecetteProduit,Integer> recetteProduitDao = linker.getDao(RecetteProduit.class);
+        List<RecetteProduit> recetteProduitList = recetteProduitDao.queryForAll();
+        List<RecetteProduit> listeP = new ArrayList<>();
+        for (RecetteProduit recetteProduit : recetteProduitList){
+            if (recetteProduit.getIdRectteP().getIdRecette() == this.getIdRecette()){
+                Log.e("teste recette", recetteProduit.getIdProduitR().getLibelleProduit());
+                listeP.add(recetteProduit);
+            }
+        }
+        return listeP;
+    }
+
+
+    public void setListe(List<RecetteProduit> liste) {
+        this.liste = liste;
     }
 }

@@ -46,13 +46,12 @@ public class MainActivity extends AppCompatActivity {
     private TableLayout containerListecourse;
     private Button buttonAjoutListecourse;
     private DrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.deleteDatabase("bdd.db");
-
-
 
         //Produits
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -123,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         ListeCourseModel.createListeCourse(linker, containerListecourse, this);
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
