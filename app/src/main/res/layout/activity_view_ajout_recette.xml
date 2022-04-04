@@ -67,14 +67,15 @@
             android:text="Prix recette:"
             >
         </TextView>
-        <EditText
-            android:id="@+id/edit_prix"
+        <TextView
+            android:id="@+id/prix_recette"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/border"
-            android:padding="7dp"
-            >
-        </EditText>
+            android:textStyle="bold"
+            android:digits="0123456789"
+            android:textSize="@dimen/car_ui_body1_size"            >
+        </TextView>
         <Button
         android:id="@+id/button_validate"
         app:layout_constraintTop_toBottomOf="@+id/container_infos"

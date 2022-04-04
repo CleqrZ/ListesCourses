@@ -60,6 +60,11 @@ public class Recette {
     }
 
     public List<RecetteProduit> getListeProduit(Context context) throws SQLException {
+        /* QueryBuilder<Ville, Integer> queryBuilder = daoVille.queryBuilder();
+                Log.e("ville", com.example.dossierclient.tablebdd.Ville.nameVille);
+                queryBuilder.where().eq(Ville.nameVille, String.valueOf(ville.getText()));
+                PreparedQuery<Ville> preparedQuery = queryBuilder.prepare();
+                List<Ville> villeList = daoVille.query(preparedQuery);*/
         DatabaseLinker linker = new DatabaseLinker(context);
         Dao<RecetteProduit,Integer> recetteProduitDao = linker.getDao(RecetteProduit.class);
         List<RecetteProduit> recetteProduitList = recetteProduitDao.queryForAll();
