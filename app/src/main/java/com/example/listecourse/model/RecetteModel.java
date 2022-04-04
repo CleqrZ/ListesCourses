@@ -22,6 +22,7 @@ import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.Recette;
 import com.example.listecourse.bdd.RecetteProduit;
 import com.example.listecourse.tools.CustomAdapter;
+import com.example.listecourse.tools.CustomAdapterQte;
 import com.example.listecourse.tools.DatabaseLinker;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -115,16 +116,13 @@ public class RecetteModel {
                 snpProduit.setLayoutParams(paramSpinner);
                 if (recette.getListeProduit(context) != null){
                     List<RecetteProduit>recetteProduitList = recette.getListeProduit(context);
-                    List<Produit> participantJsonList = new ArrayList<>();
-                    for (RecetteProduit recetteProduit : recetteProduitList){
-                        participantJsonList.add(recetteProduit.getIdProduitR());
-                    }
-                    CustomAdapter adapter = new CustomAdapter((Activity) context,
-                            R.layout.spinner_layout_ressource,
+                    CustomAdapterQte adapter = new CustomAdapterQte((Activity) context,
+                            R.layout.spinner_layout_ressource_qte,
+                            R.id.uniter,
                             R.id.textView_item_name,
                             R.id.quantiter,
                             R.id.prix,
-                            participantJsonList);
+                            recetteProduitList);
                     snpProduit.setAdapter(adapter);
                     rowS.addView(snpProduit);
                     containerRecette.addView(rowS);

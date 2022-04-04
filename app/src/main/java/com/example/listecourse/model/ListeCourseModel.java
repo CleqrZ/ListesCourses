@@ -18,7 +18,9 @@ import com.example.listecourse.activity.View_ajout_ListeCourse;
 import com.example.listecourse.bdd.ListeCourse;
 import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.Recette;
+import com.example.listecourse.bdd.RecetteProduit;
 import com.example.listecourse.tools.CustomAdapter;
+import com.example.listecourse.tools.CustomAdapterQte;
 import com.example.listecourse.tools.DatabaseLinker;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -117,7 +119,7 @@ public class ListeCourseModel {
                 snpProduit.setAdapter(adapter);
                 containerListecourse.addView(rowS);
                 rowS.addView(snpProduit);
-               /* //Affichage recette
+                //Affichage recette
                 List<Recette> recetteJsonList  = listeCourse.getListeRecette();
                 ObjectMapper mapperR = new ObjectMapper();
                 for (Recette recette : recetteJsonList) {
@@ -139,13 +141,14 @@ public class ListeCourseModel {
                             8f
                     );
                     int idrecette = recette.getIdRecette();
-                    List<Produit>participantJsonListSi = daoRecette.queryForId(idrecette).getListeProduit();
+                    List<RecetteProduit> participantJsonListSi = daoRecette.queryForId(idrecette).getListeProduit(context);
                     Spinner snpProduitSi;
                     snpProduitSi = new Spinner(context);
                     snpProduitSi.setLayoutParams(paramSpinnerSi);
                     if(participantJsonListSi != null){
-                        CustomAdapter adapterSi = new CustomAdapter((Activity) context,
-                                R.layout.spinner_layout_ressource,
+                        CustomAdapterQte adapterSi = new CustomAdapterQte((Activity) context,
+                                R.layout.spinner_layout_ressource_qte,
+                                R.id.uniter,
                                 R.id.textView_item_name,
                                 R.id.quantiter,
                                 R.id.prix,
@@ -155,7 +158,7 @@ public class ListeCourseModel {
                     }
                     Log.e("Recette non : ",recette +"ok" );
                     containerListecourse.addView(rowRecette);
-                }*/
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

@@ -12,29 +12,23 @@ import com.example.listecourse.bdd.RecetteProduit;
 
 import java.util.List;
 
-public class CustomAdapter extends BaseAdapter {
+public class CustomAdapterQte extends BaseAdapter {
     private LayoutInflater flater;
-    private List<Produit> list;
+    private List<RecetteProduit> list;
+    private int textViewItemUnits;
     private int listItemLayoutResource;
     private int textViewItemNameId;
     private int textViewItemPercentId;
     private int textViewItemPePrix;
 
-
-    // Arguments example:
-    //  @listItemLayoutResource: R.layout.spinner_item_layout_resource
-    //        (File: layout/spinner_item_layout_resource.xmll)
-    //  @textViewItemNameId: R.id.textView_item_name
-    //        (A TextVew in file layout/spinner_item_layout_resource.xml)
-    //  @textViewItemPercentId: R.id.textView_item_percent
-    //        (A TextVew in file layout/spinner_item_layout_resource.xmll)
-    public CustomAdapter(Activity context, int listItemLayoutResource,
-                         int textViewItemNameId, int textViewItemPercentId,int textViewItemPePrix,
-                         List<Produit> list) {
+    public CustomAdapterQte(Activity context, int listItemLayoutResource, int textViewItemUnits,
+                         int textViewItemNameId, int textViewItemPercentId, int textViewItemPePrix,
+                         List<RecetteProduit> list) {
         this.listItemLayoutResource = listItemLayoutResource;
         this.textViewItemNameId = textViewItemNameId;
         this.textViewItemPercentId = textViewItemPercentId;
         this.textViewItemPePrix = textViewItemPePrix;
+        this.textViewItemUnits =textViewItemUnits;
         this.list = list;
         this.flater = context.getLayoutInflater();
     }
@@ -54,25 +48,31 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        Produit produit = (Produit) this.getItem(position);
-        return produit.getIdProduit();
+        RecetteProduit produit = (RecetteProduit) this.getItem(position);
+        return produit.getIdRecetteProduit();
         // return position; (Return position if you need).
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Produit produit= (Produit) getItem(position);
+        RecetteProduit produitR = (RecetteProduit) getItem(position);
+        Produit produit = produitR.getIdProduitR();
         // Example: @listItemLayoutResource: R.layout.spinner_item_layout_resource
         // (File: layout/spinner_item_layout_resourcerce.xml)
         View rowView = this.flater.inflate(this.listItemLayoutResource, null,true);
 
         // Example: @textViewItemNameId: R.id.textView_item_name
-        // (A TextView in file layout/spinner_item_layout_resourcerce.xml)
         TextView textViewItemName = (TextView) rowView.findViewById(this.textViewItemNameId);
         textViewItemName.setText(produit.getLibelleProduit());
+        TextView textViewUnits = (TextView)rowView.findViewById(this.textViewItemUnits);
+        if (produitR != null){
+            textViewUnits.setText("x "+String.valueOf(produitR.getQte()));
+        }else {
+            textViewUnits.setText(String.valueOf("x "+0));
+        }
+
         // Example: @textViewItemPercentId: R.id.textView_item_percent
-        // (A TextView in file layout/spinner_item_layout_resource.xmlxml)
         TextView textViewItemPercent = (TextView) rowView.findViewById(textViewItemPercentId);
         textViewItemPercent.setText(produit.getQuantiter());
         TextView textViewItemPrix= (TextView) rowView.findViewById(textViewItemPePrix);
@@ -80,4 +80,6 @@ public class CustomAdapter extends BaseAdapter {
         return rowView;
     }
 }
+
+
 
