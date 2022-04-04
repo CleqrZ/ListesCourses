@@ -9,7 +9,8 @@
     android:layout_alignParentLeft="true"
     android:layout_alignParentTop="true"
     android:textAlignment="center"
-    tools:context=".activity.View_produit">
+    tools:context=".activity.View_produit"
+    android:checkableBehavior="single">
 
     <LinearLayout
         android:layout_gravity ="end"
