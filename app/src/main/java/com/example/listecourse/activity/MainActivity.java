@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //this.deleteDatabase("bdd.db");
+        this.deleteDatabase("bdd.db");
 
         //Produits
         drawerLayout = findViewById(R.id.drawerLayout);

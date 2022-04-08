@@ -53,7 +53,7 @@ public class CustomAdapter extends BaseAdapter {
     }
 
     @Override
-    public long getItemId(int position) {
+        public long getItemId(int position) {
         Produit produit = (Produit) this.getItem(position);
         return produit.getIdProduit();
         // return position; (Return position if you need).

@@ -42,7 +42,6 @@ public class RecetteModel {
             List<Recette> recetteList = daoRecette.queryForAll();
 
             for (Recette recette : recetteList) {
-                Log.e("teste recette", recette.getListeProduit(context).toString());
                 TableRow row = new TableRow(context);
                 row.setGravity(Gravity.CENTER_VERTICAL);
                 row.setWeightSum(8);
@@ -73,7 +72,7 @@ public class RecetteModel {
                 );
                 ImageButton deleteClient = new ImageButton(context);
                 deleteClient.setLayoutParams(paramButton);
-                deleteClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_delete);
+                deleteClient.setImageResource(R.drawable.delete);
                 deleteClient.setBackground(null);
                 row.addView(deleteClient);
                 deleteClient.setOnClickListener(new View.OnClickListener() {

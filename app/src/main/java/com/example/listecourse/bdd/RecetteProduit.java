@@ -3,6 +3,7 @@ package com.example.listecourse.bdd;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+//Liaison entre recette et produit avec un champs qte pour avoir une quantiter d'un meme produits dans une recettes
 @DatabaseTable(tableName="RecetteProduit")
 public class RecetteProduit {
     @DatabaseField( generatedId = true )
@@ -13,9 +14,7 @@ public class RecetteProduit {
     private Produit idProduitR;
     @DatabaseField( columnName = "qte")
     private int qte;
-
     public RecetteProduit() {
-
     }
     public RecetteProduit(Produit idProduitR,Recette idRectteP,int qte) {
         this.idProduitR = idProduitR;

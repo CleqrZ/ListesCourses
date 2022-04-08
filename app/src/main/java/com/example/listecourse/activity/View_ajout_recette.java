@@ -41,53 +41,80 @@ public class View_ajout_recette extends AppCompatActivity {
     private EditText editLabel;
     private TableLayout containerSpinner;
     private TextView prix_recette;
-    private double prix;
+    private double prix = 0;
     private Button validateButton;
-    private Produit produit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_ajout_recette);
-        Intent intent = this.getIntent();
-        prix = 0;
-        containerSpinner = findViewById(R.id.container_produit_ajout_r);
-        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        idRecette = intent.getIntExtra("idRecette",0);
-        prix_recette = findViewById(R.id.prix_recette);
+
+        //init recette cas 1 : Création
         Recette recette = null;
+
+        //init recette cas 2 : Modif
+        Intent intent = this.getIntent();
+        idRecette = intent.getIntExtra("idRecette",0);
         DatabaseLinker linker = new DatabaseLinker(this);
-        Button button_ajout_produit = findViewById(R.id.button_ajout_produit);
-        button_ajout_produit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setSpinnerProduit();
-            }
-        });
-        validateButton = findViewById(R.id.button_validate);
-        validateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                modifInfos();
-                setPrixRecette();
-            }
-        });
+        //recup recette  avec id envoyer en extra
         try {
             Dao<Recette, Integer> daoRecette= linker.getDao(Recette.class);
             recette= daoRecette.queryForId(idRecette);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        linker.close();
-        editLabel = findViewById(R.id.edit_label);
-        if(recette != null){
-            editLabel.setText(recette.getLibelleRecette());
-            //editQuantiter.setText(recette.getQuantiter());
-            prix_recette.setText(String.valueOf(recette.getPrixListeProduit())+"€");
 
-            Log.e("bouton", "Produit value : "+ recette.getIdRecette()+" "+/* recette.getQuantiter()+*/" "+recette.getPrixListeProduit());
+        //EditText :affichage/edition. nom recette
+        editLabel = findViewById(R.id.edit_label);
+
+        //TextView :Affichage prix estimer de la recette
+        prix_recette = findViewById(R.id.prix_recette);
+
+        //TableLayout :Affichage produit dans spinner
+        containerSpinner = findViewById(R.id.container_produit_ajout_r);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Button : pour ajouter un produit a notre recette appelle setSpinner voir plus bas
+        Button button_ajout_produit = findViewById(R.id.button_ajout_produit);
+        button_ajout_produit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //creation spinner et compteur qte
+                setSpinnerProduit(null,0);
+            }
+        });
+        //button : pour valider les changement ou la création un recette
+        validateButton = findViewById(R.id.button_validate);
+        validateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //set le prix avant de valider pour s'assurer qu'il soit corect
+                setPrixRecette();
+                //création ou modif en bdd
+                modifInfos();
+            }
+        });
+        linker.close();
+
+        //si recette n'est pas nul alors init des valeur de la recette selectionner
+        if(recette != null){
+            // affichage Nom recette EditText
+            editLabel.setText(recette.getLibelleRecette());
+            try {
+                //recupe produit avec Qte
+                List<RecetteProduit> recetteProduitListe = recette.getListeProduit(this);
+                for (RecetteProduit recetteProduit : recetteProduitListe){
+                    Log.e("teste QTE :", String.valueOf(recetteProduit.getQte()));
+                    setSpinnerProduit(recetteProduit.getIdProduitR(),recetteProduit.getQte());
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //Affichage prix TextView
+            prix_recette.setText(String.valueOf(recette.getPrixListeProduit())+"€");
         }
     }
 
+    //Function de création et modification
     public void modifInfos(){
         String label = editLabel.getText().toString();
         DatabaseLinker linker = new DatabaseLinker(this);
@@ -102,7 +129,6 @@ public class View_ajout_recette extends AppCompatActivity {
                 daoRecette.update(recette);
             }else{
                 if (label.matches("") || prix == 0  ) {
-                    Log.e("création : ", "erreur");
                     Toast leToast = Toast.makeText(View_ajout_recette.this,
                             "Remplir touts les champs", Toast.LENGTH_LONG);
                     leToast.show();
@@ -128,33 +154,21 @@ public class View_ajout_recette extends AppCompatActivity {
             throwables.printStackTrace();
         }
     }
-
-
-    public void setSpinnerProduit(){
-        int unite = 0;
+    //Function de création des tablbRow avec spinner et Edittext Qte
+    //valeur utiliser a cas de produit selectionner
+    private Produit produit;
+    public void setSpinnerProduit(Produit produit, int prodQte){
         DatabaseLinker linker = new DatabaseLinker(this);
         try {
+            //TableRow 1 : elle contien un spinner init avec tout les produit en bdd
             TableRow rowS = new TableRow(this);
             rowS.setGravity(Gravity.CENTER_VERTICAL);
             rowS.setWeightSum(8);
+            //TableRow 2 : contien deux button et un edit text pour la qte
             TableRow rowQ = new TableRow(this);
             rowS.setGravity(Gravity.CENTER_VERTICAL);
             rowS.setWeightSum(8);
-            TableRow.LayoutParams paramSpinner = new TableRow.LayoutParams(
-                TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT,
-                8f);
-            TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
-                    TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.WRAP_CONTENT,
-                    3f
-            );
-            ImageButton buttonPlus = new ImageButton(this);
-            buttonPlus.setLayoutParams(paramButton);
-            buttonPlus.setImageResource(R.drawable.ajouter);
-            buttonPlus.setBackground(null);
-            rowQ.addView(buttonPlus);
-
+            //EditText : Quantiter
             TableRow.LayoutParams paramEdit = new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT,
@@ -162,19 +176,13 @@ public class View_ajout_recette extends AppCompatActivity {
             EditText view = new EditText(this);
             view.setLayoutParams(paramEdit);
             view.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-            view.setText("0");
+            view.setText(String.valueOf(prodQte));
             rowQ.addView(view);
-            ImageButton buttonMoins = new ImageButton(this);
-            buttonMoins.setLayoutParams(paramButton);
-            buttonMoins.setImageResource(R.drawable.retirer);
-            buttonMoins.setBackground(null);
-            rowQ.addView(buttonMoins);
-
-            ImageButton deleteLigne = new ImageButton(this);
-            deleteLigne.setLayoutParams(paramEdit);
-            deleteLigne.setImageResource(R.drawable.delete);
-            deleteLigne.setBackground(null);
-
+            //Spinner :initialisation Spinner
+            TableRow.LayoutParams paramSpinner = new TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT,
+                8f);
             Spinner snpProduit;
             snpProduit = new Spinner(this);
             snpProduit.setLayoutParams(paramSpinner);
@@ -184,20 +192,14 @@ public class View_ajout_recette extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
                             // code appelé lorsqu'un item est sélectionné
                             setPrixRecette();
-                            int uniter;
-                            if(produit != null){
-                                uniter = Integer.parseInt(String.valueOf(view.getText()));
-                                if (uniter != 0){
-                                    view.setText("0");
-                                }
+                                view.setText("0");
+                                Produit prod = (Produit) snpProduit.getSelectedItem();
+                                Toast leToast = Toast.makeText(View_ajout_recette.this,
+                                        "item sélectionné : " + prod.getLibelleProduit(), Toast.LENGTH_LONG);
+                                leToast.show();
                             }
-                            Produit prod = (Produit)snpProduit.getSelectedItem();
-                            Toast leToast = Toast.makeText(View_ajout_recette.this,
-                                    "item sélectionné : " + prod.getLibelleProduit(), Toast.LENGTH_LONG);
-                            leToast.show();
-
-                        }
                     });
+            //Spinner : récupération de valeur produit a afficher dans le spinner
             Dao<Produit, Integer> daoProduit= linker.getDao(Produit.class);
             List<Produit>participantJsonList = daoProduit.queryForAll();
             CustomAdapter adapter = new CustomAdapter(this,
@@ -208,22 +210,55 @@ public class View_ajout_recette extends AppCompatActivity {
                     participantJsonList);
             snpProduit.setAdapter(adapter);
             rowS.addView(snpProduit);
-            buttonMoins.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    view.setText(String.valueOf(Integer.parseInt(String.valueOf(view.getText()))-1));
-                    produit = (Produit) snpProduit.getSelectedItem();
-                    setPrixRecette();
+
+            //si Modif
+            if (produit != null){
+                for (int pos =0;pos<adapter.getCount();pos++){
+                    //si id produit donnée a la fontcion corresspond a un prod du spinner il l'affiche
+                    if (produit.getIdProduit() == adapter.getItemId(pos)){
+                        snpProduit.setSelection(pos);
+                    }
                 }
-            });
+            }
+
+            //Button 1: button plus pour quantiter
+            TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    3f
+            );
+            ImageButton buttonPlus = new ImageButton(this);
+            buttonPlus.setLayoutParams(paramButton);
+            buttonPlus.setImageResource(R.drawable.ajouter);
+            buttonPlus.setBackground(null);
             buttonPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     view.setText(String.valueOf(Integer.parseInt(String.valueOf(view.getText()))+1));
-                    produit = (Produit) snpProduit.getSelectedItem();
                     setPrixRecette();
                 }
             });
+            rowQ.addView(buttonPlus);
+
+            //Button 2 : button moins pour quantiter
+            ImageButton buttonMoins = new ImageButton(this);
+            buttonMoins.setLayoutParams(paramButton);
+            buttonMoins.setImageResource(R.drawable.retirer);
+            buttonMoins.setBackground(null);
+            rowQ.addView(buttonMoins);
+            buttonMoins.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    view.setText(String.valueOf(Integer.parseInt(String.valueOf(view.getText()))-1));
+                    setPrixRecette();
+                }
+            });
+
+            //button pour delete la ligne en cas erreur
+            ImageButton deleteLigne = new ImageButton(this);
+            deleteLigne.setLayoutParams(paramEdit);
+            deleteLigne.setImageResource(R.drawable.delete);
+            deleteLigne.setBackground(null);
             deleteLigne.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -233,33 +268,37 @@ public class View_ajout_recette extends AppCompatActivity {
                     if(rowQ.getParent() != null) {
                         ((ViewGroup)rowQ.getParent()).removeView(rowQ); // <- fix
                     }
-                        setPrixRecette();
+                    setPrixRecette();
                 }
             });
             rowQ.addView(deleteLigne);
+
+            //ajout au container
             containerSpinner.addView(rowS);
             containerSpinner.addView(rowQ);
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-
+    //function qui recupére les valuer Produit contunu dans les spinner de containerspinner
     public List<Produit> getListSpinne() {
+        //List<>: init list produit
         List<Produit> produitList =new ArrayList<>();
+        // int : nb element TableLayout pour les parcourire
         int childParts = containerSpinner.getChildCount();
-        if (containerSpinner != null) {
+        if (containerSpinner != null) {//sinon ne pas parcourire
             for (int i = 0; i < childParts; i++) {
-                View viewChild = containerSpinner.getChildAt(i);
+                View viewChild = containerSpinner.getChildAt(i);//recupe tableRow
                 if (viewChild instanceof TableRow) {
-                    int rowChildParts = ((TableRow) viewChild).getChildCount();
+                    int rowChildParts = ((TableRow) viewChild).getChildCount();//compte element row
                     for (int j = 0; j < rowChildParts; j++) {
-                        View viewChild2 = ((TableRow) viewChild).getChildAt(j);
+                        View viewChild2 = ((TableRow) viewChild).getChildAt(j);//recupe ele row Spinne
                         if (viewChild2 instanceof Spinner) {
                             // get text from edit text
-                            Spinner text = ((Spinner) viewChild2);
+                            Spinner text = ((Spinner) viewChild2);//recupe produit du spinner
                             Produit produitT = (Produit) text.getSelectedItem();
-                            Log.e("teste getliste :", produitT.getLibelleProduit());
                                 produitList.add(produitT);
 
                         }
@@ -270,8 +309,9 @@ public class View_ajout_recette extends AppCompatActivity {
         return produitList;
     }
 
-
+    //function qui recup les QTE
     public List<Integer> getListSpinneqte() {
+        //meme shéma que function getspinner mais pour qte avec les editText
         List<Integer> listeQte = new ArrayList<>();
         int childParts = containerSpinner.getChildCount();
         if (containerSpinner != null) {
@@ -293,8 +333,9 @@ public class View_ajout_recette extends AppCompatActivity {
         return listeQte;
     }
 
-
+    //function qui calcul le prix des produit selectionner selon la qte selcy
    public void setPrixRecette(){
+        //init prix a 0 pour eviter les buge et recalcul tout les element du tableLayout a chaque appelle
         prix = 0;
         List<Produit> produitList = getListSpinne();
         List<Integer> qteListe = getListSpinneqte();

@@ -19,24 +19,30 @@ import com.j256.ormlite.dao.Dao;
 import java.sql.SQLException;
 
 public class View_ajout_produit extends AppCompatActivity {
+
     private int idProduit = 0;
     private EditText editLabel;
     private EditText editQuantiter;
     private EditText editPrix;
-
     private Button validateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_ajout_produit);
-        validateButton = findViewById(R.id.button_validate);
+        DatabaseLinker linker = new DatabaseLinker(this);
         Intent intent = this.getIntent();
+        linker.close();
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         idProduit = intent.getIntExtra("idProduit",0);
         Produit produit=null;
-        DatabaseLinker linker = new DatabaseLinker(this);
-
+        try {
+            Dao<Produit, Integer> daoProduit= linker.getDao(Produit.class);
+            produit= daoProduit.queryForId(idProduit);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        validateButton = findViewById(R.id.button_validate);
         validateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,13 +51,7 @@ public class View_ajout_produit extends AppCompatActivity {
                 startActivity(intentProduits);
             }
         });
-        try {
-            Dao<Produit, Integer> daoProduit= linker.getDao(Produit.class);
-            produit= daoProduit.queryForId(idProduit);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        linker.close();
+
         editLabel = findViewById(R.id.edit_label);
         editQuantiter = findViewById(R.id.edit_quantiter);
         editPrix = findViewById(R.id.edit_prix);

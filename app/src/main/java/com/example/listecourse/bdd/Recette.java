@@ -60,6 +60,7 @@ public class Recette {
     }
 
     public List<RecetteProduit> getListeProduit(Context context) throws SQLException {
+        //A changer par une queryBuilder(requette préparer )
         /* QueryBuilder<Ville, Integer> queryBuilder = daoVille.queryBuilder();
                 Log.e("ville", com.example.dossierclient.tablebdd.Ville.nameVille);
                 queryBuilder.where().eq(Ville.nameVille, String.valueOf(ville.getText()));
@@ -71,7 +72,6 @@ public class Recette {
         List<RecetteProduit> listeP = new ArrayList<>();
         for (RecetteProduit recetteProduit : recetteProduitList){
             if (recetteProduit.getIdRectteP().getIdRecette() == this.getIdRecette()){
-                Log.e("teste recette", recetteProduit.getIdProduitR().getLibelleProduit());
                 listeP.add(recetteProduit);
             }
         }
