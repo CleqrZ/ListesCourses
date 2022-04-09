@@ -126,6 +126,17 @@ public class View_ajout_recette extends AppCompatActivity {
                 recette = daoRecette.queryForId(idRecette);
                 recette.setLibelleRecette(label);
                 recette.setPrixListeProduit(prix);
+                List<Produit> produitList = getListSpinne();
+                List<RecetteProduit> produitListRe = new ArrayList<>();
+                List<Integer> qteListe = getListSpinneqte();
+                if( produitList.size() == qteListe.size()){
+                    for (int cpt = 0 ; cpt<produitList.size();cpt++){
+                        RecetteProduit val = new RecetteProduit(produitList.get(cpt), recette,qteListe.get(cpt));
+                        daoRecetteProd.create(val);
+                        produitListRe.add(val);
+                    }
+                }
+                recette.setListe(produitListRe);
                 daoRecette.update(recette);
             }else{
                 if (label.matches("") || prix == 0  ) {
@@ -146,10 +157,11 @@ public class View_ajout_recette extends AppCompatActivity {
                         }
                     }
                     recette.setListe(produitListRe);
-                    Intent main = new Intent( View_ajout_recette.this, MainActivity.class);
-                    startActivity(main);
                 }
+
             }
+            Intent main = new Intent( View_ajout_recette.this, MainActivity.class);
+            startActivity(main);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -192,7 +204,7 @@ public class View_ajout_recette extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
                             // code appelé lorsqu'un item est sélectionné
                             setPrixRecette();
-                                view.setText("0");
+                                view.setText(String.valueOf(prodQte));
                                 Produit prod = (Produit) snpProduit.getSelectedItem();
                                 Toast leToast = Toast.makeText(View_ajout_recette.this,
                                         "item sélectionné : " + prod.getLibelleProduit(), Toast.LENGTH_LONG);
