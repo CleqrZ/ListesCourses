@@ -47,7 +47,7 @@ public class ListeCourseModel {
                         TableRow.LayoutParams.WRAP_CONTENT,
                         4f
                 );
-
+                //label recette
                 TextView labelNom = new TextView(context);
                 labelNom.setLayoutParams(param);
                 labelNom.setText(listeCourse.getNomListe());
@@ -57,6 +57,7 @@ public class ListeCourseModel {
                         TableRow.LayoutParams.WRAP_CONTENT,
                         0f
                 );
+                //prix recette
                 TextView prixListe = new TextView(context);
                 prixListe.setLayoutParams(paramp);
                 prixListe.setText(String.valueOf(listeCourse.getPrixProduit())+"€");
@@ -67,6 +68,7 @@ public class ListeCourseModel {
                         TableRow.LayoutParams.WRAP_CONTENT,
                         1f
                 );
+                //button delete
                 ImageButton deleteClient = new ImageButton(context);
                 deleteClient.setLayoutParams(paramButton);
                 deleteClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_delete);
@@ -83,6 +85,7 @@ public class ListeCourseModel {
                         ((ViewGroup) row.getParent()).removeView(row);
                     }
                 });
+                //button modif
                 ImageButton modifClient = new ImageButton(context);
                 modifClient.setLayoutParams(paramButton);
                 modifClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_edit);
@@ -119,7 +122,7 @@ public class ListeCourseModel {
                 snpProduit.setAdapter(adapter);
                 containerListecourse.addView(rowS);
                 rowS.addView(snpProduit);
-                //Affichage recette
+                    //Affichage recette
                 List<Recette> recetteJsonList  = listeCourse.getListeRecette();
                 ObjectMapper mapperR = new ObjectMapper();
                 for (Recette recette : recetteJsonList) {
@@ -133,7 +136,8 @@ public class ListeCourseModel {
                     rectteNom.setLayoutParams(paramTexte);
                     rectteNom.setText(recette.getLibelleRecette());
                     rowRecette.addView(rectteNom);
-                    //affichage produit des recette
+
+                    //affichage produit des recette dans spinner
                     Dao<Recette, Integer> daoRecette = linker.getDao(Recette.class);
                     TableRow.LayoutParams paramSpinnerSi = new TableRow.LayoutParams(
                             TableRow.LayoutParams.MATCH_PARENT,

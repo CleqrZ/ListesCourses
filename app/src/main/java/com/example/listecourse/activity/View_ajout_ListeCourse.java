@@ -41,7 +41,6 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 modifInfos();
-
             }
         });
         try {

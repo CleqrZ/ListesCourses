@@ -45,31 +45,28 @@ public class RecetteModel {
                 TableRow row = new TableRow(context);
                 row.setGravity(Gravity.CENTER_VERTICAL);
                 row.setWeightSum(8);
-                TableRow.LayoutParams param = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams paramp = new TableRow.LayoutParams(
                         TableRow.LayoutParams.WRAP_CONTENT,
-                        4f
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        8f
                 );
-
+                //lable recette
                 TextView labelNom = new TextView(context);
-                labelNom.setLayoutParams(param);
+                labelNom.setLayoutParams(paramp);
                 labelNom.setText(recette.getLibelleRecette());
                 row.addView(labelNom);
-                TableRow.LayoutParams paramp = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        0f
-                );
+
+                //prix recette
                 TextView labelPrenom = new TextView(context);
                 labelPrenom.setLayoutParams(paramp);
                 labelPrenom.setText(String.valueOf(recette.getPrixListeProduit())+"€");
                 row.addView(labelPrenom);
-
                 TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.WRAP_CONTENT,
-                        1f
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        0f
                 );
+                //button srpprimmer
                 ImageButton deleteClient = new ImageButton(context);
                 deleteClient.setLayoutParams(paramButton);
                 deleteClient.setImageResource(R.drawable.delete);
@@ -86,6 +83,7 @@ public class RecetteModel {
                         ((ViewGroup) row.getParent()).removeView(row);
                     }
                 });
+                //button modif
                 ImageButton modifClient = new ImageButton(context);
                 modifClient.setLayoutParams(paramButton);
                 modifClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_edit);
@@ -124,11 +122,11 @@ public class RecetteModel {
                             recetteProduitList);
                     snpProduit.setAdapter(adapter);
                     rowS.addView(snpProduit);
-                    containerRecette.addView(rowS);
+
                 }
 
                 containerRecette.addView(row);
-
+                containerRecette.addView(rowS);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
