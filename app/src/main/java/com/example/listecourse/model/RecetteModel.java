@@ -40,6 +40,7 @@ public class RecetteModel {
         try {
             Dao<Recette, Integer> daoRecette = linker.getDao(Recette.class);
             List<Recette> recetteList = daoRecette.queryForAll();
+            Dao<RecetteProduit, Integer> daoRecetteProduit = linker.getDao(RecetteProduit.class);
 
             for (Recette recette : recetteList) {
                 TableRow row = new TableRow(context);
@@ -50,6 +51,37 @@ public class RecetteModel {
                         TableRow.LayoutParams.WRAP_CONTENT,
                         8f
                 );
+                //Spinner
+                TableRow rowS = new TableRow(context);
+                rowS.setGravity(Gravity.CENTER_VERTICAL);
+                rowS.setWeightSum(8);
+                TableRow.LayoutParams paramSpinner = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        8f
+                );
+
+                Spinner snpProduit;
+                snpProduit = new Spinner(context);
+                snpProduit.setLayoutParams(paramSpinner);
+                if (recette.getListeProduit(context) != null){
+                    List<RecetteProduit>recetteProduitList = recette.getListeProduit(context);
+                    CustomAdapterQte adapter = new CustomAdapterQte((Activity) context,
+                            R.layout.spinner_layout_ressource_qte,
+                            R.id.uniter,
+                            R.id.textView_item_name,
+                            R.id.quantiter,
+                            R.id.prix,
+                            recetteProduitList);
+                    snpProduit.setAdapter(adapter);
+                    rowS.addView(snpProduit);
+                    if(rowS.getParent() != null) {
+                        Log.e("", "tesssssssss");
+
+                    }
+
+                }
+
                 //lable recette
                 TextView labelNom = new TextView(context);
                 labelNom.setLayoutParams(paramp);
@@ -81,6 +113,7 @@ public class RecetteModel {
                             throwables.printStackTrace();
                         }
                         ((ViewGroup) row.getParent()).removeView(row);
+                        ((ViewGroup)rowS.getParent()).removeView(rowS); // <- fix
                     }
                 });
                 //button modif
@@ -98,32 +131,9 @@ public class RecetteModel {
                     }
                 });
 
-                //Spinner
-                TableRow rowS = new TableRow(context);
-                rowS.setGravity(Gravity.CENTER_VERTICAL);
-                rowS.setWeightSum(8);
-                TableRow.LayoutParams paramSpinner = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        8f
-                );
-                
-                Spinner snpProduit;
-                snpProduit = new Spinner(context);
-                snpProduit.setLayoutParams(paramSpinner);
-                if (recette.getListeProduit(context) != null){
-                    List<RecetteProduit>recetteProduitList = recette.getListeProduit(context);
-                    CustomAdapterQte adapter = new CustomAdapterQte((Activity) context,
-                            R.layout.spinner_layout_ressource_qte,
-                            R.id.uniter,
-                            R.id.textView_item_name,
-                            R.id.quantiter,
-                            R.id.prix,
-                            recetteProduitList);
-                    snpProduit.setAdapter(adapter);
-                    rowS.addView(snpProduit);
 
-                }
+                
+
 
                 containerRecette.addView(row);
                 containerRecette.addView(rowS);
