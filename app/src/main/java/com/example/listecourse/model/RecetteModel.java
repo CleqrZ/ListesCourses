@@ -40,7 +40,6 @@ public class RecetteModel {
         try {
             Dao<Recette, Integer> daoRecette = linker.getDao(Recette.class);
             List<Recette> recetteList = daoRecette.queryForAll();
-            Dao<RecetteProduit, Integer> daoRecetteProduit = linker.getDao(RecetteProduit.class);
 
             for (Recette recette : recetteList) {
                 TableRow row = new TableRow(context);
