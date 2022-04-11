@@ -40,6 +40,8 @@ public class RecetteModel {
         try {
             Dao<Recette, Integer> daoRecette = linker.getDao(Recette.class);
             List<Recette> recetteList = daoRecette.queryForAll();
+            Dao<RecetteProduit, Integer> daoRecetteProduit = linker.getDao(RecetteProduit.class);
+
 
             for (Recette recette : recetteList) {
                 TableRow row = new TableRow(context);
@@ -107,11 +109,18 @@ public class RecetteModel {
                     @Override
                     public void onClick(View v) {
                         try {
+                            //suppresion des produits de la recette
+                            List<RecetteProduit> recetteProduitList = recette.getListeProduit(context);
+                            for (RecetteProduit prodRecette : recetteProduitList){
+                                daoRecetteProduit.delete(prodRecette);
+                            }
                             daoRecette.delete(recette);
+
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
                         }
                         ((ViewGroup) row.getParent()).removeView(row);
+                        //suppression spinner
                         ((ViewGroup)rowS.getParent()).removeView(rowS); // <- fix
                     }
                 });

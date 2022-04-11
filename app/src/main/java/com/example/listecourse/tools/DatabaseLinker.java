@@ -86,7 +86,7 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             daoProduits.create( Yogurt);
             //Creation Recettes
 
-            Recette Crepes = new Recette("Crepes", 13);
+            /*Recette Crepes = new Recette("Crepes", 13);
             daoRecette.create(Crepes);
             RecetteProduit recetteProduit = new RecetteProduit(Farine,Crepes,1);
             daoRecetteProduit.create(recetteProduit);
@@ -111,7 +111,7 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             daoRecetteProduit.create(recetteProduit8);
             RecetteProduit recetteProduit9 = new RecetteProduit(Nutella,Sandwich,1);
             daoRecetteProduit.create(recetteProduit9);
-
+*/
 
 
             //Creation Liste de Course
@@ -120,8 +120,8 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             listP1.add(new Gson().toJson(Yogurt));
             listP1.add(new Gson().toJson(Oeuf));
             List<String> listR1 = new ArrayList<>();
-            listR1.add(new Gson().toJson(Crepes));
-            listR1.add(new Gson().toJson(Sandwich));
+            /*listR1.add(new Gson().toJson(Crepes));
+            listR1.add(new Gson().toJson(Sandwich));*/
             ListeCourse Semain1 = new ListeCourse("Semain1",listP1.toString(),listR1.toString(), 30 );
             daoListeCourse.create(Semain1);
 
@@ -130,7 +130,7 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             listP2.add(new Gson().toJson(Emental));
             listP2.add(new Gson().toJson(Oeuf));
             List<String> listR2 = new ArrayList<>();
-            listR2.add(new Gson().toJson(Crepes));
+            //listR2.add(new Gson().toJson(Crepes));
 
             ListeCourse Semain2 = new ListeCourse("Semain2",listP2.toString(),listR2.toString(), 30 );
             daoListeCourse.create(Semain2);
