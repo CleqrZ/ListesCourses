@@ -112,7 +112,7 @@ public class ListeCourseModel {
                 Spinner snpProduit;
                 snpProduit = new Spinner(context);
                 snpProduit.setLayoutParams(paramSpinner);
-                List<Produit> participantJsonList = listeCourse.getListeProduit();
+                List<Produit> participantJsonList = listeCourse.getListeCourseProduit();
                 CustomAdapter adapter = new CustomAdapter((Activity) context,
                         R.layout.spinner_layout_ressource,
                         R.id.textView_item_name,
@@ -123,7 +123,7 @@ public class ListeCourseModel {
                 containerListecourse.addView(rowS);
                 rowS.addView(snpProduit);
                     //Affichage recette
-                List<Recette> recetteJsonList  = listeCourse.getListeRecette();
+                List<Recette> recetteJsonList  = listeCourse.getListeCourseRecette();
                 ObjectMapper mapperR = new ObjectMapper();
                 for (Recette recette : recetteJsonList) {
                     TableRow rowRecette = new TableRow(context);
