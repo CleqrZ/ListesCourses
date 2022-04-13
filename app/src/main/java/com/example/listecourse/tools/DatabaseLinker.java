@@ -115,25 +115,7 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
 
 
             //Creation Liste de Course
-            List<String> listP1 = new ArrayList<>();
-            listP1.add(new Gson().toJson(Nutella));
-            listP1.add(new Gson().toJson(Yogurt));
-            listP1.add(new Gson().toJson(Oeuf));
-            List<String> listR1 = new ArrayList<>();
-            /*listR1.add(new Gson().toJson(Crepes));
-            listR1.add(new Gson().toJson(Sandwich));*/
-            ListeCourse Semain1 = new ListeCourse("Semain1",listP1.toString(),listR1.toString(), 30 );
-            daoListeCourse.create(Semain1);
 
-            List<String> listP2 = new ArrayList<>();
-            listP2.add(new Gson().toJson(Steak));
-            listP2.add(new Gson().toJson(Emental));
-            listP2.add(new Gson().toJson(Oeuf));
-            List<String> listR2 = new ArrayList<>();
-            //listR2.add(new Gson().toJson(Crepes));
-
-            ListeCourse Semain2 = new ListeCourse("Semain2",listP2.toString(),listR2.toString(), 30 );
-            daoListeCourse.create(Semain2);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

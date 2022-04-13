@@ -11,13 +11,13 @@ public class ListeCourseProduit {
     @DatabaseField(foreign = true, foreignColumnName = "id", columnName ="ListeCourse", columnDefinition = "INTEGER CONSTRAINT FK_NAME REFERENCES ListeCourse(id) ON DELETE CASCADE")
     private ListeCourse idListeCourseP;
     @DatabaseField(foreign = true, foreignColumnName = "p_id", columnName = "Produit", columnDefinition = "INTEGER CONSTRAINT FK_NAME REFERENCES Produit(p_id) ON DELETE CASCADE")
-    private Produit idProduitR;
+    private Produit idProduitP;
     @DatabaseField( columnName = "qte")
     private int qte;
     public ListeCourseProduit() {
     }
     public ListeCourseProduit(Produit idProduitR,ListeCourse idListeCourseP,int qte) {
-        this.idProduitR = idProduitR;
+        this.idProduitP = idProduitR;
         this.idListeCourseP = idListeCourseP;
         this.qte = qte;
     }
@@ -38,12 +38,12 @@ public class ListeCourseProduit {
         this.idListeCourseP = idListeCourseP;
     }
 
-    public Produit getIdProduitR() {
-        return idProduitR;
+    public Produit getIdProduitP() {
+        return idProduitP;
     }
 
-    public void setIdProduitR(Produit idProduitR) {
-        this.idProduitR = idProduitR;
+    public void setIdProduitP(Produit idProduitR) {
+        this.idProduitP = idProduitP;
     }
 
     public int getQte() {

@@ -136,7 +136,7 @@ public class View_ajout_recette extends AppCompatActivity {
                         produitListRe.add(val);
                     }
                 }
-                recette.setListe(produitListRe);
+                recette.setListe(produitListRe, this);
                 daoRecette.update(recette);
             }else{
                 if (label.matches("") || prix == 0  ) {
@@ -156,7 +156,7 @@ public class View_ajout_recette extends AppCompatActivity {
                            produitListRe.add(val);
                         }
                     }
-                    recette.setListe(produitListRe);
+                    recette.setListe(produitListRe, this);
                 }
 
             }

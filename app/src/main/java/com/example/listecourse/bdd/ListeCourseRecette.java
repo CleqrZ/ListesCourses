@@ -11,13 +11,13 @@ public class ListeCourseRecette {
     @DatabaseField(foreign = true, foreignColumnName = "id", columnName ="ListeCourse", columnDefinition = "INTEGER CONSTRAINT FK_NAME REFERENCES ListeCourse(id) ON DELETE CASCADE")
     private ListeCourse idListeCourseP;
     @DatabaseField(foreign = true, foreignColumnName = "r_id", columnName = "Recette", columnDefinition = "INTEGER CONSTRAINT FK_NAME REFERENCES Recette(r_id) ON DELETE CASCADE")
-    private Recette idRecetteP;
+    private Recette idRecetteR;
     @DatabaseField( columnName = "qte")
     private int qte;
     public ListeCourseRecette() {
     }
-    public ListeCourseRecette(Recette idRecetteP,ListeCourse idListeCourseP,int qte) {
-        this.idRecetteP = idRecetteP;
+    public ListeCourseRecette(Recette idRecetteR,ListeCourse idListeCourseP,int qte) {
+        this.idRecetteR = idRecetteR;
         this.idListeCourseP = idListeCourseP;
         this.qte = qte;
     }
@@ -38,12 +38,12 @@ public class ListeCourseRecette {
         this.idListeCourseP = idListeCourseP;
     }
 
-    public Recette getIdRecetteP() {
-        return idRecetteP;
+    public Recette getIdRecetteR() {
+        return idRecetteR;
     }
 
-    public void setIdRecetteP(Recette idRecetteP) {
-        this.idRecetteP = idRecetteP;
+    public void setIdRecetteR(Recette idRecetteP) {
+        this.idRecetteR = idRecetteP;
     }
 
     public int getQte() {

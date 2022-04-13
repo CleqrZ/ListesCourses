@@ -26,7 +26,6 @@ public class Recette {
     @DatabaseField(columnName = "prixListeProduit")
     private double prixListeProduit;
 
-    private List<RecetteProduit> liste = null;
 
     public Recette() {
     }
@@ -79,7 +78,21 @@ public class Recette {
     }
 
 
-    public void setListe(List<RecetteProduit> liste) {
-        this.liste = liste;
+    public void setListe(List<RecetteProduit> liste, Context context) throws SQLException {
+        DatabaseLinker linker = new DatabaseLinker(context);
+        Dao<RecetteProduit,Integer> recetteProduitDao = null;
+        try {
+            recetteProduitDao = linker.getDao(RecetteProduit.class);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if (recetteProduitDao !=null){
+            for (RecetteProduit recetteProduit : liste){
+                if (recetteProduit.getIdRectteP().getIdRecette() == this.getIdRecette()){
+                    recetteProduitDao.create(recetteProduit);
+                }
+            }
+        }
+
     }
 }

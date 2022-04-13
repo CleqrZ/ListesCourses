@@ -23,14 +23,10 @@ public class ListeCourse {
     @DatabaseField(columnName = "prixCourse")
     private double prixCourse;
 
-    private ListeCourseProduit listeP = null;
-    private ListeCourseRecette listeR = null;
 
     public ListeCourse(String nomListe, ListeCourseProduit listeP, ListeCourseRecette listeR, double PrixCourse) {
         this.libelle = nomListe;
         this.prixCourse =PrixCourse;
-        this.listeP = listeP;
-        this.listeR = listeR;
     }
     public ListeCourse(String nomListe, double PrixCourse) {
         this.libelle = nomListe;
@@ -53,20 +49,66 @@ public class ListeCourse {
         this.libelle = nomListe;
     }
 
-    public List<ListeCourseProduit> getListeP() {
-        return (List<ListeCourseProduit>) listeP;
+    public List<ListeCourseProduit> getListeP(Context context) throws SQLException {
+        DatabaseLinker linker = new DatabaseLinker(context);
+        Dao<ListeCourseProduit,Integer> listeCourseProduitsDAO = linker.getDao(ListeCourseProduit.class);
+        List<ListeCourseProduit> listeCourseProduitsList = listeCourseProduitsDAO.queryForAll();
+        List<ListeCourseProduit> listeP = new ArrayList<>();
+        for (ListeCourseProduit listeCourseProduit : listeCourseProduitsList){
+            if (listeCourseProduit.getIdProduitP() == this.getListeCourseProduit(context)){
+                listeP.add(listeCourseProduit);
+            }
+        }
+        return listeP;
+
     }
 
-    public void setListeP(List<ListeCourseProduit> listeP) {
-        this.listeP = (ListeCourseProduit) listeP;
+    public void setListeP(List<ListeCourseProduit> listeP, Context context) throws SQLException {
+        DatabaseLinker linker = new DatabaseLinker(context);
+        Dao<ListeCourseProduit,Integer> listeCourseProduitDAO = null;
+        try {
+            listeCourseProduitDAO = linker.getDao(ListeCourseProduit.class);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if (listeCourseProduitDAO !=null){
+            for (ListeCourseProduit listeCourseProduit : listeP){
+                if (listeCourseProduit.getIdProduitP() == this.getListeCourseProduit(context)){
+                    listeCourseProduitDAO.create(listeCourseProduit);
+                }
+            }
+        }
     }
 
-    public List<ListeCourseRecette> getListeR() {
-        return (List<ListeCourseRecette>) listeR;
+    public List<ListeCourseRecette> getListeR(Context context) throws SQLException {
+
+        DatabaseLinker linker = new DatabaseLinker(context);
+        Dao<ListeCourseRecette,Integer> listeCourseRecettesDAO = linker.getDao(ListeCourseRecette.class);
+        List<ListeCourseRecette> listeCourseRecettesList = listeCourseRecettesDAO.queryForAll();
+        List<ListeCourseRecette> listeP = new ArrayList<>();
+        for (ListeCourseRecette listeCourseRecette : listeCourseRecettesList){
+            if (listeCourseRecette.getIdRecetteR() == this.getListeCourseRecette(context)){
+                listeP.add(listeCourseRecette);
+            }
+        }
+        return listeP;
     }
 
-    public void setListeR(List<ListeCourseRecette> listeR) {
-        this.listeR = (ListeCourseRecette) listeR;
+    public void setListeR(List<ListeCourseRecette> listeR, Context context) throws SQLException {
+        DatabaseLinker linker = new DatabaseLinker(context);
+        Dao<ListeCourseRecette,Integer> listeCourseRecettesDAO = null;
+        try {
+            listeCourseRecettesDAO = linker.getDao(ListeCourseRecette.class);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if (listeCourseRecettesDAO !=null){
+            for (ListeCourseRecette listeCourseRecette : listeR){
+                if (listeCourseRecette.getIdRecetteR() == this.getListeCourseRecette(context)){
+                    listeCourseRecettesDAO.create(listeCourseRecette);
+                }
+            }
+        }
     }
 
     public double getPrixProduit() {

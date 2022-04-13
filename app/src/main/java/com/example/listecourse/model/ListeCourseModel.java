@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.listecourse.R;
 import com.example.listecourse.activity.View_ajout_ListeCourse;
 import com.example.listecourse.bdd.ListeCourse;
+import com.example.listecourse.bdd.ListeCourseProduit;
 import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.Recette;
 import com.example.listecourse.bdd.RecetteProduit;
@@ -101,7 +102,7 @@ public class ListeCourseModel {
                 });
                 containerListecourse.addView(row);
                 //Spinner
-                TableRow rowS = new TableRow(context);
+                /*TableRow rowS = new TableRow(context);
                 rowS.setGravity(Gravity.CENTER_VERTICAL);
                 rowS.setWeightSum(8);
                 TableRow.LayoutParams paramSpinner = new TableRow.LayoutParams(
@@ -112,13 +113,14 @@ public class ListeCourseModel {
                 Spinner snpProduit;
                 snpProduit = new Spinner(context);
                 snpProduit.setLayoutParams(paramSpinner);
-                List<Produit> participantJsonList = listeCourse.getListeCourseProduit();
+                List<ListeCourseProduit> produitListCourse = listeCourse.getListeCourseProduit(context);
                 CustomAdapter adapter = new CustomAdapter((Activity) context,
                         R.layout.spinner_layout_ressource,
                         R.id.textView_item_name,
                         R.id.quantiter,
                         R.id.prix,
-                        participantJsonList);
+                        produitListCourse
+                        );
                 snpProduit.setAdapter(adapter);
                 containerListecourse.addView(rowS);
                 rowS.addView(snpProduit);
@@ -162,7 +164,7 @@ public class ListeCourseModel {
                     }
                     Log.e("Recette non : ",recette +"ok" );
                     containerListecourse.addView(rowRecette);
-                }
+                }*/
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
