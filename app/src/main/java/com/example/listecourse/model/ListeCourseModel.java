@@ -17,6 +17,7 @@ import com.example.listecourse.R;
 import com.example.listecourse.activity.View_ajout_ListeCourse;
 import com.example.listecourse.bdd.ListeCourse;
 import com.example.listecourse.bdd.ListeCourseProduit;
+import com.example.listecourse.bdd.ListeCourseRecette;
 import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.Recette;
 import com.example.listecourse.bdd.RecetteProduit;
@@ -34,7 +35,7 @@ import java.util.List;
 
 public class ListeCourseModel {
 
-    public static void createListeCourse(DatabaseLinker linker, TableLayout containerListecourse, Context context){
+    public static void createListeCourse(DatabaseLinker linker, TableLayout containerListecourse, Context context) {
         containerListecourse.removeAllViews();
         try {
             Dao<ListeCourse, Integer> daoListeCourse = linker.getDao(ListeCourse.class);
@@ -61,7 +62,7 @@ public class ListeCourseModel {
                 //prix recette
                 TextView prixListe = new TextView(context);
                 prixListe.setLayoutParams(paramp);
-                prixListe.setText(String.valueOf(listeCourse.getPrixProduit())+"€");
+                prixListe.setText(String.valueOf(listeCourse.getPrixProduit()) + "€");
                 row.addView(prixListe);
 
                 TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
@@ -102,7 +103,7 @@ public class ListeCourseModel {
                 });
                 containerListecourse.addView(row);
                 //Spinner
-                /*TableRow rowS = new TableRow(context);
+                TableRow rowS = new TableRow(context);
                 rowS.setGravity(Gravity.CENTER_VERTICAL);
                 rowS.setWeightSum(8);
                 TableRow.LayoutParams paramSpinner = new TableRow.LayoutParams(
@@ -110,6 +111,34 @@ public class ListeCourseModel {
                         TableRow.LayoutParams.WRAP_CONTENT,
                         8f
                 );
+
+                Spinner snpProduit;
+                snpProduit = new Spinner(context);
+                snpProduit.setLayoutParams(paramSpinner);
+                if (listeCourse.getListeCourseRecette(context) != null) {
+                    Log.e("-------", "Je rentre dans le IF");
+                    List<ListeCourseRecette>listeCourseRecettes = listeCourse.getListeCourseRecette(context);
+                    for (ListeCourseRecette listeCourseRecette : listeCourseRecettes ) {
+                        Recette recetteR = listeCourseRecette.getIdRecetteR();
+                        List<RecetteProduit> listRecetteProduit = recetteR.getListeProduit(context);
+                        CustomAdapterQte adapter = new CustomAdapterQte((Activity) context,
+                                R.layout.spinner_layout_ressource_qte,
+                                R.id.uniter,
+                                R.id.textView_item_name,
+                                R.id.quantiter,
+                                R.id.prix,
+                                listRecetteProduit);
+                        snpProduit.setAdapter(adapter);
+                        rowS.addView(snpProduit);
+                        if(rowS.getParent() != null) {
+                            Log.e("", "tesssssssss");
+
+                        }
+                    }
+
+
+                }
+                /*
                 Spinner snpProduit;
                 snpProduit = new Spinner(context);
                 snpProduit.setLayoutParams(paramSpinner);
@@ -165,9 +194,10 @@ public class ListeCourseModel {
                     Log.e("Recette non : ",recette +"ok" );
                     containerListecourse.addView(rowRecette);
                 }*/
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+                }
+            } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
-}
+    }
+

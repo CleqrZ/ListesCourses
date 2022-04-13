@@ -34,7 +34,9 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
         Intent intent = this.getIntent();
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         idListe = intent.getIntExtra("idListe",0);
+
         ListeCourse listeCourse=null;
+
         DatabaseLinker linker = new DatabaseLinker(this);
 
         validateButton.setOnClickListener(new View.OnClickListener() {

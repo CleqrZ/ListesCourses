@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @DatabaseTable(tableName="Produit")
-public class Produit implements Serializable {
+public class Produit {
     @DatabaseField( columnName = "p_id", generatedId = true )
     private int idProduit;
     @DatabaseField

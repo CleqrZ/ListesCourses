@@ -24,15 +24,11 @@ public class ListeCourse {
     private double prixCourse;
 
 
-    public ListeCourse(String nomListe, ListeCourseProduit listeP, ListeCourseRecette listeR, double PrixCourse) {
-        this.libelle = nomListe;
-        this.prixCourse =PrixCourse;
-    }
     public ListeCourse(String nomListe, double PrixCourse) {
         this.libelle = nomListe;
         this.prixCourse =PrixCourse;
-
     }
+
     public ListeCourse() {
     }
 
