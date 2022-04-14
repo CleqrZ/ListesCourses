@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.listecourse.activity.MainActivity;
 import com.example.listecourse.activity.View_ajout_produit;
 import com.example.listecourse.bdd.Produit;
+import com.example.listecourse.bdd.RecetteProduit;
 import com.example.listecourse.tools.DatabaseLinker;
 import com.j256.ormlite.dao.Dao;
 
@@ -25,6 +26,7 @@ public class ProduitModel{
         containerProduits.removeAllViews();
         try {
             Dao<Produit, Integer> daoProduits = linker.getDao(Produit.class);
+            Dao<RecetteProduit, Integer> daoRecetteProduits = linker.getDao(RecetteProduit.class);
             List<Produit> produitList = daoProduits.queryForAll();
             for (Produit produit : produitList) {
                 TableRow row = new TableRow(context);
@@ -61,6 +63,12 @@ public class ProduitModel{
                     public void onClick(View v) {
                         try {
                             daoProduits.delete(produit);
+                            List<RecetteProduit> recetteProduitList = daoRecetteProduits.queryForAll();
+                            for(RecetteProduit recetteProd : recetteProduitList){
+                                if (recetteProd.getIdProduitR() == produit){
+                                    daoRecetteProduits.delete(recetteProd);
+                                }
+                            }
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
                         }

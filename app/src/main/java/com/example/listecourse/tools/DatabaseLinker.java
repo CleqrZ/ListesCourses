@@ -35,6 +35,8 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable( connectionSource, Recette.class );
             TableUtils.createTable( connectionSource, Produit.class );
             TableUtils.createTable( connectionSource, RecetteProduit.class );
+            TableUtils.createTable( connectionSource, ListeCourseProduit.class );
+            TableUtils.createTable( connectionSource, ListeCourseRecette.class );
 
             Log.i( "DATABASE", "onCreate invoked" );
         } catch( Exception exception ) {
@@ -114,6 +116,7 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             RecetteProduit recetteProduit8 = new RecetteProduit(Emental,Sandwich,1);
             daoRecetteProduit.create(recetteProduit8);
             RecetteProduit recetteProduit9 = new RecetteProduit(Nutella,Sandwich,1);
+<<<<<<< Updated upstream
             daoRecetteProduit.create(recetteProduit9);*/
 
 
@@ -128,8 +131,6 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
 
             ListeCourseRecette Crepe = new ListeCourseRecette(Crepes, listeCourse, 25 );
             daoListeCourseRecette.create(Crepe);
-
-
 
 
         } catch (SQLException throwables) {

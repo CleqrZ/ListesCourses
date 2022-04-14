@@ -43,6 +43,8 @@ public class View_ajout_recette extends AppCompatActivity {
     private TextView prix_recette;
     private double prix = 0;
     private Button validateButton;
+    private List<Produit> produitList =new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,7 @@ public class View_ajout_recette extends AppCompatActivity {
         Intent intent = this.getIntent();
         idRecette = intent.getIntExtra("idRecette",0);
         DatabaseLinker linker = new DatabaseLinker(this);
+
         //recup recette  avec id envoyer en extra
         try {
             Dao<Recette, Integer> daoRecette= linker.getDao(Recette.class);
@@ -122,23 +125,28 @@ public class View_ajout_recette extends AppCompatActivity {
         try {
             Dao<Recette, Integer> daoRecette= linker.getDao(Recette.class);
             Dao<RecetteProduit, Integer> daoRecetteProd= linker.getDao(RecetteProduit.class);
-            if (idRecette != 0){
+            if (idRecette != 0) {
                 recette = daoRecette.queryForId(idRecette);
                 recette.setLibelleRecette(label);
                 recette.setPrixListeProduit(prix);
                 List<Produit> produitList = getListSpinne();
                 List<RecetteProduit> produitListRe = new ArrayList<>();
                 List<Integer> qteListe = getListSpinneqte();
-                if( produitList.size() == qteListe.size()){
-                    for (int cpt = 0 ; cpt<produitList.size();cpt++){
-                        RecetteProduit val = new RecetteProduit(produitList.get(cpt), recette,qteListe.get(cpt));
-                        daoRecetteProd.create(val);
-                        produitListRe.add(val);
+
+                Dao<RecetteProduit, Integer> recetteProduitDao = linker.getDao(RecetteProduit.class);
+                List<RecetteProduit> recetteProduitList = recetteProduitDao.queryForAll();
+                for (RecetteProduit recetteprod : recetteProduitList) {
+                    if (recetteprod.getIdRectteP() == recette) {
+                        recetteProduitDao.delete(recetteprod);
                     }
                 }
-                recette.setListe(produitListRe, this);
-                daoRecette.update(recette);
-            }else{
+                if (produitList.size() == qteListe.size()) {
+                    for (int cpt = 0; cpt < produitList.size(); cpt++) {
+                        RecetteProduit val = new RecetteProduit(produitList.get(cpt), recette, qteListe.get(cpt));
+                        daoRecetteProd.create(val);
+                    }
+                }
+            }
                 if (label.matches("") || prix == 0  ) {
                     Toast leToast = Toast.makeText(View_ajout_recette.this,
                             "Remplir touts les champs", Toast.LENGTH_LONG);
@@ -153,13 +161,10 @@ public class View_ajout_recette extends AppCompatActivity {
                         for (int cpt = 0 ; cpt<produitList.size();cpt++){
                            RecetteProduit val = new RecetteProduit(produitList.get(cpt), recette,qteListe.get(cpt));
                            daoRecetteProd.create(val);
-                           produitListRe.add(val);
                         }
                     }
-                    recette.setListe(produitListRe, this);
                 }
 
-            }
             Intent main = new Intent( View_ajout_recette.this, MainActivity.class);
             startActivity(main);
         } catch (SQLException throwables) {
@@ -169,7 +174,7 @@ public class View_ajout_recette extends AppCompatActivity {
     //Function de création des tablbRow avec spinner et Edittext Qte
     //valeur utiliser a cas de produit selectionner
     private Produit produit;
-    public void setSpinnerProduit(Produit produit, int prodQte){
+    public void setSpinnerProduit(Produit produit, int prodQte) {
         DatabaseLinker linker = new DatabaseLinker(this);
         try {
             //TableRow 1 : elle contien un spinner init avec tout les produit en bdd
@@ -192,28 +197,30 @@ public class View_ajout_recette extends AppCompatActivity {
             rowQ.addView(view);
             //Spinner :initialisation Spinner
             TableRow.LayoutParams paramSpinner = new TableRow.LayoutParams(
-                TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT,
-                8f);
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    8f);
             Spinner snpProduit;
             snpProduit = new Spinner(this);
             snpProduit.setLayoutParams(paramSpinner);
             snpProduit.setOnItemSelectedListener(
                     new AdapterView.OnItemSelectedListener() {
-                        public void onNothingSelected(AdapterView<?> arg0) { }
+                        public void onNothingSelected(AdapterView<?> arg0) {
+                        }
+
                         public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
                             // code appelé lorsqu'un item est sélectionné
                             setPrixRecette();
-                                view.setText(String.valueOf(prodQte));
-                                Produit prod = (Produit) snpProduit.getSelectedItem();
-                                Toast leToast = Toast.makeText(View_ajout_recette.this,
-                                        "item sélectionné : " + prod.getLibelleProduit(), Toast.LENGTH_LONG);
-                                leToast.show();
-                            }
+                            view.setText(String.valueOf(prodQte));
+                            Produit prod = (Produit) snpProduit.getSelectedItem();
+                            Toast leToast = Toast.makeText(View_ajout_recette.this,
+                                    "item sélectionné : " + prod.getLibelleProduit(), Toast.LENGTH_LONG);
+                            leToast.show();
+                        }
                     });
             //Spinner : récupération de valeur produit a afficher dans le spinner
-            Dao<Produit, Integer> daoProduit= linker.getDao(Produit.class);
-            List<Produit>participantJsonList = daoProduit.queryForAll();
+            Dao<Produit, Integer> daoProduit = linker.getDao(Produit.class);
+            List<Produit> participantJsonList = daoProduit.queryForAll();
             CustomAdapter adapter = new CustomAdapter(this,
                     R.layout.spinner_layout_ressource,
                     R.id.textView_item_name,
@@ -224,10 +231,10 @@ public class View_ajout_recette extends AppCompatActivity {
             rowS.addView(snpProduit);
 
             //si Modif
-            if (produit != null){
-                for (int pos =0;pos<adapter.getCount();pos++){
+            if (produit != null) {
+                for (int pos = 0; pos < adapter.getCount(); pos++) {
                     //si id produit donnée a la fontcion corresspond a un prod du spinner il l'affiche
-                    if (produit.getIdProduit() == adapter.getItemId(pos)){
+                    if (produit.getIdProduit() == adapter.getItemId(pos)) {
                         snpProduit.setSelection(pos);
                     }
                 }
@@ -246,7 +253,7 @@ public class View_ajout_recette extends AppCompatActivity {
             buttonPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    view.setText(String.valueOf(Integer.parseInt(String.valueOf(view.getText()))+1));
+                    view.setText(String.valueOf(Integer.parseInt(String.valueOf(view.getText())) + 1));
                     setPrixRecette();
                 }
             });
@@ -261,7 +268,7 @@ public class View_ajout_recette extends AppCompatActivity {
             buttonMoins.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    view.setText(String.valueOf(Integer.parseInt(String.valueOf(view.getText()))-1));
+                    view.setText(String.valueOf(Integer.parseInt(String.valueOf(view.getText())) - 1));
                     setPrixRecette();
                 }
             });
@@ -274,17 +281,44 @@ public class View_ajout_recette extends AppCompatActivity {
             deleteLigne.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(rowS.getParent() != null) {
-                        ((ViewGroup)rowS.getParent()).removeView(rowS); // <- fix
-                    }
-                    if(rowQ.getParent() != null) {
-                        ((ViewGroup)rowQ.getParent()).removeView(rowQ); // <- fix
-                    }
-                    setPrixRecette();
-                }
-            });
-            rowQ.addView(deleteLigne);
+                    if (idRecette == 0) {
+                        if (rowS.getParent() != null) {
+                            ((ViewGroup) rowS.getParent()).removeView(rowS); // <- fix
+                        }
+                        if (rowQ.getParent() != null) {
+                            ((ViewGroup) rowQ.getParent()).removeView(rowQ); // <- fix
+                        }
+                    }else {
+                            if (rowS.getParent() != null) {
+                                ((ViewGroup) rowS.getParent()).removeView(rowS); // <- fix
+                            }
+                            if (rowQ.getParent() != null) {
+                                ((ViewGroup) rowQ.getParent()).removeView(rowQ); // <- fix
+                            }
+                                try {
+                                    Dao<RecetteProduit,Integer> recetteProduitDao = linker.getDao(RecetteProduit.class);
+                                    Dao<Recette, Integer> recetteDao = linker.getDao(Recette.class);
+                                    Recette recette = recetteDao.queryForId(idRecette);
+                                    View viewChild2 = ((TableRow) rowS).getChildAt(1);//recupe ele row Spinne
+                                    if (viewChild2 instanceof Spinner) {
+                                        // get text from edit text
+                                        Spinner text = ((Spinner) viewChild2);//recupe produit du spinner
+                                        Produit produitT = (Produit) text.getSelectedItem();
+                                        RecetteProduit recetteProduit =recette.getListeProduitbyid(View_ajout_recette.this, produitT);
+                                        recetteProduitDao.delete(recetteProduit);
+                                        Log.e("test", recetteProduit.getIdProduitR().getLibelleProduit());
 
+                                    }
+
+
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
+                            }
+                        }
+            });
+
+            rowQ.addView(deleteLigne);
             //ajout au container
             containerSpinner.addView(rowS);
             containerSpinner.addView(rowQ);
@@ -294,10 +328,11 @@ public class View_ajout_recette extends AppCompatActivity {
         }
     }
 
+
     //function qui recupére les valuer Produit contunu dans les spinner de containerspinner
     public List<Produit> getListSpinne() {
+        produitList.clear();
         //List<>: init list produit
-        List<Produit> produitList =new ArrayList<>();
         // int : nb element TableLayout pour les parcourire
         int childParts = containerSpinner.getChildCount();
         if (containerSpinner != null) {//sinon ne pas parcourire
@@ -312,7 +347,6 @@ public class View_ajout_recette extends AppCompatActivity {
                             Spinner text = ((Spinner) viewChild2);//recupe produit du spinner
                             Produit produitT = (Produit) text.getSelectedItem();
                                 produitList.add(produitT);
-
                         }
                     }
                 }
@@ -361,6 +395,4 @@ public class View_ajout_recette extends AppCompatActivity {
        prix_recette.setText(prix+"€");
        }
    }
-
-
 

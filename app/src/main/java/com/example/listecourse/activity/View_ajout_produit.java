@@ -69,6 +69,7 @@ public class View_ajout_produit extends AppCompatActivity {
     public void modifInfos(){
         String label = editLabel.getText().toString();
         String quantiter = editQuantiter.getText().toString();
+        String prix = editPrix.getText().toString() ;
         Matcher matchPrix = prix_regex.matcher(editPrix.getText().toString());
         DatabaseLinker linker = new DatabaseLinker(this);
         Produit produit= new Produit();
@@ -89,7 +90,7 @@ public class View_ajout_produit extends AppCompatActivity {
                 Log.i("tesssssssssssssssssst", "ça marche");
             }
             else{
-                if (label.matches("") || quantiter.matches("") || matchPrix.matches()  ) {
+                if (label.matches("") || quantiter.matches("") || prix.matches("")  ) {
                     Log.e("création : ", "erreur");
                     Toast leToast = Toast.makeText(View_ajout_produit.this,
                             "Remplir touts les champs", Toast.LENGTH_LONG);
@@ -99,7 +100,7 @@ public class View_ajout_produit extends AppCompatActivity {
                     produit.setLibelleProduit(label);
                     produit.setQuantiter(quantiter);
                     if(matchPrix.matches()){
-                        produit.setPrixProduit(Double.parseDouble(String.valueOf(matchPrix)));
+                        produit.setPrixProduit(Double.parseDouble(prix));
                     }else{
                         Toast leToast = Toast.makeText(View_ajout_produit.this,
                                 "Remplir touts les champs", Toast.LENGTH_LONG);

@@ -64,7 +64,10 @@ public class CustomAdapterQte extends BaseAdapter {
 
         // Example: @textViewItemNameId: R.id.textView_item_name
         TextView textViewItemName = (TextView) rowView.findViewById(this.textViewItemNameId);
-        textViewItemName.setText(produit.getLibelleProduit());
+        if (produit != null){
+            textViewItemName.setText(produit.getLibelleProduit());
+        }
+
         TextView textViewUnits = (TextView)rowView.findViewById(this.textViewItemUnits);
         if (produitR != null){
             textViewUnits.setText("x "+String.valueOf(produitR.getQte()));

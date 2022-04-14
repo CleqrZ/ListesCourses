@@ -57,14 +57,31 @@ public class Recette {
     public void setPrixListeProduit(double prixListeProduit) {
         this.prixListeProduit = prixListeProduit;
     }
-
+    public RecetteProduit getListeProduitbyid(Context context, Produit produit) throws SQLException {
+        DatabaseLinker linker = new DatabaseLinker(context);
+        Dao<RecetteProduit,Integer> recetteProduitDao = linker.getDao(RecetteProduit.class);
+        List<RecetteProduit> recetteProduitList = recetteProduitDao.queryForAll();
+        List<RecetteProduit> listeP = new ArrayList<>();
+        for (RecetteProduit recetteProduit : recetteProduitList){
+            if (recetteProduit.getIdProduitR() == produit){
+                return recetteProduit;
+            }
+        }
+        return null;
+    }
     public List<RecetteProduit> getListeProduit(Context context) throws SQLException {
         //A changer par une queryBuilder(requette préparer )
         /* QueryBuilder<Ville, Integer> queryBuilder = daoVille.queryBuilder();
                 Log.e("ville", com.example.dossierclient.tablebdd.Ville.nameVille);
                 queryBuilder.where().eq(Ville.nameVille, String.valueOf(ville.getText()));
                 PreparedQuery<Ville> preparedQuery = queryBuilder.prepare();
-                List<Ville> villeList = daoVille.query(preparedQuery);*/
+                List<Ville> villeList = daoVille.query(preparedQuery);
+                listProduit_recette_gateau =
+                    daoProduit_recette.query(
+                            daoProduit_recette.queryBuilder().where()
+                                    .eq("recette_id", recetteChocolat.getId())
+                                    .prepare());
+                                    */
         DatabaseLinker linker = new DatabaseLinker(context);
         Dao<RecetteProduit,Integer> recetteProduitDao = linker.getDao(RecetteProduit.class);
         List<RecetteProduit> recetteProduitList = recetteProduitDao.queryForAll();

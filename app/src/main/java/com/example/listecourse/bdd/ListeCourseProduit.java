@@ -14,9 +14,10 @@ public class ListeCourseProduit {
     private Produit idProduitP;
     @DatabaseField( columnName = "qte")
     private int qte;
+
     public ListeCourseProduit() {
     }
-    public ListeCourseProduit(Produit idProduitR ,ListeCourse idListeCourseP ,int qte) {
+    public ListeCourseProduit(Produit idProduitR,ListeCourse idListeCourseP,int qte) {
         this.idProduitP = idProduitR;
         this.idListeCourseP = idListeCourseP;
         this.qte = qte;

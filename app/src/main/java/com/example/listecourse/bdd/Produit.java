@@ -17,8 +17,6 @@ public class Produit {
     @DatabaseField
     private double prixProduit;
 
-    private List<Recette> listeR = null;
-
     public Produit() {
     }
     public Produit(String libelleProduit,String quantite, double prixProduit) {
