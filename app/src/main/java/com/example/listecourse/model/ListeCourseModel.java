@@ -120,6 +120,7 @@ public class ListeCourseModel {
                     Log.e("-------", "Je rentre dans le IF");
                     List<ListeCourseRecette>listeCourseRecettes = listeCourse.getListeCourseRecette(context);
                     for (ListeCourseRecette listeCourseRecette : listeCourseRecettes ) {
+                        Log.e("-------", listeCourseRecette.getIdRecetteR().getLibelleRecette());
                         Recette recetteR = listeCourseRecette.getIdRecetteR();
                         List<RecetteProduit> listRecetteProduit = recetteR.getListeProduit(context);
                         CustomAdapterQte adapter = new CustomAdapterQte((Activity) context,
@@ -137,7 +138,7 @@ public class ListeCourseModel {
                         }
                     }
 
-
+                    containerListecourse.addView(rowS);
                 }
                 /*
                 Spinner snpProduit;
