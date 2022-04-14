@@ -132,22 +132,21 @@ public class View_ajout_recette extends AppCompatActivity {
                 List<Produit> produitList = getListSpinne();
                 List<RecetteProduit> produitListRe = new ArrayList<>();
                 List<Integer> qteListe = getListSpinneqte();
-
                 Dao<RecetteProduit, Integer> recetteProduitDao = linker.getDao(RecetteProduit.class);
                 List<RecetteProduit> recetteProduitList = recetteProduitDao.queryForAll();
                 for (RecetteProduit recetteprod : recetteProduitList) {
-                    if (recetteprod.getIdRectteP() == recette) {
+                    if (recetteprod.getIdRectteP().getIdRecette() == recette.getIdRecette()) {
                         recetteProduitDao.delete(recetteprod);
                     }
                 }
-                if (produitList.size() == qteListe.size()) {
-                    for (int cpt = 0; cpt < produitList.size(); cpt++) {
-                        RecetteProduit val = new RecetteProduit(produitList.get(cpt), recette, qteListe.get(cpt));
+                if( produitList.size() == qteListe.size()){
+                    for (int cpt = 0 ; cpt<produitList.size();cpt++){
+                        RecetteProduit val = new RecetteProduit(produitList.get(cpt), recette,qteListe.get(cpt));
                         daoRecetteProd.create(val);
                     }
                 }
-            }
-                if (label.matches("") || prix == 0  ) {
+                daoRecette.update(recette);
+            } else if (label.matches("") || prix == 0  ) {
                     Toast leToast = Toast.makeText(View_ajout_recette.this,
                             "Remplir touts les champs", Toast.LENGTH_LONG);
                     leToast.show();
@@ -281,41 +280,14 @@ public class View_ajout_recette extends AppCompatActivity {
             deleteLigne.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (idRecette == 0) {
-                        if (rowS.getParent() != null) {
-                            ((ViewGroup) rowS.getParent()).removeView(rowS); // <- fix
-                        }
-                        if (rowQ.getParent() != null) {
-                            ((ViewGroup) rowQ.getParent()).removeView(rowQ); // <- fix
-                        }
-                    }else {
-                            if (rowS.getParent() != null) {
-                                ((ViewGroup) rowS.getParent()).removeView(rowS); // <- fix
-                            }
-                            if (rowQ.getParent() != null) {
-                                ((ViewGroup) rowQ.getParent()).removeView(rowQ); // <- fix
-                            }
-                                try {
-                                    Dao<RecetteProduit,Integer> recetteProduitDao = linker.getDao(RecetteProduit.class);
-                                    Dao<Recette, Integer> recetteDao = linker.getDao(Recette.class);
-                                    Recette recette = recetteDao.queryForId(idRecette);
-                                    View viewChild2 = ((TableRow) rowS).getChildAt(1);//recupe ele row Spinne
-                                    if (viewChild2 instanceof Spinner) {
-                                        // get text from edit text
-                                        Spinner text = ((Spinner) viewChild2);//recupe produit du spinner
-                                        Produit produitT = (Produit) text.getSelectedItem();
-                                        RecetteProduit recetteProduit =recette.getListeProduitbyid(View_ajout_recette.this, produitT);
-                                        recetteProduitDao.delete(recetteProduit);
-                                        Log.e("test", recetteProduit.getIdProduitR().getLibelleProduit());
 
-                                    }
-
-
-                                } catch (SQLException throwables) {
-                                    throwables.printStackTrace();
-                                }
-                            }
-                        }
+                    if (rowS.getParent() != null) {
+                        ((ViewGroup) rowS.getParent()).removeView(rowS); // <- fix
+                    }
+                    if (rowQ.getParent() != null) {
+                        ((ViewGroup) rowQ.getParent()).removeView(rowQ); // <- fix
+                    }
+                }
             });
 
             rowQ.addView(deleteLigne);

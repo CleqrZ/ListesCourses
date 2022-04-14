@@ -41,6 +41,7 @@ public class ListeCourseModel {
             Dao<ListeCourse, Integer> daoListeCourse = linker.getDao(ListeCourse.class);
             List<ListeCourse> listeCourses = daoListeCourse.queryForAll();
             for (ListeCourse listeCourse : listeCourses) {
+                Log.e("test Liste :", listeCourse.getNomListe());
                 TableRow row = new TableRow(context);
                 row.setGravity(Gravity.CENTER_VERTICAL);
                 row.setWeightSum(8);
