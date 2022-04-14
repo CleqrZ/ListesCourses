@@ -8,9 +8,9 @@ import com.j256.ormlite.table.DatabaseTable;
 public class ListeCourseProduit {
     @DatabaseField( generatedId = true )
     private int idListeCourseProduit;
-    @DatabaseField(foreign = true, foreignColumnName = "id", columnName ="ListeCourse", columnDefinition = "INTEGER CONSTRAINT FK_NAME REFERENCES ListeCourse(id) ON DELETE CASCADE")
+    @DatabaseField(foreign = true, foreignColumnName = "id", columnName ="ListeCourseProduit")
     private ListeCourse idListeCourseP;
-    @DatabaseField(foreign = true, foreignColumnName = "p_id", columnName = "Produit", columnDefinition = "INTEGER CONSTRAINT FK_NAME REFERENCES Produit(p_id) ON DELETE CASCADE")
+    @DatabaseField(foreign = true, foreignColumnName = "p_id", columnName = "ProduitListe")
     private Produit idProduitP;
     @DatabaseField( columnName = "qte")
     private int qte;

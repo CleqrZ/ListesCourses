@@ -105,7 +105,7 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             RecetteProduit recetteProduit4 = new RecetteProduit(Nutella,Crepes,1);
             daoRecetteProduit.create(recetteProduit4);
 
-            /*Recette Sandwich = new Recette("Sandwich", 9);
+            Recette Sandwich = new Recette("Sandwich", 9);
             daoRecette.create(Sandwich);
             RecetteProduit recetteProduit5 = new RecetteProduit(Jambon,Sandwich,2);
             daoRecetteProduit.create(recetteProduit5);
@@ -116,8 +116,7 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             RecetteProduit recetteProduit8 = new RecetteProduit(Emental,Sandwich,1);
             daoRecetteProduit.create(recetteProduit8);
             RecetteProduit recetteProduit9 = new RecetteProduit(Nutella,Sandwich,1);
-<<<<<<< Updated upstream
-            daoRecetteProduit.create(recetteProduit9);*/
+            daoRecetteProduit.create(recetteProduit9);
 
 
 

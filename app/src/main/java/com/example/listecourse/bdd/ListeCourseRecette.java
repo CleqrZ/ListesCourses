@@ -4,13 +4,13 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 //Liaison entre recette et produit avec un champs qte pour avoir une quantiter d'un meme produits dans une recettes
-@DatabaseTable(tableName="ListeCourseProduit")
+@DatabaseTable(tableName="ListeCourseRecette")
 public class ListeCourseRecette {
     @DatabaseField( generatedId = true )
     private int idListeCourseProduit;
-    @DatabaseField(foreign = true, foreignColumnName = "id", columnName ="ListeCourse", columnDefinition = "INTEGER CONSTRAINT FK_NAME REFERENCES ListeCourse(id) ON DELETE CASCADE")
+    @DatabaseField(foreign = true, foreignColumnName = "id", columnName ="ListeCourseRecette")
     private ListeCourse idListeCourseP;
-    @DatabaseField(foreign = true, foreignColumnName = "r_id", columnName = "Recette", columnDefinition = "INTEGER CONSTRAINT FK_NAME REFERENCES Recette(r_id) ON DELETE CASCADE")
+    @DatabaseField(foreign = true, foreignColumnName = "r_id", columnName = "ListeRecette", columnDefinition = "INTEGER CONSTRAINT FK_NAME REFERENCES Recette(r_id) ON DELETE CASCADE")
     private Recette idRecetteR;
     @DatabaseField( columnName = "qte")
     private int qte;
