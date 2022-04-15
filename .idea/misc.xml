@@ -18,6 +18,8 @@
         <entry key="..\:/wamp64/www/ListeCourse/app/src/main/res/layout/activity_view_produit.xml" value="0.22826086956521738" />
         <entry key="..\:/wamp64/www/ListeCourse/app/src/main/res/layout/activity_view_recette.xml" value="0.22826086956521738" />
         <entry key="..\:/wamp64/www/ListeCourse/app/src/main/res/layout/spinner_layout_ressource.xml" value="0.22826086956521738" />
+        <entry key="..\:/wamp64/www/ListeCourse/app/src/main/res/layout/spinner_layout_ressource_qteL.xml" value="0.25416666666666665" />
+        <entry key="..\:/wamp64/www/ListeCourse/app/src/main/res/layout/spinner_layout_ressource_qte_liste.xml" value="0.25416666666666665" />
         <entry key="..\:/wamp64/www/ListeCourse/app/src/main/res/menu/main_menu.xml" value="0.25416666666666665" />
       </map>
     </option>

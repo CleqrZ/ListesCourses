@@ -18,19 +18,14 @@ import com.example.listecourse.activity.View_ajout_ListeCourse;
 import com.example.listecourse.bdd.ListeCourse;
 import com.example.listecourse.bdd.ListeCourseProduit;
 import com.example.listecourse.bdd.ListeCourseRecette;
-import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.Recette;
 import com.example.listecourse.bdd.RecetteProduit;
-import com.example.listecourse.tools.CustomAdapter;
 import com.example.listecourse.tools.CustomAdapterQte;
+import com.example.listecourse.tools.CustomAdapterQteListe;
 import com.example.listecourse.tools.DatabaseLinker;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 public class ListeCourseModel {
@@ -112,16 +107,18 @@ public class ListeCourseModel {
                         TableRow.LayoutParams.WRAP_CONTENT,
                         8f
                 );
-
-                Spinner snpProduit;
-                snpProduit = new Spinner(context);
-                snpProduit.setLayoutParams(paramSpinner);
+                //spinner Recette de la liste
+                Spinner snpRecette;
+                snpRecette = new Spinner(context);
+                snpRecette.setLayoutParams(paramSpinner);
                 if (listeCourse.getListeCourseRecette(context) != null) {
                     Log.e("-------", "Je rentre dans le IF");
                     List<ListeCourseRecette>listeCourseRecettes = listeCourse.getListeCourseRecette(context);
                     for (ListeCourseRecette listeCourseRecette : listeCourseRecettes ) {
                         Log.e("-------", listeCourseRecette.getIdRecetteR().getLibelleRecette());
                         Recette recetteR = listeCourseRecette.getIdRecetteR();
+                        TextView nomRecette = new TextView(context);
+                        nomRecette.setText(recetteR.getLibelleRecette() + " : ");
                         List<RecetteProduit> listRecetteProduit = recetteR.getListeProduit(context);
                         CustomAdapterQte adapter = new CustomAdapterQte((Activity) context,
                                 R.layout.spinner_layout_ressource_qte,
@@ -130,8 +127,9 @@ public class ListeCourseModel {
                                 R.id.quantiter,
                                 R.id.prix,
                                 listRecetteProduit);
-                        snpProduit.setAdapter(adapter);
-                        rowS.addView(snpProduit);
+                        snpRecette.setAdapter(adapter);
+                        rowS.addView(nomRecette);
+                        rowS.addView(snpRecette);
                         if(rowS.getParent() != null) {
                             Log.e("", "tesssssssss");
 
@@ -139,6 +137,33 @@ public class ListeCourseModel {
                     }
 
                     containerListecourse.addView(rowS);
+
+
+                }
+                //spinner Produit de la liste
+                Spinner snpProduit;
+                snpProduit = new Spinner(context);
+                snpProduit.setLayoutParams(paramSpinner);
+                if (listeCourse.getListeCourseProduit(context) != null) {
+                    Log.e("-------", "Je rentre dans le IF");
+                    List<ListeCourseProduit>listeCourseProduits = listeCourse.getListeCourseProduit(context);
+                        CustomAdapterQteListe adapter = new CustomAdapterQteListe((Activity) context,
+                                R.layout.spinner_layout_ressource_qte_liste,
+                                R.id.uniter,
+                                R.id.textView_item_name,
+                                R.id.quantiter,
+                                R.id.prix,
+                                listeCourseProduits);
+                        snpProduit.setAdapter(adapter);
+                        rowS.addView(snpProduit);
+                        if(rowS.getParent() != null) {
+                            Log.e("", "tesssssssss");
+
+                    }
+
+                    containerListecourse.addView(rowS);
+
+
                 }
                 /*
                 Spinner snpProduit;
@@ -183,7 +208,7 @@ public class ListeCourseModel {
                     snpProduitSi = new Spinner(context);
                     snpProduitSi.setLayoutParams(paramSpinnerSi);
                     if(participantJsonListSi != null){
-                        CustomAdapterQte adapterSi = new CustomAdapterQte((Activity) context,
+                        CustomAdapterQteL adapterSi = new CustomAdapterQteL((Activity) context,
                                 R.layout.spinner_layout_ressource_qte,
                                 R.id.uniter,
                                 R.id.textView_item_name,
