@@ -1,6 +1,7 @@
 package com.example.listecourse.bdd;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.listecourse.tools.DatabaseLinker;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -51,10 +52,12 @@ public class ListeCourse {
         List<ListeCourseProduit> listeCourseProduitsList = listeCourseProduitsDAO.queryForAll();
         List<ListeCourseProduit> listeP = new ArrayList<>();
         for (ListeCourseProduit listeCourseProduit : listeCourseProduitsList){
-            if (listeCourseProduit.getIdProduitP() == this.getListeCourseProduit(context)){
+            if (listeCourseProduit.getIdListeCourseP().getIdListeCourse() == this.getIdListeCourse() ){
                 listeP.add(listeCourseProduit);
+                Log.e("test listeprod",listeCourseProduit.getIdProduitP().getLibelleProduit() );
             }
         }
+
         return listeP;
 
     }
@@ -69,7 +72,7 @@ public class ListeCourse {
         }
         if (listeCourseProduitDAO !=null){
             for (ListeCourseProduit listeCourseProduit : listeP){
-                if (listeCourseProduit.getIdProduitP() == this.getListeCourseProduit(context)){
+                if (listeCourseProduit.getIdListeCourseP().idListeCourse == this.getIdListeCourse()){
                     listeCourseProduitDAO.create(listeCourseProduit);
                 }
             }
@@ -77,14 +80,14 @@ public class ListeCourse {
     }
 
     public List<ListeCourseRecette> getListeR(Context context) throws SQLException {
-
         DatabaseLinker linker = new DatabaseLinker(context);
         Dao<ListeCourseRecette,Integer> listeCourseRecettesDAO = linker.getDao(ListeCourseRecette.class);
         List<ListeCourseRecette> listeCourseRecettesList = listeCourseRecettesDAO.queryForAll();
         List<ListeCourseRecette> listeP = new ArrayList<>();
         for (ListeCourseRecette listeCourseRecette : listeCourseRecettesList){
-            if (listeCourseRecette.getIdRecetteR() == this.getListeCourseRecette(context)){
+            if (listeCourseRecette.getIdListeCourseP().getIdListeCourse() == this.getIdListeCourse()){
                 listeP.add(listeCourseRecette);
+                Log.e("test listeprod",listeCourseRecette.getIdRecetteR().getLibelleRecette() );
             }
         }
         return listeP;
@@ -100,7 +103,7 @@ public class ListeCourse {
         }
         if (listeCourseRecettesDAO !=null){
             for (ListeCourseRecette listeCourseRecette : listeR){
-                if (listeCourseRecette.getIdRecetteR() == this.getListeCourseRecette(context)){
+                if (listeCourseRecette.getIdListeCourseP().getIdListeCourse() == this.getIdListeCourse()){
                     listeCourseRecettesDAO.create(listeCourseRecette);
                 }
             }
@@ -113,44 +116,6 @@ public class ListeCourse {
 
     public void setPrixProduit(double prixProduit) {
         this.prixCourse = prixProduit;
-    }
-
-    public List<ListeCourseProduit> getListeCourseProduit(Context context) throws SQLException {
-        //A changer par une queryBuilder(requette préparer )
-        /* QueryBuilder<Ville, Integer> queryBuilder = daoVille.queryBuilder();
-                Log.e("ville", com.example.dossierclient.tablebdd.Ville.nameVille);
-                queryBuilder.where().eq(Ville.nameVille, String.valueOf(ville.getText()));
-                PreparedQuery<Ville> preparedQuery = queryBuilder.prepare();
-                List<Ville> villeList = daoVille.query(preparedQuery);*/
-        DatabaseLinker linker = new DatabaseLinker(context);
-        Dao<ListeCourseProduit,Integer> listeCourseProduitsDao = linker.getDao(ListeCourseProduit.class);
-        List<ListeCourseProduit> listeCourseProduits = listeCourseProduitsDao.queryForAll();
-        List<ListeCourseProduit> listeP = new ArrayList<>();
-        for (ListeCourseProduit listeCourseProduit : listeCourseProduits){
-            if (listeCourseProduit.getIdListeCourseProduit() == this.getIdListeCourse()){
-                listeP.add(listeCourseProduit);
-            }
-        }
-        return listeP;
-    }
-
-    public List<ListeCourseRecette> getListeCourseRecette(Context context) throws SQLException {
-        //A changer par une queryBuilder(requette préparer )
-        /* QueryBuilder<Ville, Integer> queryBuilder = daoVille.queryBuilder();
-                Log.e("ville", com.example.dossierclient.tablebdd.Ville.nameVille);
-                queryBuilder.where().eq(Ville.nameVille, String.valueOf(ville.getText()));
-                PreparedQuery<Ville> preparedQuery = queryBuilder.prepare();
-                List<Ville> villeList = daoVille.query(preparedQuery);*/
-        DatabaseLinker linker = new DatabaseLinker(context);
-        Dao<ListeCourseRecette,Integer> listeCourseRecetteDao = linker.getDao(ListeCourseRecette.class);
-        List<ListeCourseRecette> listeCourseRecettes = listeCourseRecetteDao.queryForAll();
-        List<ListeCourseRecette> listeR = new ArrayList<>();
-        for (ListeCourseRecette listeCourseRecette : listeCourseRecettes){
-            if (listeCourseRecette.getIdListeCourseProduit() == this.getIdListeCourse()){
-                listeR.add(listeCourseRecette);
-            }
-        }
-        return listeR;
     }
 
 

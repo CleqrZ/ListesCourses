@@ -110,10 +110,9 @@ public class ListeCourseModel {
                 );
 
                 //spinner Recette de la liste
-                if (listeCourse.getListeCourseRecette(context) != null) {
+                if (listeCourse.getListeR(context) != null) {
                     Log.e("-------", "Je rentre dans le IF");
-                    List<ListeCourseRecette>listeCourseRecettes = listeCourse.getListeCourseRecette(context);
-                    Log.e("---", String.valueOf(listeCourseRecettes.get(0)));
+                    List<ListeCourseRecette>listeCourseRecettes = listeCourse.getListeR(context);
                     for (ListeCourseRecette listeCourseRecette : listeCourseRecettes ) {
                         Spinner snpRecette;
                         snpRecette = new Spinner(context);
@@ -169,83 +168,26 @@ public class ListeCourseModel {
                 Spinner snpProduit;
                 snpProduit = new Spinner(context);
                 snpProduit.setLayoutParams(paramSpinnerProduit);
-                if (listeCourse.getListeCourseProduit(context) != null) {
+                if (listeCourse.getListeP(context) != null) {
                     Log.e("-------", "Je rentre dans le IF");
-                    List<ListeCourseProduit>listeCourseProduits = listeCourse.getListeCourseProduit(context);
-                        CustomAdapterQteListe adapter = new CustomAdapterQteListe((Activity) context,
-                                R.layout.spinner_layout_ressource_qte_liste,
-                                R.id.uniter,
-                                R.id.textView_item_name,
-                                R.id.quantiter,
-                                R.id.prix,
-                                listeCourseProduits);
-                        snpProduit.setAdapter(adapter);
-                        rowP.addView(snpProduit);
-                        if(rowP.getParent() != null) {
-                            Log.e("", "tesssssssss");
+                    List<ListeCourseProduit> listeCourseProduits = listeCourse.getListeP(context);
+                    CustomAdapterQteListe adapter = new CustomAdapterQteListe((Activity) context,
+                            R.layout.spinner_layout_ressource_qte_liste,
+                            R.id.uniter,
+                            R.id.textView_item_name,
+                            R.id.quantiter,
+                            R.id.prix,
+                            listeCourseProduits);
+                    snpProduit.setAdapter(adapter);
+                    rowP.addView(snpProduit);
+                    if (rowP.getParent() != null) {
+                        Log.e("", "tesssssssss");
 
                     }
 
                     containerListecourse.addView(rowP);
 
-
                 }
-                /*
-                Spinner snpProduit;
-                snpProduit = new Spinner(context);
-                snpProduit.setLayoutParams(paramSpinner);
-                List<ListeCourseProduit> produitListCourse = listeCourse.getListeCourseProduit(context);
-                CustomAdapter adapter = new CustomAdapter((Activity) context,
-                        R.layout.spinner_layout_ressource,
-                        R.id.textView_item_name,
-                        R.id.quantiter,
-                        R.id.prix,
-                        produitListCourse
-                        );
-                snpProduit.setAdapter(adapter);
-                containerListecourse.addView(rowS);
-                rowS.addView(snpProduit);
-                    //Affichage recette
-                List<Recette> recetteJsonList  = listeCourse.getListeCourseRecette();
-                ObjectMapper mapperR = new ObjectMapper();
-                for (Recette recette : recetteJsonList) {
-                    TableRow rowRecette = new TableRow(context);
-                    TableRow.LayoutParams paramTexte = new TableRow.LayoutParams(
-                            TableRow.LayoutParams.MATCH_PARENT,
-                            TableRow.LayoutParams.WRAP_CONTENT,
-                            8f
-                    );
-                    TextView rectteNom = new TextView(context);
-                    rectteNom.setLayoutParams(paramTexte);
-                    rectteNom.setText(recette.getLibelleRecette());
-                    rowRecette.addView(rectteNom);
-
-                    //affichage produit des recette dans spinner
-                    Dao<Recette, Integer> daoRecette = linker.getDao(Recette.class);
-                    TableRow.LayoutParams paramSpinnerSi = new TableRow.LayoutParams(
-                            TableRow.LayoutParams.MATCH_PARENT,
-                            TableRow.LayoutParams.WRAP_CONTENT,
-                            8f
-                    );
-                    int idrecette = recette.getIdRecette();
-                    List<RecetteProduit> participantJsonListSi = daoRecette.queryForId(idrecette).getListeProduit(context);
-                    Spinner snpProduitSi;
-                    snpProduitSi = new Spinner(context);
-                    snpProduitSi.setLayoutParams(paramSpinnerSi);
-                    if(participantJsonListSi != null){
-                        CustomAdapterQteL adapterSi = new CustomAdapterQteL((Activity) context,
-                                R.layout.spinner_layout_ressource_qte,
-                                R.id.uniter,
-                                R.id.textView_item_name,
-                                R.id.quantiter,
-                                R.id.prix,
-                                participantJsonListSi);
-                        snpProduitSi.setAdapter(adapterSi);
-                        rowRecette.addView(snpProduitSi);
-                    }
-                    Log.e("Recette non : ",recette +"ok" );
-                    containerListecourse.addView(rowRecette);
-                }*/
                 }
             } catch (SQLException e) {
             e.printStackTrace();

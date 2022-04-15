@@ -140,8 +140,20 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             ListeCourseRecette Sandwichs = new ListeCourseRecette(Sandwich, listeCourse, 25 );
             daoListeCourseRecette.create(Sandwichs);
 
+            ListeCourse listeCourse1 = new ListeCourse("test2", 30);
+            daoListeCourse.create(listeCourse1);
 
+            ListeCourseProduit test = new ListeCourseProduit( Farine,listeCourse1,  32);
+            daoListeCourseProduit.create(test);
 
+            ListeCourseProduit farine2a = new ListeCourseProduit( Oeuf,listeCourse1,  32);
+            daoListeCourseProduit.create(farine2a);
+
+            ListeCourseRecette Crepea = new ListeCourseRecette(Crepes, listeCourse1, 25 );
+            daoListeCourseRecette.create(Crepea);
+
+            ListeCourseRecette Sandwichsa = new ListeCourseRecette(Sandwich, listeCourse1, 25 );
+            daoListeCourseRecette.create(Sandwichsa);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
