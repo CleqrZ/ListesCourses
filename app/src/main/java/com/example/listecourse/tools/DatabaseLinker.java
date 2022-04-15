@@ -128,8 +128,19 @@ public class DatabaseLinker extends OrmLiteSqliteOpenHelper {
             ListeCourseProduit farine = new ListeCourseProduit( Farine,listeCourse,  32);
             daoListeCourseProduit.create(farine);
 
+            ListeCourseProduit farine2 = new ListeCourseProduit( Oeuf,listeCourse,  32);
+            daoListeCourseProduit.create(farine2);
+
+            ListeCourseProduit farine3 = new ListeCourseProduit( Oignon,listeCourse,  32);
+            daoListeCourseProduit.create(farine3);
+
             ListeCourseRecette Crepe = new ListeCourseRecette(Crepes, listeCourse, 25 );
             daoListeCourseRecette.create(Crepe);
+
+            ListeCourseRecette Sandwichs = new ListeCourseRecette(Sandwich, listeCourse, 25 );
+            daoListeCourseRecette.create(Sandwichs);
+
+
 
 
         } catch (SQLException throwables) {
