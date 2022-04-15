@@ -3,6 +3,7 @@ package com.example.listecourse.model;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -40,6 +41,14 @@ public class ListeCourseModel {
                 TableRow row = new TableRow(context);
                 row.setGravity(Gravity.CENTER_VERTICAL);
                 row.setWeightSum(8);
+
+                TableRow paramListe = new TableRow(context);
+
+                TextView liste = new TextView(context);
+                liste.setTypeface(null, Typeface.BOLD);
+                liste.setText("Nom de la liste");
+                paramListe.addView(liste);
+                containerListecourse.addView(paramListe);
                 TableRow.LayoutParams param = new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.WRAP_CONTENT,
@@ -132,6 +141,7 @@ public class ListeCourseModel {
                         rowNomRecette.setWeightSum(8);
                         Recette recetteR = listeCourseRecette.getIdRecetteR();
                         TextView nomRecette = new TextView(context);
+                        nomRecette.setTypeface(null, Typeface.BOLD);
                         nomRecette.setText("Recette --> " + recetteR.getLibelleRecette() + " : *" + listeCourseRecette.getQte());
                         List<RecetteProduit> listRecetteProduit = recetteR.getListeProduit(context);
                         CustomAdapterQte adapter = new CustomAdapterQte((Activity) context,
@@ -176,6 +186,7 @@ public class ListeCourseModel {
                 rowNomProduitListe.setGravity(Gravity.CENTER_VERTICAL);
                 rowNomProduitListe.setWeightSum(8);
                 TextView produitListe = new TextView(context);
+                produitListe.setTypeface(null, Typeface.BOLD);
                 produitListe.setText("Produits de la liste : ");
                 rowNomProduitListe.addView(produitListe);
                 containerListecourse.addView(rowNomProduitListe);
@@ -200,10 +211,16 @@ public class ListeCourseModel {
                         Log.e("", "tesssssssss");
 
                     }
-
-                    containerListecourse.addView(rowP);
-
                 }
+                containerListecourse.addView(rowP);
+
+
+                TableRow sautDeligne = new TableRow(context);
+
+                TextView espace = new TextView(context);
+                espace.setText("");;
+                sautDeligne.addView(sautDeligne);
+
                 }
             } catch (SQLException e) {
             e.printStackTrace();
