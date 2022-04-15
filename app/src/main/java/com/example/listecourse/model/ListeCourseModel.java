@@ -43,7 +43,7 @@ public class ListeCourseModel {
                 TableRow.LayoutParams param = new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.WRAP_CONTENT,
-                        4f
+                        8f
                 );
                 //label recette
                 TextView labelNom = new TextView(context);
@@ -132,7 +132,7 @@ public class ListeCourseModel {
                         rowNomRecette.setWeightSum(8);
                         Recette recetteR = listeCourseRecette.getIdRecetteR();
                         TextView nomRecette = new TextView(context);
-                        nomRecette.setText("recette --> " + recetteR.getLibelleRecette() + " : *" + listeCourseRecette.getQte());
+                        nomRecette.setText("Recette --> " + recetteR.getLibelleRecette() + " : *" + listeCourseRecette.getQte());
                         List<RecetteProduit> listRecetteProduit = recetteR.getListeProduit(context);
                         CustomAdapterQte adapter = new CustomAdapterQte((Activity) context,
                                 R.layout.spinner_layout_ressource_qte,
@@ -164,7 +164,23 @@ public class ListeCourseModel {
                         TableRow.LayoutParams.WRAP_CONTENT,
                         8f
                 );
+
                 //spinner Produit de la liste
+                TableRow.LayoutParams paramSpinnerProduitListe = new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT,
+                        8f
+                );
+
+                TableRow rowNomProduitListe = new TableRow(context);
+                rowNomProduitListe.setGravity(Gravity.CENTER_VERTICAL);
+                rowNomProduitListe.setWeightSum(8);
+                TextView produitListe = new TextView(context);
+                produitListe.setText("Produits de la liste : ");
+                rowNomProduitListe.addView(produitListe);
+                containerListecourse.addView(rowNomProduitListe);
+
+
                 Spinner snpProduit;
                 snpProduit = new Spinner(context);
                 snpProduit.setLayoutParams(paramSpinnerProduit);

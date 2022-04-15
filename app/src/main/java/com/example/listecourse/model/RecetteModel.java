@@ -102,7 +102,7 @@ public class RecetteModel {
                 //button srpprimmer
                 ImageButton deleteClient = new ImageButton(context);
                 deleteClient.setLayoutParams(paramButton);
-                deleteClient.setImageResource(R.drawable.delete);
+                deleteClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_delete);
                 deleteClient.setBackground(null);
                 row.addView(deleteClient);
                 deleteClient.setOnClickListener(new View.OnClickListener() {
