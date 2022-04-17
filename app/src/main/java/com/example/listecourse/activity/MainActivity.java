@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.deleteDatabase("bdd.db");
+        //this.deleteDatabase("bdd.db");
 
         containerProduits = findViewById(R.id.container_produit);
         Button buttonAjoutProduits = findViewById(R.id.button_ajout_produit);

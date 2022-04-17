@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.listecourse.R;
 import com.example.listecourse.bdd.ListeCourse;
 import com.example.listecourse.bdd.ListeCourseProduit;
+import com.example.listecourse.bdd.ListeCourseRecette;
 import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.Recette;
 import com.example.listecourse.bdd.RecetteProduit;
@@ -44,6 +45,7 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
     private double prix = 0;
     private Button validateButton;
     private List<Produit> produitList =new ArrayList<>();
+    private List<Recette> recetteList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
 
         //init recette cas 2 : Modif
         Intent intent = this.getIntent();
-        idListe = intent.getIntExtra("idListe",0);
+        idListe = intent.getIntExtra("idListeCourse",0);
         DatabaseLinker linker = new DatabaseLinker(this);
 
         //recup ListeCourse  avec id envoyer en extra
@@ -141,12 +143,15 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
         try {
             Dao<ListeCourse, Integer> daoListeCourse= linker.getDao(ListeCourse.class);
             Dao<ListeCourseProduit, Integer> daoListeCourseProduit = linker.getDao(ListeCourseProduit.class);
+            Dao<ListeCourseRecette, Integer> daoListCourseRecette = linker.getDao(ListeCourseRecette.class);
+            Log.e("id de la liste", String.valueOf(daoListeCourse.queryForId(idListe)));
             if (idListe != 0) {
                 listeCourse = daoListeCourse.queryForId(idListe);
                 listeCourse.setNomListe(label);
                 listeCourse.setPrixProduit(prix);
                 List<Produit> produitList = getListSpinne();
                 List<ListeCourseProduit> produitListRe = new ArrayList<>();
+                List<Recette> recetteList = getListSpinneRe();
                 List<Integer> qteListe = getListSpinneqte();
                 Dao<ListeCourseProduit, Integer> ListProduitDao = linker.getDao(ListeCourseProduit.class);
                 List<ListeCourseProduit> ProduitList = ListProduitDao.queryForAll();
@@ -161,6 +166,19 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
                         daoListeCourseProduit.create(val);
                     }
                 }
+                Dao<ListeCourseRecette, Integer> ListRecetteDao = linker.getDao(ListeCourseRecette.class);
+                List<ListeCourseRecette> RecetteList = ListRecetteDao.queryForAll();
+                for (ListeCourseRecette listrecette : RecetteList) {
+                    if (listrecette.getIdListeCourseP().getIdListeCourse() == listeCourse.getIdListeCourse()) {
+                        ListRecetteDao.delete(listrecette);
+                    }
+                }
+                if (recetteList.size() == qteListe.size()){
+                    for (int cpt = 0 ; cpt<recetteList.size();cpt++){
+                        ListeCourseRecette val = new ListeCourseRecette(recetteList.get(cpt), listeCourse,qteListe.get(cpt));
+                        daoListCourseRecette.create(val);
+                    }
+                }
                 daoListeCourse.update(listeCourse);
             } else if (label.matches("") || prix == 0  ) {
                 Toast leToast = Toast.makeText(com.example.listecourse.activity.View_ajout_ListeCourse.this,
@@ -170,14 +188,24 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
                 listeCourse = new ListeCourse(label,prix);
                 daoListeCourse.create(listeCourse);
                 List<Produit> produitList = getListSpinne();
+                List<Recette> recetteList = getListSpinneRe();
                 List<ListeCourseProduit> produitListRe = new ArrayList<>();
                 List<Integer> qteListe = getListSpinneqte();
+                List<Integer> qteListe2 = getListSpinneqte2();
                 if( produitList.size() == qteListe.size()){
                     for (int cpt = 0 ; cpt<produitList.size();cpt++){
                         ListeCourseProduit val = new ListeCourseProduit(produitList.get(cpt), listeCourse,qteListe.get(cpt));
                         daoListeCourseProduit.create(val);
                     }
                 }
+                if (recetteList.size() == qteListe2.size()){
+                    for (int cpt = 0 ; cpt<recetteList.size();cpt++){
+                        ListeCourseRecette val = new ListeCourseRecette(recetteList.get(cpt), listeCourse, qteListe.get(cpt));
+                        daoListCourseRecette.create(val);
+                    }
+                }
+
+
             }
 
             Intent main = new Intent( com.example.listecourse.activity.View_ajout_ListeCourse.this, MainActivity.class);
@@ -318,6 +346,32 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
 
 
     //function qui recupére les valuer Produit contunu dans les spinner de containerspinner
+    public List<Recette> getListSpinneRe() {
+        recetteList.clear();
+        //List<>: init list produit
+        // int : nb element TableLayout pour les parcourire
+        int childParts = containerSpinner2.getChildCount();
+        if (containerSpinner2 != null) {//sinon ne pas parcourire
+            for (int i = 0; i < childParts; i++) {
+                View viewChild = containerSpinner2.getChildAt(i);//recupe tableRow
+                if (viewChild instanceof TableRow) {
+                    int rowChildParts = ((TableRow) viewChild).getChildCount();//compte element row
+                    for (int j = 0; j < rowChildParts; j++) {
+                        View viewChild2 = ((TableRow) viewChild).getChildAt(j);//recupe ele row Spinne
+                        if (viewChild2 instanceof Spinner) {
+                            // get text from edit text
+                            Spinner text = ((Spinner) viewChild2);//recupe produit du spinner
+                            Recette recetteT = (Recette) text.getSelectedItem();
+                            recetteList.add(recetteT);
+                        }
+                    }
+                }
+            }
+        }
+        return recetteList;
+    }
+
+    //function qui recupére les valuer Produit contunu dans les spinner de containerspinner
     public List<Produit> getListSpinne() {
         produitList.clear();
         //List<>: init list produit
@@ -341,6 +395,30 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
             }
         }
         return produitList;
+    }
+
+    //function qui recup les QTE
+    public List<Integer> getListSpinneqte2() {
+        //meme shéma que function getspinner mais pour qte avec les editText
+        List<Integer> listeQte = new ArrayList<>();
+        int childParts = containerSpinner2.getChildCount();
+        if (containerSpinner2 != null) {
+            for (int i = 0; i < childParts; i++) {
+                View viewChild = containerSpinner2.getChildAt(i);
+                if (viewChild instanceof TableRow) {
+                    int rowChildParts = ((TableRow) viewChild).getChildCount();
+                    for (int j = 0; j < rowChildParts; j++) {
+                        View viewChild2 = ((TableRow) viewChild).getChildAt(j);
+                        if (viewChild2 instanceof EditText) {
+                            // get text from edit text
+                            EditText text = ((EditText) viewChild2);
+                            listeQte.add(Integer.valueOf(String.valueOf(text.getText())));
+                        }
+                    }
+                }
+            }
+        }
+        return listeQte;
     }
 
     //function qui recup les QTE
@@ -508,6 +586,10 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+
     }
+
+
 
 }
