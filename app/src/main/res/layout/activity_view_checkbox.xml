@@ -32,7 +32,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="Course finit">
-
             </Button>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

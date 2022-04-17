@@ -55,6 +55,10 @@ public class View_recette extends AppCompatActivity {
                 Intent intentListeCourse = new Intent(View_recette.this, View_ListeCourse.class);
                 startActivity(intentListeCourse);
                 return true;
+            case R.id.Magasin:
+                Intent intentGlobale = new Intent(View_recette.this, View_gobal_liste.class);
+                startActivity(intentGlobale);
+                return true;
             default:
                 return super.onOptionsItemSelected(_item);
         }
