@@ -181,7 +181,7 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
                 }
                 if (recetteList.size() == qteListe2.size()){
                     for (int cpt = 0 ; cpt<recetteList.size();cpt++){
-                        ListeCourseRecette val = new ListeCourseRecette(recetteList.get(cpt), listeCourse,qteListe.get(cpt));
+                        ListeCourseRecette val = new ListeCourseRecette(recetteList.get(cpt), listeCourse,qteListe2.get(cpt));
                         daoListCourseRecette.create(val);
                     }
                 }
