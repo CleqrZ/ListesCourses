@@ -127,6 +127,11 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
                     Log.e("teste QTE :", String.valueOf(ProduitListe.getQte()));
                     setSpinnerProduit(ProduitListe.getIdProduitP(),ProduitListe.getQte());
                 }
+                List<ListeCourseRecette> recetteList = listeCourse.getListeR(this);
+                for (ListeCourseRecette RecetteListe : recetteList){
+                    Log.e("teste QTE :", String.valueOf(RecetteListe.getQte()));
+                    setSpinnerRecette(RecetteListe.getIdRecetteR(),RecetteListe.getQte());
+                }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -153,6 +158,7 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
                 List<ListeCourseProduit> produitListRe = new ArrayList<>();
                 List<Recette> recetteList = getListSpinneRe();
                 List<Integer> qteListe = getListSpinneqte();
+                List<Integer> qteListe2 = getListSpinneqte2();
                 Dao<ListeCourseProduit, Integer> ListProduitDao = linker.getDao(ListeCourseProduit.class);
                 List<ListeCourseProduit> ProduitList = ListProduitDao.queryForAll();
                 for (ListeCourseProduit listprod : ProduitList) {
@@ -173,7 +179,7 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
                         ListRecetteDao.delete(listrecette);
                     }
                 }
-                if (recetteList.size() == qteListe.size()){
+                if (recetteList.size() == qteListe2.size()){
                     for (int cpt = 0 ; cpt<recetteList.size();cpt++){
                         ListeCourseRecette val = new ListeCourseRecette(recetteList.get(cpt), listeCourse,qteListe.get(cpt));
                         daoListCourseRecette.create(val);
@@ -199,8 +205,8 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
                     }
                 }
                 if (recetteList.size() == qteListe2.size()){
-                    for (int cpt = 0 ; cpt<recetteList.size();cpt++){
-                        ListeCourseRecette val = new ListeCourseRecette(recetteList.get(cpt), listeCourse, qteListe.get(cpt));
+                    for (int compteur = 0 ; compteur<recetteList.size();compteur++){
+                        ListeCourseRecette val = new ListeCourseRecette(recetteList.get(compteur), listeCourse, qteListe2.get(compteur));
                         daoListCourseRecette.create(val);
                     }
                 }
@@ -352,8 +358,8 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
         // int : nb element TableLayout pour les parcourire
         int childParts = containerSpinner2.getChildCount();
         if (containerSpinner2 != null) {//sinon ne pas parcourire
-            for (int i = 0; i < childParts; i++) {
-                View viewChild = containerSpinner2.getChildAt(i);//recupe tableRow
+            for (int recette = 0; recette < childParts; recette++) {
+                View viewChild = containerSpinner2.getChildAt(recette);//recupe tableRow
                 if (viewChild instanceof TableRow) {
                     int rowChildParts = ((TableRow) viewChild).getChildCount();//compte element row
                     for (int j = 0; j < rowChildParts; j++) {
@@ -378,8 +384,8 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
         // int : nb element TableLayout pour les parcourire
         int childParts = containerSpinner.getChildCount();
         if (containerSpinner != null) {//sinon ne pas parcourire
-            for (int i = 0; i < childParts; i++) {
-                View viewChild = containerSpinner.getChildAt(i);//recupe tableRow
+            for (int produit = 0; produit < childParts; produit++) {
+                View viewChild = containerSpinner.getChildAt(produit);//recupe tableRow
                 if (viewChild instanceof TableRow) {
                     int rowChildParts = ((TableRow) viewChild).getChildCount();//compte element row
                     for (int j = 0; j < rowChildParts; j++) {

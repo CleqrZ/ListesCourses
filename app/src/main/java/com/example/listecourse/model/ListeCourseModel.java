@@ -227,7 +227,7 @@ public class ListeCourseModel {
                     @Override
                     public void onClick(View v) {
                         Intent monIntent = new Intent(context, View_ajout_ListeCourse.class);
-                        monIntent.putExtra("idRecette", listeCourse.getNomListe());
+                        monIntent.putExtra("idListeCourse", listeCourse.getIdListeCourse());
                         context.startActivity(monIntent);
                     }
                 });
