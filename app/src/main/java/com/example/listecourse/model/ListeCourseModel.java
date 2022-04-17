@@ -25,6 +25,7 @@ import com.example.listecourse.tools.CustomAdapterQte;
 import com.example.listecourse.tools.CustomAdapterQteListe;
 import com.example.listecourse.tools.DatabaseLinker;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.query.In;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -36,11 +37,20 @@ public class ListeCourseModel {
         try {
             Dao<ListeCourse, Integer> daoListeCourse = linker.getDao(ListeCourse.class);
             List<ListeCourse> listeCourses = daoListeCourse.queryForAll();
+            Dao<RecetteProduit, Integer> daoRecetteProduit = linker.getDao(RecetteProduit.class);
+            Dao<Recette, Integer> daoRecette = linker.getDao(Recette.class);
+            List<Recette> recetteList = daoRecette.queryForAll();
+            Dao<ListeCourseRecette, Integer> daoListeCourseRecette = linker.getDao(ListeCourseRecette.class);
+            Dao<ListeCourseProduit, Integer> daoListeCourseProduit = linker.getDao(ListeCourseProduit.class);
+
             for (ListeCourse listeCourse : listeCourses) {
                 Log.e("test Liste :", listeCourse.getNomListe());
                 TableRow row = new TableRow(context);
                 row.setGravity(Gravity.CENTER_VERTICAL);
                 row.setWeightSum(8);
+
+
+
 
                 TableRow paramListe = new TableRow(context);
 
@@ -85,11 +95,32 @@ public class ListeCourseModel {
                     @Override
                     public void onClick(View v) {
                         try {
+
+
+                            /*List<ListeCourseRecette> listeCourseRecette = listeCourse.getListeR(context);
+                            for (ListeCourseRecette prodRecette1 : listeCourseRecette){
+                                //suppresion des produits de la recette
+                                for (Recette recette : recetteList){
+                                    List<RecetteProduit> recetteProduitList = recette.getListeProduit(context);
+                                    for (RecetteProduit prodRecette : recetteProduitList){
+                                        daoRecetteProduit.delete(prodRecette);
+                                    }
+                                }
+
+                                daoListeCourseRecette.delete(prodRecette1);
+                            }*/
+
+                            //suppresion des produits de la liste
+                            List<ListeCourseProduit> ListeCourseproduit = listeCourse.getListeP(context);
+                            for (ListeCourseProduit prodList : ListeCourseproduit){
+                                daoListeCourseProduit.delete(prodList);
+                            }
                             daoListeCourse.delete(listeCourse);
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
                         }
                         ((ViewGroup) row.getParent()).removeView(row);
+
                     }
                 });
                 //button modif
@@ -110,14 +141,11 @@ public class ListeCourseModel {
                 //Spinner
 
 
-
-
                 TableRow.LayoutParams paramSpinner = new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.WRAP_CONTENT,
                         8f
                 );
-
                 //spinner Recette de la liste
                 if (listeCourse.getListeR(context) != null) {
                     Log.e("-------", "Je rentre dans le IF");
@@ -215,16 +243,19 @@ public class ListeCourseModel {
                 containerListecourse.addView(rowP);
 
 
+
+
+
+
             /*    TableRow sautDeligne = new TableRow(context);
 
                 TextView espace = new TextView(context);
                 espace.setText("");;
                 sautDeligne.addView(sautDeligne);*/
 
-                }
-            } catch (SQLException e) {
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    }
-
+}

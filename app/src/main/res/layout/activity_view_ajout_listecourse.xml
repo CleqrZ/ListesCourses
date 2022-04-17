@@ -9,47 +9,97 @@
     android:padding="10dp"
     android:fillViewport="false"
     tools:ignore="MissingConstraints">
-        <LinearLayout
-            android:id="@+id/container_infos"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="10dp"
+
+
+    <LinearLayout
+        android:id="@+id/container_infos"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="Nom liste:"
+            >
+        </TextView>
+        <EditText
+            android:id="@+id/edit_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:padding="7dp"
+            >
+        </EditText>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Produits de la liste : "
+            >
+        </TextView>
+        <Button
+            android:id="@+id/button_ajout_produit"
+            app:layout_constraintTop_toBottomOf="@+id/container_infos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="OK">
 
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nom liste:"
-                >
-            </TextView>
-            <EditText
-                android:id="@+id/edit_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:padding="7dp"
-                >
-            </EditText>
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Prix Course"
-                >
-            </TextView>
-            <EditText
-                android:id="@+id/edit_prix"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border"
-                android:padding="7dp"
-                android:inputType="numberDecimal"
-                >
-            </EditText>
-        </LinearLayout>
+        </Button>
 
+        <TableLayout
+            app:layout_constraintTop_toBottomOf="parent"
+            android:layout_margin="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/container_produit_ajout_l">
+        </TableLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="recette de la liste : "
+            >
+        </TextView>
+
+        <Button
+            android:id="@+id/button_ajout_recette"
+            app:layout_constraintTop_toBottomOf="@+id/container_infos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="OK">
+
+        </Button>
+        <TableLayout
+            app:layout_constraintTop_toBottomOf="parent"
+            android:layout_margin="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/container_recette_ajout_l">
+        </TableLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Prix liste:"
+            >
+        </TextView>
+        <TextView
+            android:id="@+id/prix_recette"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:digits="0123456789"
+            android:textSize="@dimen/car_ui_body1_size"            >
+        </TextView>
         <Button
             android:id="@+id/button_validate"
             app:layout_constraintTop_toBottomOf="@+id/container_infos"
@@ -59,5 +109,5 @@
             android:text="OK"
             >
         </Button>
-    </ScrollView>
-
+    </LinearLayout>
+</ScrollView>
