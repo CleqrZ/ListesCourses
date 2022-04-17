@@ -215,11 +215,11 @@ public class ListeCourseModel {
                 containerListecourse.addView(rowP);
 
 
-                TableRow sautDeligne = new TableRow(context);
+            /*    TableRow sautDeligne = new TableRow(context);
 
                 TextView espace = new TextView(context);
                 espace.setText("");;
-                sautDeligne.addView(sautDeligne);
+                sautDeligne.addView(sautDeligne);*/
 
                 }
             } catch (SQLException e) {

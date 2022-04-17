@@ -29,25 +29,21 @@ import java.util.List;
 public class View_recette extends AppCompatActivity {
 
     private TableLayout containerRecette;
-    private DrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_recette);
-        drawerLayout = findViewById(R.id.drawerLayout);
         containerRecette = findViewById(R.id.container_Recette);
         Button buttonAjoutRecette = findViewById(R.id.button_ajout_Recette);
-        TextView produit =findViewById(R.id.produitMenu);
-        TextView recette = findViewById(R.id.recetteMenu);
-        recette.setOnClickListener(new View.OnClickListener() {
+        buttonAjoutRecette.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentRecette = new Intent(View_recette.this, View_recette.class);
+                Intent intentRecette = new Intent(View_recette.this, View_ajout_recette.class);
                 startActivity(intentRecette);
             }
         });
         createRecette();
-        TextView liste = findViewById(R.id.listeMenu);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,9 +53,17 @@ public class View_recette extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem _item) {
         switch(_item.getItemId()){
-            case R.id.menu:
-                drawerLayout.openDrawer(Gravity.RIGHT);
-
+            case R.id.produits:
+                Intent intentProduitCourse = new Intent(View_recette.this, View_produit.class);
+                startActivity(intentProduitCourse);
+                return true;
+            case R.id.recette:
+                Intent intentRecetteCourse = new Intent(View_recette.this, View_recette.class);
+                startActivity(intentRecetteCourse);
+                return true;
+            case R.id.listeCourse:
+                Intent intentListeCourse = new Intent(View_recette.this, View_ListeCourse.class);
+                startActivity(intentListeCourse);
                 return true;
             default:
                 return super.onOptionsItemSelected(_item);

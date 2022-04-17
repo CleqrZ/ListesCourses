@@ -15,6 +15,16 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.View_ListeCourse"
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.View_ajout_ListeCourse"
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.View_ajout_produit"
             android:exported="false"
             android:configChanges="orientation"

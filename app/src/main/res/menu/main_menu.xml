@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:checkableBehavior="single">
-    <item android:id="@+id/menu"
+    android:icon="@drawable/hamburger_menu"
+    android:clickable="true">
+    <item android:id="@+id/produits"
         android:orderInCategory="100"
-        android:title=""
-        android:icon="@drawable/hamburger_menu"
-        app:showAsAction="always"
+        android:title="Produits"
+        app:showAsAction="never"
+        android:clickable="true"/>
+
+    <item android:id="@+id/recette"
+        android:orderInCategory="100"
+        android:title="Recettes"
+        app:showAsAction="never"
+        android:clickable="true"/>
+
+    <item android:id="@+id/listeCourse"
+        android:orderInCategory="100"
+        android:title="Liste de Course"
+        app:showAsAction="never"
         android:clickable="true"/>
 
 </menu>

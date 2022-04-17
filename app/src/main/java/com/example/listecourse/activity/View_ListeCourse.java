@@ -28,12 +28,10 @@ import java.util.List;
 
 public class View_ListeCourse extends AppCompatActivity {
     private TableLayout containerListeCourse;
-    private DrawerLayout drawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_listecourse);
-        drawerLayout = findViewById(R.id.drawerLayout);
         containerListeCourse = findViewById(R.id.container_listecourse);
         Button buttonAjoutsListeCourse = findViewById(R.id.button_ajout_listecourse);
         buttonAjoutsListeCourse.setOnClickListener(new View.OnClickListener() {
@@ -44,16 +42,6 @@ public class View_ListeCourse extends AppCompatActivity {
             }
         });
 
-        TextView produit =findViewById(R.id.produitMenu);
-        TextView recette = findViewById(R.id.recetteMenu);
-        TextView liste = findViewById(R.id.listeMenu);
-        liste.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentListeCourse = new Intent(View_ListeCourse.this, View_ListeCourse.class);
-                startActivity(intentListeCourse);
-            }
-        });
         createListeCourse();
     }
     @Override
@@ -64,9 +52,17 @@ public class View_ListeCourse extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem _item) {
         switch(_item.getItemId()){
-            case R.id.menu:
-                drawerLayout.openDrawer(Gravity.RIGHT);
-
+            case R.id.produits:
+                Intent intentProduitCourse = new Intent(View_ListeCourse.this, View_produit.class);
+                startActivity(intentProduitCourse);
+                return true;
+            case R.id.recette:
+                Intent intentRecetteCourse = new Intent(View_ListeCourse.this, View_recette.class);
+                startActivity(intentRecetteCourse);
+                return true;
+            case R.id.listeCourse:
+                Intent intentListeCourse = new Intent(View_ListeCourse.this, View_ListeCourse.class);
+                startActivity(intentListeCourse);
                 return true;
             default:
                 return super.onOptionsItemSelected(_item);

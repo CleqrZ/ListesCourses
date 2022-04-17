@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonAjoutRecette;
     private TableLayout containerListecourse;
     private Button buttonAjoutListecourse;
-    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,37 +52,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.deleteDatabase("bdd.db");
-
-        //Produits
-        drawerLayout = findViewById(R.id.drawerLayout);
-        Button produit =findViewById(R.id.produitMenu);
-        produit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentProduits = new Intent(MainActivity.this, View_produit.class);
-                startActivity(intentProduits);
-                Log.e("-----------", "---------------------------------------");
-            }
-        });
-        Button recette = findViewById(R.id.recetteMenu);
-        recette.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentRecette = new Intent(MainActivity.this, View_recette.class);
-                startActivity(intentRecette);
-                Log.e("-----------", "---------------------------------------");
-            }
-        });
-        Button liste = findViewById(R.id.listeMenu);
-        liste.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentRecette = new Intent(MainActivity.this, View_recette.class);
-                startActivity(intentRecette);
-                Log.e("-----------", "---------------------------------------");
-            }
-        });
-
 
         containerProduits = findViewById(R.id.container_produit);
         Button buttonAjoutProduits = findViewById(R.id.button_ajout_produit);
@@ -133,14 +101,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem _item) {
         switch(_item.getItemId()){
-            case R.id.menu:
-                drawerLayout.openDrawer(Gravity.RIGHT);
+            case R.id.produits:
+                Intent intentProduitCourse = new Intent(MainActivity.this, View_produit.class);
+                startActivity(intentProduitCourse);
+                return true;
+            case R.id.recette:
+                Intent intentRecetteCourse = new Intent(MainActivity.this, View_recette.class);
+                startActivity(intentRecetteCourse);
+                return true;
+            case R.id.listeCourse:
+                Intent intentListeCourse = new Intent(MainActivity.this, View_ListeCourse.class);
+                startActivity(intentListeCourse);
                 return true;
             default:
                 return super.onOptionsItemSelected(_item);
         }
     }
-
-    
-
 }
