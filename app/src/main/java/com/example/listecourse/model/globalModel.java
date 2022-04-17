@@ -187,13 +187,6 @@ public class globalModel {
                 }
                 containerGlobal.addView(rowP);
 
-
-            /*    TableRow sautDeligne = new TableRow(context);
-
-                TextView espace = new TextView(context);
-                espace.setText("");;
-                sautDeligne.addView(sautDeligne);*/
-
             }
         } catch (SQLException e) {
             e.printStackTrace();

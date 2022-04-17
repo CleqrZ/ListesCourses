@@ -26,6 +26,15 @@
                 android:orientation="vertical"
                 android:id="@+id/container_magasin">
             </TableLayout>
+            <Button
+                android:id="@+id/courseFinit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Course finit">
+
+            </Button>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>
