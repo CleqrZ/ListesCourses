@@ -113,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intentListeCourse = new Intent(MainActivity.this, View_ListeCourse.class);
                 startActivity(intentListeCourse);
                 return true;
+            case R.id.Magasin:
+                Intent intentGlobale = new Intent(MainActivity.this, View_gobal_liste.class);
+                startActivity(intentGlobale);
+                return true;
             default:
                 return super.onOptionsItemSelected(_item);
         }

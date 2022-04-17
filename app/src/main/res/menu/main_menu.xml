@@ -21,4 +21,9 @@
         app:showAsAction="never"
         android:clickable="true"/>
 
+    <item android:id="@+id/Magasin"
+        android:orderInCategory="100"
+        android:title="Ma liste en magasin"
+        app:showAsAction="never"
+        android:clickable="true"/>
 </menu>

@@ -25,6 +25,16 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.View_gobal_liste"
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.View_Checkbox"
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.View_ajout_produit"
             android:exported="false"
             android:configChanges="orientation"

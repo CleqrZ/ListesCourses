@@ -10,7 +10,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.example.listecourse.activity.MainActivity;
 import com.example.listecourse.activity.View_ajout_produit;
 import com.example.listecourse.bdd.Produit;
 import com.example.listecourse.bdd.RecetteProduit;
@@ -19,7 +18,6 @@ import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
 
 public class ProduitModel{
     public static void createProduit(DatabaseLinker linker, TableLayout containerProduits, Context context){
