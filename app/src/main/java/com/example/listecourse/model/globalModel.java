@@ -186,6 +186,9 @@ public class globalModel {
                     }
                 }
                 containerGlobal.addView(rowP);
+                TextView espace = new TextView(context);
+                espace.setText("\n");
+                containerGlobal.addView(espace);
 
             }
         } catch (SQLException e) {
