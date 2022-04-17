@@ -26,12 +26,17 @@ public class View_Checkbox extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_ajout_recette);
-        containerCheckbox = this.findViewById(R.id.container_magasin)
+        containerCheckbox = this.findViewById(R.id.container_magasin);
         //init Liste cas 2 : Modif
         Intent intent = this.getIntent();
         Integer idListe = intent.getIntExtra("idListe", 0);
         DatabaseLinker linker = new DatabaseLinker(this);
-        Dao<ListeCourse, Integer> daoListeCourse = linker.getDao(ListeCourse.class);
+        Dao<ListeCourse, Integer> daoListeCourse = null;
+        try {
+            daoListeCourse = linker.getDao(ListeCourse.class);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         try {
             ListeCourse listeCourse = daoListeCourse.queryForId(idListe);
             TableRow row = new TableRow(this);
@@ -59,10 +64,10 @@ public class View_Checkbox extends AppCompatActivity {
             prixListe.setText(String.valueOf(listeCourse.getPrixProduit()) + "€");
             row.addView(prixListe);
             List<ListeCourseRecette> listeRecette = listeCourse.getListeR(this);
-            for (ListeCourseRecette recetteL : listeRecette){
+           /* for (ListeCourseRecette recetteL : listeRecette){
                 Recette recette = recetteL.getIdRecetteR();
-                    
-            }
+
+            }*/
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

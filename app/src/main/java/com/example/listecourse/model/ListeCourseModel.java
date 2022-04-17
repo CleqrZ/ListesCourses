@@ -48,10 +48,6 @@ public class ListeCourseModel {
                 TableRow row = new TableRow(context);
                 row.setGravity(Gravity.CENTER_VERTICAL);
                 row.setWeightSum(8);
-
-
-
-
                 TableRow paramListe = new TableRow(context);
 
                 TextView liste = new TextView(context);
@@ -79,78 +75,26 @@ public class ListeCourseModel {
                 prixListe.setLayoutParams(paramp);
                 prixListe.setText(String.valueOf(listeCourse.getPrixProduit()) + "€");
                 row.addView(prixListe);
-
                 TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.WRAP_CONTENT,
                         1f
                 );
-                //button delete
-                ImageButton deleteClient = new ImageButton(context);
-                deleteClient.setLayoutParams(paramButton);
-                deleteClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_delete);
-                deleteClient.setBackground(null);
-                row.addView(deleteClient);
-                deleteClient.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-
-
-                            /*List<ListeCourseRecette> listeCourseRecette = listeCourse.getListeR(context);
-                            for (ListeCourseRecette prodRecette1 : listeCourseRecette){
-                                //suppresion des produits de la recette
-                                for (Recette recette : recetteList){
-                                    List<RecetteProduit> recetteProduitList = recette.getListeProduit(context);
-                                    for (RecetteProduit prodRecette : recetteProduitList){
-                                        daoRecetteProduit.delete(prodRecette);
-                                    }
-                                }
-
-                                daoListeCourseRecette.delete(prodRecette1);
-                            }*/
-
-                            //suppresion des produits de la liste
-                            List<ListeCourseProduit> ListeCourseproduit = listeCourse.getListeP(context);
-                            for (ListeCourseProduit prodList : ListeCourseproduit){
-                                daoListeCourseProduit.delete(prodList);
-                            }
-                            daoListeCourse.delete(listeCourse);
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
-                        ((ViewGroup) row.getParent()).removeView(row);
-
-                    }
-                });
-                //button modif
-                ImageButton modifClient = new ImageButton(context);
-                modifClient.setLayoutParams(paramButton);
-                modifClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_edit);
-                modifClient.setBackground(null);
-                row.addView(modifClient);
-                modifClient.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent monIntent = new Intent(context, View_ajout_ListeCourse.class);
-                        monIntent.putExtra("idRecette", listeCourse.getNomListe());
-                        context.startActivity(monIntent);
-                    }
-                });
                 containerListecourse.addView(row);
                 //Spinner
-
-
                 TableRow.LayoutParams paramSpinner = new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.WRAP_CONTENT,
                         8f
                 );
                 //spinner Recette de la liste
+                TableLayout test = new TableLayout(context);
                 if (listeCourse.getListeR(context) != null) {
                     Log.e("-------", "Je rentre dans le IF");
                     List<ListeCourseRecette>listeCourseRecettes = listeCourse.getListeR(context);
+                    int cpt;
                     for (ListeCourseRecette listeCourseRecette : listeCourseRecettes ) {
+
                         Spinner snpRecette;
                         snpRecette = new Spinner(context);
                         snpRecette.setLayoutParams(paramSpinner);
@@ -182,17 +126,14 @@ public class ListeCourseModel {
                         snpRecette.setAdapter(adapter);
                         rowNomRecette.addView(nomRecette);
                         rowS.addView(snpRecette);
+                        test.addView(rowNomRecette);
+                        test.addView(rowS);
                         if(rowS.getParent() != null) {
                             Log.e("", "tesssssssss");
 
                         }
-                        containerListecourse.addView(rowNomRecette);
-                        containerListecourse.addView(rowS);
                     }
-
-
-
-
+                    containerListecourse.addView(test);
                 }
                 TableRow rowP = new TableRow(context);
                 rowP.setGravity(Gravity.CENTER_VERTICAL);
@@ -242,16 +183,55 @@ public class ListeCourseModel {
                 }
                 containerListecourse.addView(rowP);
 
+                //button delete
+                ImageButton deleteClient = new ImageButton(context);
+                deleteClient.setLayoutParams(paramButton);
+                deleteClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_delete);
+                deleteClient.setBackground(null);
+                row.addView(deleteClient);
+                deleteClient.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
 
+                            List<ListeCourseRecette> listeCourseRecette = listeCourse.getListeR(context);
+                            for (ListeCourseRecette prodRecette1 : listeCourseRecette){
+                                //suppresion des produits de la recette
+                                daoListeCourseRecette.delete(prodRecette1);
+                            }
 
+                            //suppresion des produits de la liste
+                            List<ListeCourseProduit> ListeCourseproduit = listeCourse.getListeP(context);
+                            for (ListeCourseProduit prodList : ListeCourseproduit){
+                                daoListeCourseProduit.delete(prodList);
+                            }
+                            daoListeCourse.delete(listeCourse);
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                        ((ViewGroup) row.getParent()).removeView(row);
+                        ((ViewGroup) rowP.getParent()).removeView(rowP);
+                        ((ViewGroup) rowNomProduitListe.getParent()).removeView(rowNomProduitListe);
+                        ((ViewGroup) test.getParent()).removeView(test);
+                        ((ViewGroup) paramListe.getParent()).removeView(paramListe);
 
+                    }
+                });
+                //button modif
+                ImageButton modifClient = new ImageButton(context);
+                modifClient.setLayoutParams(paramButton);
+                modifClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_edit);
+                modifClient.setBackground(null);
+                row.addView(modifClient);
+                modifClient.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent monIntent = new Intent(context, View_ajout_ListeCourse.class);
+                        monIntent.putExtra("idRecette", listeCourse.getNomListe());
+                        context.startActivity(monIntent);
+                    }
+                });
 
-
-            /*    TableRow sautDeligne = new TableRow(context);
-
-                TextView espace = new TextView(context);
-                espace.setText("");;
-                sautDeligne.addView(sautDeligne);*/
 
             }
         } catch (SQLException e) {
