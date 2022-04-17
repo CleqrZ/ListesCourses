@@ -156,9 +156,11 @@ public class ListeCourseModel {
                 rowNomProduitListe.setWeightSum(8);
                 TextView produitListe = new TextView(context);
                 produitListe.setTypeface(null, Typeface.BOLD);
-                produitListe.setText("Produits de la liste : ");
+                produitListe.setText("Produits de la liste : " );
                 rowNomProduitListe.addView(produitListe);
                 containerListecourse.addView(rowNomProduitListe);
+
+
 
 
                 Spinner snpProduit;
@@ -231,7 +233,9 @@ public class ListeCourseModel {
                         context.startActivity(monIntent);
                     }
                 });
-
+                TextView espace = new TextView(context);
+                espace.setText("\n");
+                containerListecourse.addView(espace);
 
             }
         } catch (SQLException e) {

@@ -145,6 +145,10 @@ public class RecetteModel {
 
                 containerRecette.addView(row);
                 containerRecette.addView(rowS);
+
+                TextView espace = new TextView(context);
+                espace.setText("\n");
+                containerRecette.addView(espace);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
