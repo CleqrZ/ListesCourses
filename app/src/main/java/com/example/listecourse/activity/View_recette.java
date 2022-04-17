@@ -2,30 +2,18 @@ package com.example.listecourse.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.listecourse.R;
-import com.example.listecourse.bdd.Produit;
-import com.example.listecourse.bdd.Recette;
 import com.example.listecourse.model.RecetteModel;
 import com.example.listecourse.tools.DatabaseLinker;
-import com.j256.ormlite.dao.Dao;
-
-import java.sql.SQLException;
-import java.util.List;
 
 public class View_recette extends AppCompatActivity {
 

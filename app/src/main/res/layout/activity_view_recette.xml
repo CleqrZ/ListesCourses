@@ -13,28 +13,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            tools:context="com.example.listeserie.activity.View_produit" >
-            <LinearLayout
+            tools:context="com.example.listeserie.activity.View_recette" >
+            <Button
+                android:id="@+id/button_ajout_Recette"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:text="Ajouter recette"
+                tools:ignore="MissingConstraints">
+            </Button>
+
+            <TableLayout
+                app:layout_constraintTop_toBottomOf="@+id/button_ajout_Recette"
+                android:layout_margin="0dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="8dp">
-                <Button
-                    android:id="@+id/button_ajout_produit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="0dp"
-                    android:text="Ajouter produit"
-                    tools:ignore="MissingConstraints">
-                </Button>
-                <TableLayout
-                    app:layout_constraintTop_toBottomOf="@+id/button_ajout_produit"
-                    android:layout_margin="0dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:id="@+id/container_produit">
-                </TableLayout>
-            </LinearLayout>
+                android:id="@+id/container_Recette">
+            </TableLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
