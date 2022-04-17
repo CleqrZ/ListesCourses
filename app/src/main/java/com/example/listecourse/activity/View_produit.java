@@ -20,6 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.listecourse.R;
 import com.example.listecourse.bdd.Produit;
+import com.example.listecourse.model.ProduitModel;
 import com.example.listecourse.tools.DatabaseLinker;
 import com.j256.ormlite.dao.Dao;
 
@@ -41,7 +42,8 @@ public class View_produit extends AppCompatActivity {
                 startActivity(intentProduits);
             }
         });
-        createProduit();
+        DatabaseLinker linker = new DatabaseLinker(this);
+        ProduitModel.createProduit(linker, containerProduits, this);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,74 +67,6 @@ public class View_produit extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(_item);
-        }
-    }
-    public void createProduit() {
-        containerProduits.removeAllViews();
-        DatabaseLinker linker = new DatabaseLinker(this);
-        try {
-            Dao<Produit, Integer> daoProduits = linker.getDao(Produit.class);
-            List<Produit> produitList = daoProduits.queryForAll();
-            for (Produit produit : produitList) {
-                TableRow row = new TableRow(this);
-                row.setGravity(Gravity.CENTER_VERTICAL);
-                row.setWeightSum(8);
-
-                TableRow.LayoutParams param = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        4f
-                );
-
-                TextView labelNom = new TextView(this);
-                labelNom.setLayoutParams(param);
-                labelNom.setText(produit.getLibelleProduit());
-                row.addView(labelNom);
-
-                TextView labelPrenom = new TextView(this);
-                labelPrenom.setLayoutParams(param);
-                labelPrenom.setText(String.valueOf(produit.getPrixProduit())+"€");
-                row.addView(labelPrenom);
-
-                TableRow.LayoutParams paramButton = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        1f
-                );
-                ImageButton deleteClient = new ImageButton(this);
-                deleteClient.setLayoutParams(paramButton);
-                deleteClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_delete);
-                deleteClient.setBackground(null);
-                row.addView(deleteClient);
-                deleteClient.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            daoProduits.delete(produit);
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
-                        ((ViewGroup) row.getParent()).removeView(row);
-                    }
-                });
-                ImageButton modifClient = new ImageButton(this);
-                modifClient.setLayoutParams(paramButton);
-                modifClient.setImageResource(com.android.car.ui.R.drawable.car_ui_icon_edit);
-                modifClient.setBackground(null);
-                row.addView(modifClient);
-                modifClient.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.i("aaaaaaaaaaaaaaaa", "test");
-                        Intent monIntent = new Intent(View_produit.this, View_ajout_produit.class);
-                        monIntent.putExtra("idProduit", produit.getIdProduit());
-                        startActivity(monIntent);
-                    }
-                });
-                containerProduits.addView(row);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 }
