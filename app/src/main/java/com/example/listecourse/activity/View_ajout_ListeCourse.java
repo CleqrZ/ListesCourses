@@ -84,7 +84,7 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //creation spinner et compteur qte
-                setSpinnerProduit(null,0);
+                setSpinnerProduit(null,1);
             }
         });
 
@@ -98,7 +98,7 @@ public class View_ajout_ListeCourse extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //creation spinner et compteur qte
-                setSpinnerRecette(null,0);
+                setSpinnerRecette(null,1);
             }
         });
 

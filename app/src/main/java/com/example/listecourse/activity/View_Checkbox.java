@@ -1,6 +1,7 @@
 package com.example.listecourse.activity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -55,6 +56,7 @@ public class View_Checkbox extends AppCompatActivity {
             TextView labelNom = new TextView(this);
             labelNom.setLayoutParams(param);
             labelNom.setText("Nom de la liste : "+listeCourse.getNomListe());
+            labelNom.setTypeface(null, Typeface.BOLD);
             row.addView(labelNom);
             TableRow.LayoutParams paramp = new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
@@ -74,6 +76,7 @@ public class View_Checkbox extends AppCompatActivity {
                 List<RecetteProduit> listProdRec = recette.getListeProduit(this);
                 TextView nomRecette = new TextView(this);
                 nomRecette.setText("Recette de votre Liste : "+ recette.getLibelleRecette());
+                nomRecette.setTypeface(null, Typeface.BOLD);
                 containerCheckbox.addView(nomRecette);
                 for (RecetteProduit recetteProduit : listProdRec){
                     for (int qte = 0; qte<recetteProduit.getQte();qte++){
@@ -107,6 +110,7 @@ public class View_Checkbox extends AppCompatActivity {
             //Produit de la liste
             TextView nomRecette = new TextView(this);
             nomRecette.setText("Produits de votre Liste : ");
+            nomRecette.setTypeface(null, Typeface.BOLD);
             containerCheckbox.addView(nomRecette);
             List<ListeCourseProduit> listeCourseProduits = listeCourse.getListeP(this);
             for (ListeCourseProduit produitListe : listeCourseProduits){
